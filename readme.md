@@ -3,3 +3,4 @@
 |Name|Email|
 |----|-----|
 |Joey Kilpatrick|jkilpatrick9@gatech.edu|
+|Sarah Morrissey|s.morrissey@gatech.edu|

@@ -1,4 +1,4 @@
-# 2340 Project
+# 2340 Project (Team 4: Bob Over Troubled Waters)
 ## Group Contacts
 |Name|Email|
 |----|-----|

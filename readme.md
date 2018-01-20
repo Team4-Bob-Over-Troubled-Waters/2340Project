@@ -4,3 +4,4 @@
 |----|-----|
 |Joey Kilpatrick|jkilpatrick9@gatech.edu|
 |Sarah Morrissey|s.morrissey@gatech.edu|
+|Anagha Krishnan|anaghak@gatech.edu|

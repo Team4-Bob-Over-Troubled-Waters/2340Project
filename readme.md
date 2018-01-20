@@ -7,3 +7,4 @@
 |Yu Hsin Lo|ylo39@gatech.edu|404-433-1072|
 |Anagha Krishnan|anaghak@gatech.edu|469-500-6924|
 |Gunnar Andra-Thomas|mat@gatech.edu|404-394-7831|
+|Francine Luo|francineluo@gatech.edu|475-529-8498|

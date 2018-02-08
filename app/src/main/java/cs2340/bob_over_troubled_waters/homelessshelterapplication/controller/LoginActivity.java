@@ -3,6 +3,8 @@ package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -281,6 +283,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView.setAdapter(adapter);
     }
 
+    public void cancelButtonAction(View view) {
+        Context context = view.getContext();
+        Intent intent = new Intent(context, WelcomeScreen.class);
+        context.startActivity(intent);
+    }
+
 
     private interface ProfileQuery {
         String[] PROJECTION = {
@@ -325,8 +333,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-            // TODO: register the new account here.
-            return true;
+            return null;
         }
 
         @Override
@@ -334,11 +341,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
-                finish();
+            if (success == null) {
+                mEmailView.setError("This email is not registered");
+                mEmailView.requestFocus();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+
+                if (success) {
+                    Context context = getApplicationContext();
+                    Intent intent = new Intent(context, UserHome.class);
+                    intent.putExtra("email", mEmail);
+//                        mEmailView.setText("");
+//                        mPasswordView.setText("");
+                    context.startActivity(intent);
+                    finish();
+                } else {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
             }
         }
 

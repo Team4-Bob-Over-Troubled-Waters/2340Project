@@ -20,5 +20,6 @@ public class WelcomeScreen extends AppCompatActivity {
         Context context = view.getContext();
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
+        finish();
     }
 }

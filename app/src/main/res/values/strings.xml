@@ -16,4 +16,11 @@
     </string>
     <string name="prompt_username">Username</string>
     <string name="error_invalid_username">This username is invalid</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_login_register">Register</string>
+    <string name="prompt_confirm_password">Retype password</string>
+    <string name="prompt_name">Name</string>
+    <string name="error_passowrd_mismatch">Passwords do not match</string>
+    <string name="error_email_in_use">Email is already in use</string>
+    <string name="create_admin_account">Create Admin Account</string>
 </resources>

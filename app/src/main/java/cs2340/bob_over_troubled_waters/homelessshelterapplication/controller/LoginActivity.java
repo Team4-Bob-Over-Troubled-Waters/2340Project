@@ -333,7 +333,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                    if (pieces[1].equals(mPassword)) {
+                        Context context = getApplicationContext();
+                        Intent intent = new Intent(context, UserHome.class);
+                        intent.putExtra("email", mEmail);
+                        context.startActivity(intent);
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
 
@@ -346,15 +354,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success == null) {
-                mEmailView.setError("This email is not registered");
+                mEmailView.setError("This username is not registered");
                 mEmailView.requestFocus();
             } else {
 
                 if (success) {
-                    Context context = getApplicationContext();
-                    Intent intent = new Intent(context, UserHome.class);
-                    intent.putExtra("email", mEmail);
-                    context.startActivity(intent);
                     finish();
                 } else {
                     mPasswordView.setError(getString(R.string.error_incorrect_password));

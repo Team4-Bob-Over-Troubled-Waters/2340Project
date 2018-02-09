@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class RegisterActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -52,15 +53,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
+     * A dummy authentication store containing known user names and passwords.
+     * TODO: remove after connecting to a real authentication system.
+     */
+    private static final String[] DUMMY_CREDENTIALS = new String[]{
+            "foo@example.com:hello", "bar@example.com:world"
+    };
+    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
+    private EditText mNameView;
     private EditText mPasswordView;
+    private EditText mConfirmPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Switch mAdminAccount;
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile(
             "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -68,17 +79,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
         // Set up the login form.
+        mAdminAccount = (Switch) findViewById(R.id.admin);
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
+        mNameView = (EditText) findViewById(R.id.name);
+
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mConfirmPasswordView = (EditText) findViewById(R.id.password_confirm);
+        mConfirmPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    attemptRegister();
                     return true;
                 }
                 return false;
@@ -89,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                attemptRegister();
             }
         });
 
@@ -146,29 +162,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptRegister() {
         if (mAuthTask != null) {
             return;
         }
 
         // Reset errors.
         mEmailView.setError(null);
+        mNameView.setError(null);
         mPasswordView.setError(null);
+        mConfirmPasswordView.setError(null);
+        mAdminAccount.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
+        String name = mNameView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String confirmPassword = mConfirmPasswordView.getText().toString();
+        boolean isAdmin = mAdminAccount.isChecked();
+        System.out.println("Is admin: " + isAdmin);
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password.
-        if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
-            cancel = true;
-        } else if (!isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        // Check for a valid password, if the user entered one.
+        String errorMessage = isPasswordValid(password, confirmPassword);
+        if (errorMessage != null) {
+            mPasswordView.setError(errorMessage);
             focusView = mPasswordView;
             cancel = true;
         }
@@ -192,7 +212,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, name, isAdmin);
             mAuthTask.execute((Void) null);
         }
     }
@@ -202,9 +222,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return matcher.find();
     }
 
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 3;
+    private String isPasswordValid(String password, String confirmPassword) {
+        if (password == null || password.isEmpty()) {
+            return getString(R.string.error_field_required);
+        } else if (!password.equals(confirmPassword)) {
+            return getString(R.string.error_passowrd_mismatch);
+        } else if (password.length() < 4) {
+            return getString(R.string.error_invalid_password);
+        }
+        return null;
     }
 
     /**
@@ -280,7 +306,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
+                new ArrayAdapter<>(RegisterActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
@@ -290,6 +316,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         Context context = view.getContext();
         Intent intent = new Intent(context, WelcomeScreen.class);
         context.startActivity(intent);
+        finish();
     }
 
 
@@ -311,10 +338,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private final String mName;
+        private final boolean mIsAdmin;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, String name, boolean isAdmin) {
             mEmail = email;
             mPassword = password;
+            mName = name;
+            mIsAdmin = isAdmin;
         }
 
         @Override
@@ -328,19 +359,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            User user = User.getUser(mEmail);
-            if (user == null) {
-                return null;
-            }
-            else if (user.passwordCorrect(mPassword)) {
+            try {
+                User user = new User(mEmail, mPassword, mName, mIsAdmin);
                 User.setCurrentUser(user);
                 Context context = getApplicationContext();
                 Intent intent = new Intent(context, UserHome.class);
                 context.startActivity(intent);
                 return true;
-            } else {
+            } catch (IllegalArgumentException e) {
                 return false;
             }
+
         }
 
         @Override
@@ -348,17 +377,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
-            if (success == null) {
-                mEmailView.setError("This email is not registered");
-                mEmailView.requestFocus();
+            if (success) {
+                finish();
             } else {
-
-                if (success) {
-                    finish();
-                } else {
-                    mPasswordView.setError(getString(R.string.error_incorrect_password));
-                    mPasswordView.requestFocus();
-                }
+                mEmailView.setError(getString(R.string.error_email_in_use));
+                mEmailView.requestFocus();
             }
         }
 

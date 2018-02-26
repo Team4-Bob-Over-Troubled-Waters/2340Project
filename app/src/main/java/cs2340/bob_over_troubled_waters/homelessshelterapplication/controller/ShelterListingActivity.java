@@ -1,7 +1,10 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -22,7 +25,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
  */
 
 public class ShelterListingActivity extends AppCompatActivity {
-    private ArrayList<Shelter> shelters = new ArrayList<>();
+    private static ArrayList<Shelter> shelters = new ArrayList<>();
     private ListView shelterListView;
 
     @Override
@@ -44,8 +47,22 @@ public class ShelterListingActivity extends AppCompatActivity {
             ArrayAdapter<Shelter> arrayAdapter = new ArrayAdapter<Shelter>(this,
                     android.R.layout.simple_list_item_1, shelters);
             shelterListView.setAdapter(arrayAdapter);
+            shelterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Intent intent = new Intent(getBaseContext(), ShelterPage.class);
+                    intent.putExtra("position", i);
+                    System.out.println("About to open ShelterPage");
+                    startActivity(intent);
+                    System.out.println("Started new intent");
+                }
+            });
         } catch (IOException e) {
             System.out.println("There was an error loading shelter information.");
         }
+    }
+
+    public static ArrayList<Shelter> getShelters() {
+        return shelters;
     }
 }

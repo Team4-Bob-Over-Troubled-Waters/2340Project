@@ -30,6 +30,8 @@
             android:label="@string/title_activity_login_register" />
         <activity
             android:name=".controller.ShelterListingActivity" />
+        <activity
+            android:name=".controller.ShelterPage" />
     </application>
 
 </manifest>

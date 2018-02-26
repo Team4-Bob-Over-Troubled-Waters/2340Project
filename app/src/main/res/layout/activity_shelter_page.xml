@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".controller.ShelterPage">
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -25,6 +26,7 @@
             android:layout_height="48dp"
             android:text="Name"
             android:textAlignment="center"
+            android:textColor="#000"
             android:textSize="30sp" />
 
         <TextView
@@ -34,6 +36,7 @@
             android:paddingBottom="15dp"
             android:text="Capacity"
             android:textAlignment="center"
+            android:textColor="#000"
             android:textSize="18sp" />
 
         <TextView
@@ -42,25 +45,27 @@
             android:layout_height="wrap_content"
             android:paddingBottom="15dp"
             android:text="Restrictions"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
 
-        <com.google.android.gms.maps.MapView
-            android:layout_width="match_parent"
-            android:layout_height="222dp" />
-
-        <EditText
-            android:id="@+id/postal_address"
+        <TextView
+            android:id="@+id/text_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPostalAddress"
-            android:paddingTop="15dp" />
+            android:text="Address"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/phone_number"
+        <TextView
+            android:id="@+id/text_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="phone" />
+            android:text="Phone Number"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

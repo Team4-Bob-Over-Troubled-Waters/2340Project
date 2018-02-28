@@ -287,9 +287,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     public void cancelButtonAction(View view) {
-        Context context = view.getContext();
-        Intent intent = new Intent(context, WelcomeScreen.class);
-        context.startActivity(intent);
+        finish();
     }
 
 

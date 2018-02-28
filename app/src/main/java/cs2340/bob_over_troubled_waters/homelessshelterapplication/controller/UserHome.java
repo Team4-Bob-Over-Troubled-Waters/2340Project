@@ -28,14 +28,11 @@ public class UserHome extends AppCompatActivity {
     }
 
     public void logoutButtonAction(View view) {
-        Intent intent = new Intent(this, WelcomeScreen.class);
-        startActivity(intent);
         finish();
     }
 
     public void loadShelterAction(View view) {
         Intent intent = new Intent(this, ShelterListingActivity.class);
         startActivity(intent);
-        finish();
     }
 }

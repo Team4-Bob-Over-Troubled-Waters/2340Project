@@ -63,4 +63,8 @@ public class ShelterListingActivity extends AppCompatActivity {
     public static ArrayList<Shelter> getShelters() {
         return shelters;
     }
+
+    public void backButtonAction(View view) {
+        finish();
+    }
 }

@@ -15,6 +15,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +26,10 @@
             android:id="@+id/text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             android:paddingBottom="15dp"
+=======
+>>>>>>> 52659f533c4cca738dadf428ce0623a24f31d3d4
             android:text="Name"
             android:textAlignment="center"
             android:textColor="#000"
@@ -34,7 +39,6 @@
             android:id="@+id/text_capacity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
             android:text="Capacity"
             android:textAlignment="center"
             android:textColor="#000"
@@ -44,7 +48,6 @@
             android:id="@+id/text_restrictions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
             android:text="Restrictions"
             android:textAlignment="center"
             android:textColor="#000"
@@ -88,6 +91,16 @@
             android:text="Address"
             android:textAlignment="center"
             android:textColor="#000"
+            android:textSize="18sp"
+            tools:lines="2" />
+
+        <TextView
+            android:id="@+id/text_coordinates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Coordinates"
+            android:textAlignment="center"
+            android:textColor="#000"
             android:textSize="18sp" />
 
         <TextView
@@ -99,5 +112,25 @@
             android:textColor="#000"
             android:textSize="18sp" />
 
+        <TextView
+            android:id="@+id/text_special_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Special Notes"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="backButtonAction"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>

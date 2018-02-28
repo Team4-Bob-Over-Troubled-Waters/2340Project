@@ -1,4 +1,5 @@
 # 2340 Project (Team 4: Bob Over Troubled Waters)
+This is an Android application which helps homeless people to find a shelter to stay in.
 ## Group Contacts
 |Name|Email|Phone|
 |----|-----|-----|

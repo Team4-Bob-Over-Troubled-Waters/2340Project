@@ -28,8 +28,6 @@ public class UserHome extends AppCompatActivity {
     }
 
     public void logoutButtonAction(View view) {
-        Intent intent = new Intent(this, WelcomeScreen.class);
-        startActivity(intent);
         finish();
     }
 

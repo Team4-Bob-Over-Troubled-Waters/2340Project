@@ -313,9 +313,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     }
 
     public void cancelButtonAction(View view) {
-        Context context = view.getContext();
-        Intent intent = new Intent(context, WelcomeScreen.class);
-        context.startActivity(intent);
         finish();
     }
 

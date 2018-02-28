@@ -26,10 +26,7 @@
             android:id="@+id/text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
             android:paddingBottom="15dp"
-=======
->>>>>>> 52659f533c4cca738dadf428ce0623a24f31d3d4
             android:text="Name"
             android:textAlignment="center"
             android:textColor="#000"
@@ -63,7 +60,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        -->
 
         <TextView
             android:id="@+id/text_latitude"
@@ -83,6 +79,7 @@
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="18sp" />
+        -->
 
         <TextView
             android:id="@+id/text_address"

@@ -34,8 +34,8 @@ public class ShelterPage extends AppCompatActivity {
         TextView name = findViewById(R.id.text_name);
         TextView capacity = findViewById(R.id.text_capacity);
         TextView restrictions = findViewById(R.id.text_restrictions);
-        TextView latitude = findViewById(R.id.text_latitude);
-        TextView longitude = findViewById(R.id.text_longitude);
+        //TextView latitude = findViewById(R.id.text_latitude);
+        //TextView longitude = findViewById(R.id.text_longitude);
         TextView address = findViewById(R.id.text_address);
         TextView coordinates = findViewById(R.id.text_coordinates);
         TextView phone = findViewById(R.id.text_phone);
@@ -48,15 +48,8 @@ public class ShelterPage extends AppCompatActivity {
         ArrayList<Shelter> shelters = ShelterListingActivity.getShelters();
         selectedShelter = shelters.get(position);
         name.setText(selectedShelter.getName());
-<<<<<<< HEAD
-        capacity.setText("Capacity: " + selectedShelter.getCapacity());
-        restrictions.setText("Restrictions: " + selectedShelter.getRestrictions());
-        latitude.setText("Latitude: " + selectedShelter.getLatitude());
-        longitude.setText("Longitude: " + selectedShelter.getLongitude());
-=======
         capacity.setText(getString(R.string.capacity) + selectedShelter.getCapacity());
         restrictions.setText(getString(R.string.restrictions) + selectedShelter.getRestrictions());
->>>>>>> 52659f533c4cca738dadf428ce0623a24f31d3d4
         address.setText(selectedShelter.getAddress());
         String coordinatesStr = "";
         if (selectedShelter.getLatitude() > 0) {
@@ -71,8 +64,6 @@ public class ShelterPage extends AppCompatActivity {
         }
         coordinates.setText(coordinatesStr);
         phone.setText(selectedShelter.getPhoneNumber());
-<<<<<<< HEAD
-=======
         if (selectedShelter.getSpecialNotes() != null
                 && !selectedShelter.getSpecialNotes().isEmpty()) {
             notes.setText(getString(R.string.notes) + selectedShelter.getSpecialNotes());
@@ -80,7 +71,6 @@ public class ShelterPage extends AppCompatActivity {
             notes.setText("");
         }
         System.out.println("Set all text fields");
->>>>>>> 52659f533c4cca738dadf428ce0623a24f31d3d4
     }
 
     public void backButtonAction(View view) {

@@ -20,13 +20,11 @@ public class WelcomeScreen extends AppCompatActivity {
         Context context = view.getContext();
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
-        finish();
     }
 
     public void registerButtonAction(View view) {
         Context context = view.getContext();
         Intent intent = new Intent(context, RegisterActivity.class);
         context.startActivity(intent);
-        finish();
     }
 }

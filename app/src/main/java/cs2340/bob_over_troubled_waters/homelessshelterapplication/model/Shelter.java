@@ -23,7 +23,7 @@ public class Shelter {
         this.restrictions = restrictions;
         this.longitude = Double.parseDouble(longitude);
         this.latitude = Double.parseDouble(latitude);
-        this.address = address;
+        this.address = address.replaceFirst(",", System.getProperty("line.separator"));
         this.specialNotes = specialNotes;
         this.phoneNumber = phoneNumber;
     }

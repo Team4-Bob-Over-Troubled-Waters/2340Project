@@ -35,4 +35,9 @@ public class UserHome extends AppCompatActivity {
         Intent intent = new Intent(this, ShelterListingActivity.class);
         startActivity(intent);
     }
+
+    public void searchSheltersButtonAction(View view) {
+        Intent intent = new Intent(this, ShelterSearch.class);
+        startActivity(intent);
+    }
 }

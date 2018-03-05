@@ -1,5 +1,11 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.AgeRanges;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Gender;
+
 /**
  * Created by Francine on 2/16/2018.
  */
@@ -14,6 +20,14 @@ public class Shelter {
     private String address;
     private String specialNotes;
     private String phoneNumber;
+    private Gender gender;
+    private HashSet<AgeRanges> ageRanges;
+
+    private static ArrayList<Shelter> shelters = new ArrayList<>();
+
+    public static ArrayList<Shelter> getShelters() {
+        return shelters;
+    }
 
     public Shelter(String ID, String name, String capacity, String restrictions, String longitude,
                    String latitude, String address, String specialNotes, String phoneNumber) {
@@ -26,6 +40,28 @@ public class Shelter {
         this.address = address.replaceFirst(",", System.getProperty("line.separator"));
         this.specialNotes = specialNotes;
         this.phoneNumber = phoneNumber;
+        this.gender = Gender.parseGender(restrictions);
+        this.gender.addShelter(this);
+        ageRanges = AgeRanges.parseAgeRanges(restrictions);
+        for (AgeRanges range : ageRanges) {
+            range.addShelter(this);
+        }
+        shelters.add(this);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || !(other instanceof Shelter)) {
+            return false;
+        }
+        if (this == other) return true;
+        Shelter that = (Shelter) other;
+        return this.ID == that.ID;
+    }
+
+    @Override
+    public int hashCode() {
+        return ID;
     }
 
     @Override

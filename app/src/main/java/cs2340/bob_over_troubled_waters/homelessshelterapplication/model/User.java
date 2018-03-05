@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * Created by Admin on 2/9/2018.
+ * Created by Sarah on 2/9/2018.
  */
 
 public class User extends Thread {

@@ -23,9 +23,9 @@ public class Shelter {
     private Gender gender;
     private HashSet<AgeRanges> ageRanges;
 
-    private static ArrayList<Shelter> shelters = new ArrayList<>();
+    private static HashSet<Shelter> shelters = new HashSet<>();
 
-    public static ArrayList<Shelter> getShelters() {
+    public static HashSet<Shelter> getShelters() {
         return shelters;
     }
 

@@ -18,6 +18,11 @@ public class ShelterSearch extends AppCompatActivity {
     private static ArrayList<Gender> genderCriteria = new ArrayList<>();
     private static ArrayList<AgeRanges> ageCriteria = new ArrayList<>();
 
+    public static void clearCriteria() {
+        genderCriteria.clear();
+        ageCriteria.clear();
+    }
+
     public static ArrayList<Gender> getGenderCriteria() {
         if (genderCriteria.isEmpty() || genderCriteria.size() == 3) return null;
         return genderCriteria;

@@ -28,12 +28,16 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Ge
  */
 
 public class ShelterListingActivity extends AppCompatActivity {
-    private static ArrayList<Shelter> shelters = Shelter.getShelters();
+    private static ArrayList<Shelter> shelters = new ArrayList<Shelter>();
     private ListView shelterListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        shelters.clear();
+        shelters.addAll(Shelter.getShelters());
+
         if (shelters.isEmpty()) {
             try {
                 InputStream inputStream = getResources().openRawResource(R.raw.homeless_shelter_database);
@@ -45,14 +49,13 @@ public class ShelterListingActivity extends AppCompatActivity {
                             nextShelter[3], nextShelter[4], nextShelter[5], nextShelter[6],
                             nextShelter[7], nextShelter[8]);
                 }
-                shelters = Shelter.getShelters();
+                shelters.addAll(Shelter.getShelters());
             } catch (IOException e) {
                 System.out.println("There was an error loading shelter information.");
             }
         }
 
         narrowResults();
-        System.out.println("here2");
 
         setContentView(R.layout.activity_shelter_listing);
         shelterListView = (ListView) findViewById(R.id.shelter_listing);

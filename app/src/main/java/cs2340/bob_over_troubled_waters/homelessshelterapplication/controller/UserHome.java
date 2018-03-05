@@ -32,6 +32,7 @@ public class UserHome extends AppCompatActivity {
     }
 
     public void loadShelterAction(View view) {
+        ShelterSearch.clearCriteria();
         Intent intent = new Intent(this, ShelterListingActivity.class);
         startActivity(intent);
     }

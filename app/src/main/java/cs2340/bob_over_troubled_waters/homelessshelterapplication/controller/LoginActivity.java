@@ -37,6 +37,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -333,7 +336,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             else if (user.passwordCorrect(mPassword)) {
                 User.setCurrentUser(user);
                 Context context = getApplicationContext();
-                Intent intent = new Intent(context, UserHome.class);
+                Intent intent;
+                if (user.getIsBlocked()) {
+                    intent = new Intent(context, BlockedUser.class);
+                } else {
+                    if (user instanceof AdminUser) {
+                        AdminUser admin = (AdminUser) user;
+                        if (!admin.isApproved()) {
+                            intent = new Intent(context, UserPendingApproval.class);
+                        } else {
+                            intent = new Intent(context, UserHome.class);
+                        }
+                    } else if (user instanceof ShelterEmployee) {
+                            ShelterEmployee employee = (ShelterEmployee) user;
+                            if (employee.getShelter() == null) {
+                                intent = new Intent(context, ChooseShelter.class);
+                            } else if (!employee.isApproved()) {
+                                intent = new Intent(context, UserPendingApproval.class);
+                            } else {
+                                intent = new Intent(context, UserHome.class);
+                            }
+                    } else {
+                        intent = new Intent(context, UserHome.class);
+                    }
+                }
                 context.startActivity(intent);
                 return true;
             } else {

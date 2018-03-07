@@ -7,18 +7,36 @@ import java.util.HashSet;
  * Created by Sarah on 2/9/2018.
  */
 
-public class User extends Thread {
+public abstract class User {
     private String email;
     private int passwordHash;
-    private boolean isAdmin;
     private String name;
+
+    private boolean isBlocked = false;
+
+    public boolean getIsBlocked() {
+        return isBlocked;
+    }
+
+    /**
+     * sets this user to be blocked
+     * @param blockedBy the admin user object for the admin that is blocking the user
+     */
+    public void block(AdminUser blockedBy) {
+        if (blockedBy != null) {
+            this.isBlocked = true;
+        } else {
+            throw new IllegalArgumentException("Need Admin to block");
+        }
+    }
 
     // eventually this should be replaced by a database
     private static HashMap<String, User> existingUsers = new HashMap<>();
 
     static {
-        new User("user@example.com", "pass", "User", false);
-        new User("admin@example.com", "pass", null, true);
+        new HomelessPerson("user@example.com", "pass", "User");
+        AdminUser admin = new AdminUser("admin@example.com", "pass", null);
+        admin.approveAdmin(admin);
     }
 
     // the user who is logged in currently
@@ -41,10 +59,9 @@ public class User extends Thread {
      * constructs a user object
      * @param email the email the user should have
      * @param password the password for the user
-     * @param isAdmin whether the user should be an admin
      * @throws IllegalArgumentException if a field is null or the email is taken
      */
-    public User(String email, String password, String name, boolean isAdmin)
+    public User(String email, String password, String name)
             throws IllegalArgumentException {
         if (email == null) throw new IllegalArgumentException(
                 "Email is required");
@@ -53,7 +70,6 @@ public class User extends Thread {
         this.email = email;
         this.passwordHash = password.hashCode();
         if (name != null && !name.isEmpty()) this.name = name;
-        this.isAdmin = isAdmin;
         if (existingUsers.containsKey(email)) {
             throw new IllegalArgumentException("Username already exists");
         } else {
@@ -81,14 +97,6 @@ public class User extends Thread {
 
     public String getEmail() {
         return email;
-    }
-
-    /**
-     * tells whether a user is an admin
-     * @return isAdmin
-     */
-    public boolean isAdmin() {
-        return isAdmin;
     }
 
     @Override

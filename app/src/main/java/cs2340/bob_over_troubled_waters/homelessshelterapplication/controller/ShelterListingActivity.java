@@ -38,23 +38,6 @@ public class ShelterListingActivity extends AppCompatActivity {
         shelters.clear();
         shelters.addAll(Shelter.getShelters());
 
-        if (shelters.isEmpty()) {
-            try {
-                InputStream inputStream = getResources().openRawResource(R.raw.homeless_shelter_database);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
-                String[] nextShelter;
-                while ((nextShelter = csvReader.readNext()) != null) {
-                    new Shelter(nextShelter[0], nextShelter[1], nextShelter[2],
-                            nextShelter[3], nextShelter[4], nextShelter[5], nextShelter[6],
-                            nextShelter[7], nextShelter[8]);
-                }
-                shelters.addAll(Shelter.getShelters());
-            } catch (IOException e) {
-                System.out.println("There was an error loading shelter information.");
-            }
-        }
-
         narrowResults();
 
         setContentView(R.layout.activity_shelter_listing);
@@ -89,11 +72,20 @@ public class ShelterListingActivity extends AppCompatActivity {
         HashSet<Shelter> narrowed = new HashSet<>();
         boolean genderNarrowed = false;
         boolean ageNarrowed = false;
+        String searchString = ShelterSearch.getSearchString();
         System.out.println(ShelterSearch.getGenderCriteria());
         if (ShelterSearch.getGenderCriteria() != null) {
             genderNarrowed = true;
             for (Gender gender : ShelterSearch.getGenderCriteria()) {
-                narrowed.addAll(gender.getShelters());
+                if (searchString != null) {
+                    for (Shelter shelter : gender.getShelters()) {
+                        if (shelter.toString().toLowerCase().contains(searchString)) {
+                            narrowed.add(shelter);
+                        }
+                    }
+                } else {
+                    narrowed.addAll(gender.getShelters());
+                }
             }
         }
         System.out.println(ShelterSearch.getAgeCriteria());
@@ -101,7 +93,15 @@ public class ShelterListingActivity extends AppCompatActivity {
             ageNarrowed = true;
             if (!genderNarrowed) {
                 for (AgeRanges range : ShelterSearch.getAgeCriteria()) {
-                    narrowed.addAll(range.getShelters());
+                    if (searchString != null) {
+                        for (Shelter shelter : range.getShelters()) {
+                            if (shelter.toString().toLowerCase().contains(searchString)) {
+                                narrowed.add(shelter);
+                            }
+                        }
+                    } else {
+                        narrowed.addAll(range.getShelters());
+                    }
                 }
             } else {
                 ArrayList<Shelter> temp = new ArrayList<>();
@@ -119,6 +119,14 @@ public class ShelterListingActivity extends AppCompatActivity {
         if (genderNarrowed || ageNarrowed) {
             shelters.clear();
             shelters.addAll(narrowed);
+        } else if (searchString != null) {
+            for (Shelter shelter : shelters) {
+                if (shelter.toString().toLowerCase().contains(searchString)) {
+                    narrowed.add(shelter);
+                }
+                shelters.clear();
+                shelters.addAll(narrowed);
+            }
         }
     }
 }

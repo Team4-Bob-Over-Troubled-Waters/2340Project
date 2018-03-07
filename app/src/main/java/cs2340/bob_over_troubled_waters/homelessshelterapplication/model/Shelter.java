@@ -1,8 +1,20 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
+import android.content.Context;
+
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.AgeRanges;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Gender;
 
@@ -26,6 +38,24 @@ public class Shelter {
     private static HashSet<Shelter> shelters = new HashSet<>();
 
     public static HashSet<Shelter> getShelters() {
+        if (shelters.isEmpty()) {
+            try {
+                InputStream inputStream = Shelter.class
+                        .getResourceAsStream("/res/raw/homeless_shelter_database.csv");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
+                String[] nextShelter;
+                while ((nextShelter = csvReader.readNext()) != null) {
+                    new Shelter(nextShelter[0], nextShelter[1], nextShelter[2],
+                            nextShelter[3], nextShelter[4], nextShelter[5], nextShelter[6],
+                            nextShelter[7], nextShelter[8]);
+                }
+                shelters.addAll(Shelter.getShelters());
+            } catch (IOException e) {
+                System.out.println("There was an error loading shelter information.");
+                System.out.println(e);
+            }
+        }
         return shelters;
     }
 

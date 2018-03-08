@@ -124,9 +124,9 @@ public class ShelterListingActivity extends AppCompatActivity {
                 if (shelter.toString().toLowerCase().contains(searchString)) {
                     narrowed.add(shelter);
                 }
-                shelters.clear();
-                shelters.addAll(narrowed);
             }
+            shelters.clear();
+            shelters.addAll(narrowed);
         }
     }
 }

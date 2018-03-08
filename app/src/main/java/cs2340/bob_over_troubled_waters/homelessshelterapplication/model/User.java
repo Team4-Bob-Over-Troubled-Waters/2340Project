@@ -95,6 +95,14 @@ public abstract class User {
         return passwordHash == enteredPassword.hashCode();
     }
 
+    /**
+     * get the string message to print on the user's home page
+     * @return welcome message
+     */
+    public String getWelcomeMessage() {
+        return String.format("Welcome %s!", getUsersName());
+    }
+
     public String getEmail() {
         return email;
     }

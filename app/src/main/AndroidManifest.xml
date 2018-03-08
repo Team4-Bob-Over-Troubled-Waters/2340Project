@@ -57,7 +57,8 @@
             android:label="Search Shelters" />
         <activity android:name=".controller.BlockedUser" />
         <activity android:name=".controller.UserPendingApproval" />
-        <activity android:name=".controller.ChooseShelter"></activity>
+        <activity android:name=".controller.ChooseShelter" />
+        <activity android:name=".controller.AdminHome"></activity>
     </application>
 
 </manifest>

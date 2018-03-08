@@ -46,15 +46,15 @@ public class ShelterListingActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, shelters);
         shelterListView.setAdapter(arrayAdapter);
         shelterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Intent intent = new Intent(getBaseContext(), ShelterPage.class);
-                        intent.putExtra("position", i);
-                        System.out.println("About to open ShelterPage");
-                        startActivity(intent);
-                        System.out.println("Started new intent");
-                    }
-                });
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getBaseContext(), ShelterPage.class);
+                intent.putExtra("position", i);
+                System.out.println("About to open ShelterPage");
+                startActivity(intent);
+                System.out.println("Started new intent");
+            }
+        });
     }
 
     public static ArrayList<Shelter> getShelters() {
@@ -124,9 +124,9 @@ public class ShelterListingActivity extends AppCompatActivity {
                 if (shelter.toString().toLowerCase().contains(searchString)) {
                     narrowed.add(shelter);
                 }
-                shelters.clear();
-                shelters.addAll(narrowed);
             }
+            shelters.clear();
+            shelters.addAll(narrowed);
         }
     }
 }

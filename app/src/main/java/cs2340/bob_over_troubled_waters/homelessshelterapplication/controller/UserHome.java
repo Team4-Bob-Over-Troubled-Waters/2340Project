@@ -21,14 +21,7 @@ public class UserHome extends AppCompatActivity {
         user = User.getCurrentUser();
         setContentView(R.layout.activity_user_home);
         TextView welcomeMessage = findViewById(R.id.welcome_message);
-        welcomeMessage.setText(String.format("Welcome %s!", user.getUsersName()));
-        TextView isAdminView = findViewById(R.id.is_admin_view);
-        if (user instanceof AdminUser) {
-            isAdminView.setText("Admin User");
-        } else if (user instanceof ShelterEmployee) {
-            isAdminView.setText("Shelter Employee");
-        }
-
+        welcomeMessage.setText(user.getWelcomeMessage());
     }
 
     public void logoutButtonAction(View view) {

@@ -1,20 +1,13 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
-import android.content.Context;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 
-import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.AgeRanges;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Gender;
 
@@ -35,28 +28,39 @@ public class Shelter {
     private Gender gender;
     private HashSet<AgeRanges> ageRanges;
 
-    private static HashSet<Shelter> shelters = new HashSet<>();
+    private static DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("shelters");
 
-    public static HashSet<Shelter> getShelters() {
-        if (shelters.isEmpty()) {
-            try {
-                InputStream inputStream = Shelter.class
-                        .getResourceAsStream("/res/raw/homeless_shelter_database.csv");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
-                String[] nextShelter;
-                while ((nextShelter = csvReader.readNext()) != null) {
-                    new Shelter(nextShelter[0], nextShelter[1], nextShelter[2],
-                            nextShelter[3], nextShelter[4], nextShelter[5], nextShelter[6],
-                            nextShelter[7], nextShelter[8]);
-                }
-                shelters.addAll(Shelter.getShelters());
-            } catch (IOException e) {
-                System.out.println("There was an error loading shelter information.");
-                System.out.println(e);
-            }
+    private static HashMap<Integer, Shelter> shelters = new HashMap<>();
+
+    public static Collection<Shelter> getShelters() {
+        return shelters.values();
+    }
+
+    public static Shelter getShelter(Integer shelterId) {
+        return shelters.get(shelterId);
+    }
+
+    /**
+     * constructs a shelter object from the saved instance in the database
+     * @param snapshot saved instance in the database
+     */
+    public Shelter(DataSnapshot snapshot) {
+        this.ID = snapshot.child("id").getValue(Integer.class);
+        this.name = snapshot.child("name").getValue(String.class);
+        this.capacity = snapshot.child("capacity").getValue(String.class);
+        this.restrictions = snapshot.child("restrictions").getValue(String.class);
+        this.longitude = snapshot.child("longitude").getValue(Double.class);
+        this.latitude = snapshot.child("latitude").getValue(Double.class);
+        this.address = snapshot.child("address").getValue(String.class);
+        this.specialNotes = snapshot.child("specialNotes").getValue(String.class);
+        this.phoneNumber = snapshot.child("phoneNumber").getValue(String.class);
+        this.gender = Gender.parseGender(restrictions);
+        this.gender.addShelter(this);
+        ageRanges = AgeRanges.parseAgeRanges(restrictions);
+        for (AgeRanges range : ageRanges) {
+            range.addShelter(this);
         }
-        return shelters;
+        shelters.put(this.ID, this);
     }
 
     public Shelter(String ID, String name, String capacity, String restrictions, String longitude,
@@ -76,7 +80,16 @@ public class Shelter {
         for (AgeRanges range : ageRanges) {
             range.addShelter(this);
         }
-        shelters.add(this);
+        shelters.put(this.ID, this);
+        ref.child(ID).setValue(this);
+    }
+
+    /**
+     * removes a shelter from memory
+     * @param id the id of the shelter to be removed
+     */
+    public static void removeShelter(Integer id) {
+        shelters.remove(id);
     }
 
     @Override

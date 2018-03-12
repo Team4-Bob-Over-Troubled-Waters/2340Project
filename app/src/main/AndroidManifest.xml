@@ -58,7 +58,8 @@
         <activity android:name=".controller.BlockedUser" />
         <activity android:name=".controller.UserPendingApproval" />
         <activity android:name=".controller.ChooseShelter" />
-        <activity android:name=".controller.AdminHome"></activity>
+        <activity android:name=".controller.AdminHome" />
+        <activity android:name=".controller.ErrorPage"></activity>
     </application>
 
 </manifest>

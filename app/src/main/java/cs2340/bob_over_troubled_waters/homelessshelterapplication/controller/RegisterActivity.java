@@ -359,12 +359,12 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                return false;
-            }
+//            try {
+//                // Simulate network access.
+//                Thread.sleep(500);
+//            } catch (InterruptedException e) {
+//                return false;
+//            }
 
             try {
                 Context context = getApplicationContext();
@@ -383,7 +383,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 User.setCurrentUser(user);
                 context.startActivity(intent);
                 return true;
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
+                mEmailView.setError(e.getMessage());
                 return false;
             }
 
@@ -397,7 +398,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             if (success) {
                 finish();
             } else {
-                mEmailView.setError(getString(R.string.error_email_in_use));
+//                mEmailView.setError(getString(R.string.error_email_in_use));
                 mEmailView.requestFocus();
             }
         }

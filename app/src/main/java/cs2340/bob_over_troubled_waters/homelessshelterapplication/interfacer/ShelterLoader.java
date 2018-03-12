@@ -60,7 +60,6 @@ public abstract class ShelterLoader extends AsyncTask<Void, Void, String> {
                             maxChildId = Math.max(maxChildId, id);
                             new Shelter(child);
                         } catch (Exception e) {
-                            done = true;
                             errorMessage = e.getMessage();
                         }
                     }
@@ -69,7 +68,6 @@ public abstract class ShelterLoader extends AsyncTask<Void, Void, String> {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    done = true;
                     errorMessage = databaseError.getMessage();
                 }
             });
@@ -104,7 +102,7 @@ public abstract class ShelterLoader extends AsyncTask<Void, Void, String> {
                 errorMessage = databaseError.getMessage();
             }
         });
-        while (!done) {
+        while (!done && errorMessage == null) {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {}

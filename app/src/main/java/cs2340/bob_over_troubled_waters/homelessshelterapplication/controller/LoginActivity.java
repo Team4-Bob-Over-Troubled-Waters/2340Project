@@ -38,7 +38,9 @@ import java.util.regex.Pattern;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.SingleShelterLoader;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
@@ -336,7 +338,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             }
                         } else if (user instanceof ShelterEmployee) {
                             ShelterEmployee employee = (ShelterEmployee) user;
-                            System.out.println(employee.getShelter());
+                            Shelter shelter = new SingleShelterLoader(employee.getShelterId()).execute();
+                            employee.setShelter(shelter);
                             if (employee.getShelter() == null) {
                                 intent = new Intent(context, ChooseShelter.class);
                             } else if (!employee.isApproved()) {

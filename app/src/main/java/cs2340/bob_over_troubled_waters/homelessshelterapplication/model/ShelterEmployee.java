@@ -19,6 +19,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.Sin
 public class ShelterEmployee extends User {
 
     private Shelter shelter;
+    private Integer shelterId = null;
     private boolean isApproved = false;
 
     public ShelterEmployee(String email, String password, String name) throws Exception {
@@ -34,12 +35,9 @@ public class ShelterEmployee extends User {
         super(snapshot);
         isApproved = snapshot.child("isApproved").getValue(Boolean.class);
         try {
-            // TODO fix this
             Integer shelterId = snapshot.child("shelter").getValue(Integer.class);
+            this.shelterId = shelterId;
             shelter = Shelter.getShelter(shelterId);
-            if (shelter == null && shelterId != null) {
-                shelter = new SingleShelterLoader(shelterId).execute();
-            }
         } catch (Exception e) {
             shelter = null;
         }
@@ -52,6 +50,10 @@ public class ShelterEmployee extends User {
 
     public Shelter getShelter() {
         return shelter;
+    }
+
+    public Integer getShelterId() {
+        return shelterId;
     }
 
     public boolean isApproved() {

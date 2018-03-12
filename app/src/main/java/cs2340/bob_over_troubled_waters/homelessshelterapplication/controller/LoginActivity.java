@@ -37,8 +37,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
-import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
@@ -206,8 +206,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 3;
+        return password.length() > 5;
     }
 
     /**
@@ -320,35 +319,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
             try {
-                // Simulate network access.
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            User user = User.getUser(mEmail);
-            if (user == null) {
-                return null;
-            }
-            else if (user.passwordCorrect(mPassword)) {
-                User.setCurrentUser(user);
-                Context context = getApplicationContext();
-                Intent intent;
-                if (user.getIsBlocked()) {
-                    intent = new Intent(context, BlockedUser.class);
-                } else {
-                    if (user instanceof AdminUser) {
-                        AdminUser admin = (AdminUser) user;
-                        if (!admin.isApproved()) {
-                            intent = new Intent(context, UserPendingApproval.class);
-                        } else {
-                            intent = new Intent(context, UserHome.class);
-                        }
-                    } else if (user instanceof ShelterEmployee) {
+                User user = User.attemptLogin(mEmail, mPassword);
+                    Context context = getApplicationContext();
+                    Intent intent;
+                    if (user.getIsBlocked()) {
+                        intent = new Intent(context, BlockedUser.class);
+                    } else {
+                        if (user instanceof AdminUser) {
+                            AdminUser admin = (AdminUser) user;
+                            if (!admin.isApproved()) {
+                                intent = new Intent(context, UserPendingApproval.class);
+                            } else {
+                                intent = new Intent(context, UserHome.class);
+                            }
+                        } else if (user instanceof ShelterEmployee) {
                             ShelterEmployee employee = (ShelterEmployee) user;
+                            System.out.println(employee.getShelter());
                             if (employee.getShelter() == null) {
                                 intent = new Intent(context, ChooseShelter.class);
                             } else if (!employee.isApproved()) {
@@ -356,15 +344,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             } else {
                                 intent = new Intent(context, UserHome.class);
                             }
-                    } else {
-                        intent = new Intent(context, UserHome.class);
+                        } else {
+                            intent = new Intent(context, UserHome.class);
+                        }
                     }
-                }
-                context.startActivity(intent);
-                return true;
-            } else {
+                    context.startActivity(intent);
+                    return true;
+            } catch (Exception e) {
+                mEmailView.setError(e.getMessage());
                 return false;
             }
+
+
         }
 
         @Override
@@ -372,18 +363,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
-            if (success == null) {
-                mEmailView.setError("This email is not registered");
-                mEmailView.requestFocus();
-            } else {
-
                 if (success) {
                     finish();
                 } else {
-                    mPasswordView.setError(getString(R.string.error_incorrect_password));
                     mPasswordView.requestFocus();
                 }
-            }
+//            }
         }
 
         @Override

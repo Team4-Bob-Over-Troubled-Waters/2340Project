@@ -1,17 +1,46 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
+import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.HashMap;
 import java.util.HashSet;
+
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.SingleUserLoader;
 
 /**
  * Created by Sarah on 2/9/2018.
  */
 
+@IgnoreExtraProperties
 public abstract class User {
-    private String email;
-    private int passwordHash;
-    private String name;
 
+    protected static DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
+    protected DatabaseReference path;
+
+    private static FirebaseAuth auth = FirebaseAuth.getInstance();
+
+    private FirebaseUser firebaseUser;
+
+    protected String id;
+    private String email;
+    private String name;
     private boolean isBlocked = false;
 
     public boolean getIsBlocked() {
@@ -28,15 +57,6 @@ public abstract class User {
         } else {
             throw new IllegalArgumentException("Need Admin to block");
         }
-    }
-
-    // eventually this should be replaced by a database
-    private static HashMap<String, User> existingUsers = new HashMap<>();
-
-    static {
-        new HomelessPerson("user@example.com", "pass", "User");
-        AdminUser admin = new AdminUser("admin@example.com", "pass", null);
-        admin.approveAdmin(admin);
     }
 
     // the user who is logged in currently
@@ -62,37 +82,75 @@ public abstract class User {
      * @throws IllegalArgumentException if a field is null or the email is taken
      */
     public User(String email, String password, String name)
-            throws IllegalArgumentException {
+            throws Exception {
         if (email == null) throw new IllegalArgumentException(
                 "Email is required");
         if (password == null) throw new IllegalArgumentException(
                 "Password is required");
-        this.email = email;
-        this.passwordHash = password.hashCode();
-        if (name != null && !name.isEmpty()) this.name = name;
-        if (existingUsers.containsKey(email)) {
-            throw new IllegalArgumentException("Username already exists");
+        addFirebaseUser(email, password);
+        if (firebaseException != null) {
+            throw firebaseException;
         } else {
-            existingUsers.put(email, this);
+            if (name != null && !name.isEmpty()) {
+                UserProfileChangeRequest updates = new UserProfileChangeRequest.Builder()
+                        .setDisplayName(name).build();
+                firebaseUser.updateProfile(updates);
+            }
+        }
+        this.email = email;
+        if (name != null && !name.isEmpty()) this.name = name;
+        path = database.child("users").child(id);
+        path.child("email").setValue(email);
+        path.child("name").setValue(name);
+        path.child("isBlocked").setValue(getIsBlocked());
+    }
+
+    public User(DataSnapshot snapshot) {
+        id = snapshot.getKey();
+        email = snapshot.child("email").getValue(String.class);
+        name = snapshot.child("name").getValue(String.class);
+        isBlocked = snapshot.child("isBlocked").getValue(Boolean.class);
+        path = database.child("users").child(id);
+    }
+
+    private static Exception firebaseException = null;
+
+    private void addFirebaseUser(String email, String password) throws InterruptedException {
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            firebaseUser = auth.getCurrentUser();
+                            id = firebaseUser.getUid();
+                            System.out.println("User: " + firebaseUser);
+                        } else {
+                            firebaseException = task.getException();
+                        }
+                    }
+                });
+        while (firebaseUser == null && firebaseException == null) {
+            Thread.sleep(50);
         }
     }
 
     /**
-     * gets a user object with a specified username
-     * @param username the username to find a matching user for
-     * @return the user with that username, null if none exist
+     * attempts to login a user
+     * do not call this method in the main thread
+     * @param email email input by the user
+     * @param password password input by the user
+     * @return the user object of the user that was logged in
+     * @throws Exception if there was a problem logging in - usually incorrect credentials
      */
-    public static User getUser(String username) {
-        return existingUsers.get(username);
+    public static User attemptLogin(String email, String password) throws Exception {
+        SingleUserLoader loginPerformer = new SingleUserLoader(email, password);
+        currentUser = loginPerformer.execute();
+        return currentUser;
     }
 
-    /**
-     * checks to see if the password entered for a user is correct
-     * @param enteredPassword the password that was entered in login attempt
-     * @return whether the password is correct
-     */
-    public boolean passwordCorrect(String enteredPassword) {
-        return passwordHash == enteredPassword.hashCode();
+    public static void logout() {
+        auth.signOut();
+        currentUser = null;
     }
 
     /**

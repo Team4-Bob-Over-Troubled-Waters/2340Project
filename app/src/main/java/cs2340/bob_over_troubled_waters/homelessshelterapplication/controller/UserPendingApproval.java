@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 public class UserPendingApproval extends AppCompatActivity {
 
@@ -15,6 +16,7 @@ public class UserPendingApproval extends AppCompatActivity {
     }
 
     public void logoutButtonAction(View view) {
+        User.logout();
         finish();
     }
 }

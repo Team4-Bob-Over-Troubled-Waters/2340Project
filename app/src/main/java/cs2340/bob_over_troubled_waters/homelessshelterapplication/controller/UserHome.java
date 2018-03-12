@@ -25,6 +25,7 @@ public class UserHome extends AppCompatActivity {
     }
 
     public void logoutButtonAction(View view) {
+        User.logout();
         finish();
     }
 

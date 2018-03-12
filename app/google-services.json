@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "114776418480",
+    "firebase_url": "https://homelessshelterapp.firebaseio.com",
+    "project_id": "homelessshelterapp",
+    "storage_bucket": "homelessshelterapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114776418480:android:3b1b980ec799cc0f",
+        "android_client_info": {
+          "package_name": "cs2340.bob_over_troubled_waters.homelessshelterapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114776418480-lfhn8h66qcmsc438lhheeln9s7ev3e0e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cs2340.bob_over_troubled_waters.homelessshelterapplication",
+            "certificate_hash": "a144ac22fab7017772e1ce8ea0952850040151b2"
+          }
+        },
+        {
+          "client_id": "114776418480-7n0hbate2p252ucp4373p0tooph8ufup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkcpZyvy9pq3Np2Tw6Xv2J-_ZKyySwB7w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114776418480-7n0hbate2p252ucp4373p0tooph8ufup.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,6 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,17 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.AgeRanges;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Gender;
@@ -29,20 +24,31 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Ge
 
 public class ShelterListingActivity extends AppCompatActivity {
     private static ArrayList<Shelter> shelters = new ArrayList<Shelter>();
-    private ListView shelterListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_shelter_listing);
 
         shelters.clear();
+
+        if (!ShelterLoader.sheltersLoaded()) {
+            ShelterLoader.setInstance(new ShelterListingUpdater());
+        } else {
+            updateView();
+        }
+
+    }
+
+    /**
+     * updates the list view to have all the appropriate shelters in it
+     */
+    private void updateView() {
         shelters.addAll(Shelter.getShelters());
-
         narrowResults();
-
-        setContentView(R.layout.activity_shelter_listing);
-        shelterListView = (ListView) findViewById(R.id.shelter_listing);
-        ArrayAdapter<Shelter> arrayAdapter = new ArrayAdapter<Shelter>(this,
+        ListView shelterListView = (ListView) findViewById(R.id.shelter_listing);
+        Context context = getApplicationContext();
+        ArrayAdapter<Shelter> arrayAdapter = new ArrayAdapter<Shelter>(context,
                 android.R.layout.simple_list_item_1, shelters);
         shelterListView.setAdapter(arrayAdapter);
         shelterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -57,6 +63,21 @@ public class ShelterListingActivity extends AppCompatActivity {
         });
     }
 
+    private class ShelterListingUpdater extends ShelterLoader {
+
+        @Override
+        public void onPostExecute(final String errorMessage) {
+            if (errorMessage == null) {
+                updateView();
+            } else {
+                Intent intent = new Intent(getApplicationContext(), ErrorPage.class);
+                intent.putExtra("message", errorMessage);
+                getApplicationContext().startActivity(intent);
+                finish();
+            }
+        }
+    }
+
     public static ArrayList<Shelter> getShelters() {
         return shelters;
     }
@@ -67,13 +88,13 @@ public class ShelterListingActivity extends AppCompatActivity {
 
     /**
      * if we're searching for shelters in a particular category
+     * TODO make this better
      */
     private void narrowResults() {
         HashSet<Shelter> narrowed = new HashSet<>();
         boolean genderNarrowed = false;
         boolean ageNarrowed = false;
         String searchString = ShelterSearch.getSearchString();
-        System.out.println(ShelterSearch.getGenderCriteria());
         if (ShelterSearch.getGenderCriteria() != null) {
             genderNarrowed = true;
             for (Gender gender : ShelterSearch.getGenderCriteria()) {
@@ -88,7 +109,6 @@ public class ShelterListingActivity extends AppCompatActivity {
                 }
             }
         }
-        System.out.println(ShelterSearch.getAgeCriteria());
         if (ShelterSearch.getAgeCriteria() != null) {
             ageNarrowed = true;
             if (!genderNarrowed) {

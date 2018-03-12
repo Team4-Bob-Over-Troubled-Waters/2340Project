@@ -1,6 +1,7 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +10,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.AgeRanges;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Gender;
@@ -48,12 +51,12 @@ public class ShelterSearch extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelter_search);
-        searchBar = findViewById(R.id.shelter_search_field);
-        ArrayList<String> shelters = new ArrayList<>();
-        for (Shelter shelter : Shelter.getShelters()) shelters.add(shelter.toString());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, shelters);
-        searchBar.setAdapter(adapter);
+
+        if (!ShelterLoader.sheltersLoaded()) {
+            ShelterLoader.setInstance(new AutoCompletePopulator());
+        } else {
+            populateAutoComplete();
+        }
     }
 
     public void searchAction(View view) {
@@ -80,5 +83,27 @@ public class ShelterSearch extends AppCompatActivity {
 
     public void backButtonAction(View view) {
         finish();
+    }
+
+    /**
+     * populates the suggestions for the autocomplete
+     */
+    private void populateAutoComplete() {
+        searchBar = findViewById(R.id.shelter_search_field);
+        ArrayList<String> shelters = new ArrayList<>();
+        for (Shelter shelter : Shelter.getShelters()) shelters.add(shelter.toString());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_dropdown_item_1line, shelters);
+        searchBar.setAdapter(adapter);
+    }
+
+    private class AutoCompletePopulator extends ShelterLoader {
+
+        @Override
+        public void onPostExecute(final String errorMessage) {
+            if (errorMessage == null) {
+                populateAutoComplete();
+            }
+        }
     }
 }

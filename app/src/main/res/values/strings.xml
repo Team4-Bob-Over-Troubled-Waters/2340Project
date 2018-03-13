@@ -29,4 +29,5 @@
     <string name="notes">"Notes: "</string>
     <string name="restrictions">Restrictions: </string>
     <string name="capacity">Capacity: </string>
+    <string name="title_activity_user_listing">UserListing</string>
 </resources>

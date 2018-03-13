@@ -1,25 +1,16 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
-import android.os.AsyncTask;
-import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.IgnoreExtraProperties;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
-import java.util.HashSet;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.SingleUserLoader;
 
@@ -27,7 +18,6 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.Sin
  * Created by Sarah on 2/9/2018.
  */
 
-@IgnoreExtraProperties
 public abstract class User {
 
     protected static DatabaseReference database = FirebaseDatabase.getInstance().getReference();
@@ -163,6 +153,19 @@ public abstract class User {
 
     public String getEmail() {
         return email;
+    }
+
+    @Override
+    public String toString() {
+        String val = email + "\n";
+        if (this instanceof HomelessPerson) {
+            val += "Homeless Person";
+        } else if (this  instanceof AdminUser) {
+            val += "Admin User";
+        } else {
+            val += "Shelter Employee";
+        }
+        return val;
     }
 
     @Override

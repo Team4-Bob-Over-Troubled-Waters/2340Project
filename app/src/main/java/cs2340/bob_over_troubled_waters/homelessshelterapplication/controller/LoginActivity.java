@@ -3,23 +3,21 @@ package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
+import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -334,7 +332,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             if (!admin.isApproved()) {
                                 intent = new Intent(context, UserPendingApproval.class);
                             } else {
-                                intent = new Intent(context, UserHome.class);
+                                intent = new Intent(context, AdminHome.class);
                             }
                         } else if (user instanceof ShelterEmployee) {
                             ShelterEmployee employee = (ShelterEmployee) user;
@@ -369,9 +367,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (success) {
                     finish();
                 } else {
-                    mPasswordView.requestFocus();
+                    mEmailView.requestFocus();
                 }
-//            }
         }
 
         @Override

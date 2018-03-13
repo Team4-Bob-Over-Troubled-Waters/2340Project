@@ -46,9 +46,8 @@ public class ShelterListingActivity extends AppCompatActivity {
     private void updateView() {
         shelters.addAll(Shelter.getShelters());
         narrowResults();
-        ListView shelterListView = (ListView) findViewById(R.id.shelter_listing);
-        Context context = getApplicationContext();
-        ArrayAdapter<Shelter> arrayAdapter = new ArrayAdapter<Shelter>(context,
+        ListView shelterListView = findViewById(R.id.shelter_listing);
+        ArrayAdapter<Shelter> arrayAdapter = new ArrayAdapter<Shelter>(this,
                 android.R.layout.simple_list_item_1, shelters);
         shelterListView.setAdapter(arrayAdapter);
         shelterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

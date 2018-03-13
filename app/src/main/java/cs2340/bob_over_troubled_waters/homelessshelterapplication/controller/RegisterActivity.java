@@ -343,6 +343,10 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
+        /* TODO there is a problem where if the registration attempt fails once it continues
+        to fail until app is restarted
+         */
+
         private final String mEmail;
         private final String mPassword;
         private final String mName;
@@ -357,14 +361,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-//            try {
-//                // Simulate network access.
-//                Thread.sleep(500);
-//            } catch (InterruptedException e) {
-//                return false;
-//            }
 
             try {
                 Context context = getApplicationContext();
@@ -398,7 +394,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             if (success) {
                 finish();
             } else {
-//                mEmailView.setError(getString(R.string.error_email_in_use));
                 mEmailView.requestFocus();
             }
         }

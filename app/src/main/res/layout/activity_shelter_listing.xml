@@ -6,31 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".controller.ShelterListingActivity">
 
-    <ProgressBar
-        android:id="@+id/load_shelters_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/shelter_listing"
-        app:layout_constraintEnd_toStartOf="@+id/shelter_listing"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/shelter_listing"
-        app:layout_constraintTop_toBottomOf="@+id/shelter_listing" />
-
-    <TextView
-        android:id="@+id/problem_loading_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="There was a problem loading shelters."
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="18sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/shelter_listing"
-        app:layout_constraintEnd_toStartOf="@+id/shelter_listing"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/shelter_listing"
-        app:layout_constraintTop_toBottomOf="@+id/shelter_listing" />
-
     <ListView
         android:id="@+id/shelter_listing"
         android:layout_width="0dp"

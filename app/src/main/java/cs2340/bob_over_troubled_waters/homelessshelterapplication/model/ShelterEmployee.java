@@ -1,15 +1,7 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.Collection;
-
-import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.SingleShelterLoader;
 
 /**
  * Created by Admin on 3/5/2018.

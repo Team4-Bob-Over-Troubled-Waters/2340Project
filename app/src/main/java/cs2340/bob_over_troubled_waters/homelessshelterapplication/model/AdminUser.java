@@ -1,6 +1,8 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
 import android.support.constraint.solver.widgets.Snapshot;
+import android.test.mock.MockContext;
+import android.widget.ArrayAdapter;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -8,6 +10,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
 
 /**
  * Created by Sarah on 3/5/2018.
@@ -54,6 +58,7 @@ public class AdminUser extends User {
         for (Class type : types) {
             if (type.equals(AdminUser.class)) {
                 users.addAll(adminUsers.values());
+                users.remove(User.getCurrentUser());
             } else if (type.equals(ShelterEmployee.class)) {
                 users.addAll(shelterEmployees.values());
             } else if (type.equals(HomelessPerson.class)) {
@@ -71,13 +76,28 @@ public class AdminUser extends User {
 
     public AdminUser(String email, String password, String name) throws Exception {
         super(email, password, name);
-        path.child("userType").setValue("admin");
-        path.child("isApproved").setValue(isApproved);
     }
 
     public AdminUser(DataSnapshot snapshot) {
         super(snapshot);
         isApproved = snapshot.child("isApproved").getValue(Boolean.class);
+    }
+
+    @Override
+    public String[] getUserInfo() {
+        ArrayList<String> info = new ArrayList<>();
+        info.add("Admin User");
+        info.add("Email: " + getEmail());
+        if (!getUsersName().equals(getEmail())) {
+            info.add("Name: " + getUsersName());
+        }
+        if (!isApproved()) {
+            info.add("Pending Approval");
+        }
+        if (getIsBlocked()) {
+            info.add("This user is blocked.");
+        }
+        return info.toArray(new String[info.size()]);
     }
 
     /**
@@ -86,6 +106,7 @@ public class AdminUser extends User {
      */
     public void approveAdmin(AdminUser newAdmin) {
         newAdmin.isApproved = true;
+        DataPoster.post(newAdmin);
     }
 
     public void approveShelterEmployee(ShelterEmployee newEmployee) {
@@ -96,17 +117,17 @@ public class AdminUser extends User {
     }
 
     /**
-     * method to block a user
-     * @param user the user to be blocked
+     * method to change blocked status of a user
+     * @param user the user to be blocked/unblocked
      * @throws IllegalArgumentException if user is null or this
      */
-    public void blockUser(User user) {
+    public void toggleBlockUser(User user) {
         if (user == null) {
             throw new IllegalArgumentException("Cannot block null.");
         }
         if (this.equals(user)) {
             throw new IllegalArgumentException("Can't block yourself.");
         }
-        user.block(this);
+        user.toggleBlocked(this);
     }
 }

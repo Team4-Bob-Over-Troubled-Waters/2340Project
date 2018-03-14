@@ -1,17 +1,8 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
-import android.support.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.SingleUserLoader;
 
 /**
@@ -19,14 +10,6 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.Sin
  */
 
 public abstract class User {
-
-    protected static DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-
-    protected DatabaseReference path;
-
-    private static FirebaseAuth auth = FirebaseAuth.getInstance();
-
-    private FirebaseUser firebaseUser;
 
     protected String id;
     private String email;
@@ -37,13 +20,22 @@ public abstract class User {
         return isBlocked;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
     /**
-     * sets this user to be blocked
+     * toggles whether or not a user is blocked
      * @param blockedBy the admin user object for the admin that is blocking the user
      */
-    public void block(AdminUser blockedBy) {
+    public void toggleBlocked(AdminUser blockedBy) {
         if (blockedBy != null) {
-            this.isBlocked = true;
+            this.isBlocked = !this.isBlocked;
+            DataPoster.post(this);
         } else {
             throw new IllegalArgumentException("Need Admin to block");
         }
@@ -61,7 +53,7 @@ public abstract class User {
     }
 
     public String getUsersName() {
-        if (name == null) return email;
+        if (name == null || name.isEmpty()) return email;
         else return name;
     }
 
@@ -71,28 +63,14 @@ public abstract class User {
      * @param password the password for the user
      * @throws IllegalArgumentException if a field is null or the email is taken
      */
-    public User(String email, String password, String name)
-            throws Exception {
+    public User(String email, String password, String name) throws Exception {
         if (email == null) throw new IllegalArgumentException(
                 "Email is required");
         if (password == null) throw new IllegalArgumentException(
                 "Password is required");
-        addFirebaseUser(email, password);
-        if (firebaseException != null) {
-            throw firebaseException;
-        } else {
-            if (name != null && !name.isEmpty()) {
-                UserProfileChangeRequest updates = new UserProfileChangeRequest.Builder()
-                        .setDisplayName(name).build();
-                firebaseUser.updateProfile(updates);
-            }
-        }
+        id = DataPoster.addFirebaseUser(email, password);
         this.email = email;
         if (name != null && !name.isEmpty()) this.name = name;
-        path = database.child("users").child(id);
-        path.child("email").setValue(email);
-        path.child("name").setValue(name);
-        path.child("isBlocked").setValue(getIsBlocked());
     }
 
     public User(DataSnapshot snapshot) {
@@ -100,28 +78,6 @@ public abstract class User {
         email = snapshot.child("email").getValue(String.class);
         name = snapshot.child("name").getValue(String.class);
         isBlocked = snapshot.child("isBlocked").getValue(Boolean.class);
-        path = database.child("users").child(id);
-    }
-
-    private static Exception firebaseException = null;
-
-    private void addFirebaseUser(String email, String password) throws InterruptedException {
-        auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            firebaseUser = auth.getCurrentUser();
-                            id = firebaseUser.getUid();
-                            System.out.println("User: " + firebaseUser);
-                        } else {
-                            firebaseException = task.getException();
-                        }
-                    }
-                });
-        while (firebaseUser == null && firebaseException == null) {
-            Thread.sleep(50);
-        }
     }
 
     /**
@@ -139,8 +95,7 @@ public abstract class User {
     }
 
     public static void logout() {
-        auth.signOut();
-        currentUser = null;
+        DataPoster.logout();
     }
 
     /**
@@ -180,4 +135,10 @@ public abstract class User {
     public int hashCode() {
         return email.hashCode();
     }
+
+    /**
+     * gets a printable array of the user's info
+     * @return each part of the user's info in an array
+     */
+    public abstract String[] getUserInfo();
 }

@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.SingleShelterLoader;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.UserLoader;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
@@ -322,35 +323,37 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 User user = User.attemptLogin(mEmail, mPassword);
-                    Context context = getApplicationContext();
-                    Intent intent;
-                    if (user.getIsBlocked()) {
-                        intent = new Intent(context, BlockedUser.class);
-                    } else {
-                        if (user instanceof AdminUser) {
-                            AdminUser admin = (AdminUser) user;
-                            if (!admin.isApproved()) {
-                                intent = new Intent(context, UserPendingApproval.class);
-                            } else {
-                                intent = new Intent(context, AdminHome.class);
-                            }
-                        } else if (user instanceof ShelterEmployee) {
-                            ShelterEmployee employee = (ShelterEmployee) user;
-                            Shelter shelter = new SingleShelterLoader(employee.getShelterId()).execute();
-                            employee.setShelter(shelter);
-                            if (employee.getShelter() == null) {
-                                intent = new Intent(context, ChooseShelter.class);
-                            } else if (!employee.isApproved()) {
-                                intent = new Intent(context, UserPendingApproval.class);
-                            } else {
-                                intent = new Intent(context, UserHome.class);
-                            }
+                ShelterLoader.start();
+                Context context = getApplicationContext();
+                Intent intent;
+                if (user.getIsBlocked()) {
+                    intent = new Intent(context, BlockedUser.class);
+                } else {
+                    if (user instanceof AdminUser) {
+                        UserLoader.start();
+                        AdminUser admin = (AdminUser) user;
+                        if (!admin.isApproved()) {
+                            intent = new Intent(context, UserPendingApproval.class);
+                        } else {
+                            intent = new Intent(context, AdminHome.class);
+                        }
+                    } else if (user instanceof ShelterEmployee) {
+                        ShelterEmployee employee = (ShelterEmployee) user;
+                        Shelter shelter = new SingleShelterLoader(employee.getShelterId()).execute();
+                        employee.setShelter(shelter);
+                        if (employee.getShelter() == null) {
+                            intent = new Intent(context, ChooseShelter.class);
+                        } else if (!employee.isApproved()) {
+                            intent = new Intent(context, UserPendingApproval.class);
                         } else {
                             intent = new Intent(context, UserHome.class);
                         }
+                    } else {
+                        intent = new Intent(context, UserHome.class);
                     }
-                    context.startActivity(intent);
-                    return true;
+                }
+                context.startActivity(intent);
+                return true;
             } catch (Exception e) {
                 mEmailView.setError(e.getMessage());
                 return false;

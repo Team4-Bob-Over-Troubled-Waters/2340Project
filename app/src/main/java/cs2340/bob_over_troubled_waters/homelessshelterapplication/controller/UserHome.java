@@ -1,14 +1,12 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
-import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
-import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 public class UserHome extends AppCompatActivity {

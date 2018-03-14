@@ -17,12 +17,12 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterE
  * Created by Sarah on 3/12/2018.
  */
 
-public abstract class UserLoader extends AsyncTask<Void, Void, String> {
+public class UserLoader extends AsyncTask<Void, Void, String> {
 
     private static UserLoader instance;
 
-    public static void setInstance(UserLoader userLoader) {
-        instance = userLoader;
+    public static void start() {
+        instance = new UserLoader();
         instance.execute();
     }
 
@@ -116,8 +116,4 @@ public abstract class UserLoader extends AsyncTask<Void, Void, String> {
 
         return errorMessage;
     }
-
-    @Override
-    public abstract void onPostExecute(final String errorMessage);
-
 }

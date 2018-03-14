@@ -2,13 +2,14 @@ package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
+
+import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.ArrayList;
 
@@ -27,11 +28,7 @@ public class ChooseShelter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_shelter);
 
-        if (!ShelterLoader.sheltersLoaded()) {
-            ShelterLoader.setInstance(new ShelterSpinnerPopulator());
-        } else {
-            populateSpinner();
-        }
+        new ShelterSpinnerPopulator().execute();
     }
 
     public void continueButtonAction(View view) {
@@ -64,18 +61,33 @@ public class ChooseShelter extends AppCompatActivity {
         shelterSpinner.requestFocus();
     }
 
-    private class ShelterSpinnerPopulator extends ShelterLoader {
+    /**
+     * this is necessary because the choose shelter page is right after login and the shelters
+     * may not be done loading yet
+     *
+     * this class waits for the
+     */
+    private class ShelterSpinnerPopulator extends AsyncTask<Void, Void, Void> {
 
         @Override
-        public void onPostExecute(final String errorMessage) {
-            if (errorMessage == null) {
-                populateSpinner();
-            } else {
-                Intent intent = new Intent(getApplicationContext(), ErrorPage.class);
-                intent.putExtra("message", errorMessage);
-                getApplicationContext().startActivity(intent);
-                finish();
+        public Void doInBackground(Void ... params) {
+            // to avoid potential memory leaks - fail-safe to stop task after 10 seconds
+            StopWatch timer = new StopWatch();
+            timer.start();
+            while (!ShelterLoader.sheltersLoaded() && timer.getTime() < 10000) {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            return null;
         }
+
+        @Override
+        public void onPostExecute(final Void none) {
+            populateSpinner();
+        }
+
     }
 }

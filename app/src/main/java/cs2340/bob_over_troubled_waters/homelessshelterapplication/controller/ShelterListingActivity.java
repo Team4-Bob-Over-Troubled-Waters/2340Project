@@ -32,12 +32,7 @@ public class ShelterListingActivity extends AppCompatActivity {
 
         shelters.clear();
 
-        if (!ShelterLoader.sheltersLoaded()) {
-            ShelterLoader.setInstance(new ShelterListingUpdater());
-        } else {
-            updateView();
-        }
-
+        updateView();
     }
 
     /**
@@ -60,21 +55,6 @@ public class ShelterListingActivity extends AppCompatActivity {
                 System.out.println("Started new intent");
             }
         });
-    }
-
-    private class ShelterListingUpdater extends ShelterLoader {
-
-        @Override
-        public void onPostExecute(final String errorMessage) {
-            if (errorMessage == null) {
-                updateView();
-            } else {
-                Intent intent = new Intent(getApplicationContext(), ErrorPage.class);
-                intent.putExtra("message", errorMessage);
-                getApplicationContext().startActivity(intent);
-                finish();
-            }
-        }
     }
 
     public static ArrayList<Shelter> getShelters() {

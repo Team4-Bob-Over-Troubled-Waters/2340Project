@@ -4,6 +4,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,6 +21,8 @@ public class Shelter {
     private int ID;
     private String name;
     private String capacity;
+    private int vacancies;
+    private int maxVacancies;
     private String restrictions;
     private double longitude;
     private double latitude;
@@ -31,6 +35,16 @@ public class Shelter {
     private static DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("shelters");
 
     private static HashMap<Integer, Shelter> shelters = new HashMap<>();
+
+    private static Shelter currentShelter = null;
+
+    public static Shelter getCurrentShelter() {
+        return currentShelter;
+    }
+
+    public static void setCurrentShelter(Shelter currentShelter) {
+        Shelter.currentShelter = currentShelter;
+    }
 
     public static Collection<Shelter> getShelters() {
         return shelters.values();
@@ -48,6 +62,12 @@ public class Shelter {
         this.ID = snapshot.child("id").getValue(Integer.class);
         this.name = snapshot.child("name").getValue(String.class);
         this.capacity = snapshot.child("capacity").getValue(String.class);
+        try {
+            this.vacancies = NumberFormat.getInstance().parse(this.capacity).intValue();
+        } catch (ParseException e) {
+            this.vacancies = 0;
+        }
+        this.maxVacancies = vacancies;
         this.restrictions = snapshot.child("restrictions").getValue(String.class);
         this.longitude = snapshot.child("longitude").getValue(Double.class);
         this.latitude = snapshot.child("latitude").getValue(Double.class);
@@ -68,6 +88,7 @@ public class Shelter {
         this.ID = Integer.parseInt(ID);
         this.name = name;
         this.capacity = capacity;
+        vacancies = Integer.parseInt(capacity);
         this.restrictions = restrictions;
         this.longitude = Double.parseDouble(longitude);
         this.latitude = Double.parseDouble(latitude);
@@ -134,6 +155,22 @@ public class Shelter {
 
     public void setCapacity(String capacity) {
         this.capacity = capacity;
+    }
+
+    public int getVacancies() {
+        return vacancies;
+    }
+
+    public void setVacancies(int vacancies) {
+        this.vacancies = vacancies;
+    }
+
+    public int getMaxVacancies() {
+        return maxVacancies;
+    }
+
+    public void setMaxVacancies(int maxVacancies) {
+        this.maxVacancies = maxVacancies;
     }
 
     public String getRestrictions() {

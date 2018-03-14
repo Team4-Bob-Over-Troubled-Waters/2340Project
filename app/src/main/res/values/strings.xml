@@ -29,4 +29,20 @@
     <string name="notes">"Notes: "</string>
     <string name="restrictions">Restrictions: </string>
     <string name="capacity">Capacity: </string>
+    <string name="vacancies">Vacancies: </string>
+
+    <string name="cancel">Cancel</string>
+    <string name="reserve">Reserve</string>
+    <string name="reserve_bed">Reserve Bed</string>
+    <string name="reserve_ask_beds">How many beds would you like to reserve?</string>
+    <string name="reserve_success">Reservation successful!</string>
+    <string name="reserve_fail">There are not enough vacancies at this shelter to complete your
+        reservation.</string>
+    <string name="ok">OK</string>
+    <string name="close">Close</string>
+    <string name="no_current_reservation">No current reservation</string>
+    <string name="reservation_cancelled">Your reservation was successfully cancelled.</string>
+    <string name="double_reservation">You already have a reservation. Please cancel your current
+        reservation before making a new one.</string>
+    <string name="view_reservation">View Reservation</string>
 </resources>

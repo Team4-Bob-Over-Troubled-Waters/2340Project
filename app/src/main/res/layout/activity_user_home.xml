@@ -33,7 +33,7 @@
 
     <Button
         android:id="@+id/load_shelter_button"
-        android:layout_width="150dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:onClick="loadShelterAction"
@@ -45,13 +45,24 @@
 
     <Button
         android:id="@+id/search_shelters_button"
-        android:layout_width="150dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:onClick="searchSheltersButtonAction"
-        android:text="Search Shelers"
+        android:text="Search Shelters"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/load_shelter_button" />
+
+    <Button
+        android:id="@+id/view_reservation_button"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:onClick="viewReservationButtonAction"
+        android:text="View Reservation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_shelters_button" />
 
 </android.support.constraint.ConstraintLayout>

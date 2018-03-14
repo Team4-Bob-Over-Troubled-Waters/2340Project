@@ -59,7 +59,8 @@
         <activity android:name=".controller.UserPendingApproval" />
         <activity android:name=".controller.ChooseShelter" />
         <activity android:name=".controller.AdminHome" />
-        <activity android:name=".controller.ErrorPage"></activity>
+        <activity android:name=".controller.ErrorPage" />
+        <activity android:name=".controller.ReservationPage"></activity>
     </application>
 
 </manifest>

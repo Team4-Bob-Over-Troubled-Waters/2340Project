@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.MapView;
@@ -13,14 +15,18 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.MapFragment;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Reservation;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 /**
  * Created by Francine on 2/21/2018.
  */
 
-public class ShelterPage extends AppCompatActivity {
+public class ShelterPage extends AppCompatActivity implements NumberPicker.OnValueChangeListener{
     private Shelter selectedShelter;
 
     @Override
@@ -33,6 +39,7 @@ public class ShelterPage extends AppCompatActivity {
 
         TextView name = findViewById(R.id.text_name);
         TextView capacity = findViewById(R.id.text_capacity);
+        TextView vacancies = findViewById(R.id.text_vacancies);
         TextView restrictions = findViewById(R.id.text_restrictions);
         //TextView latitude = findViewById(R.id.text_latitude);
         //TextView longitude = findViewById(R.id.text_longitude);
@@ -41,14 +48,23 @@ public class ShelterPage extends AppCompatActivity {
         TextView phone = findViewById(R.id.text_phone);
         TextView notes = findViewById(R.id.text_special_notes);
 
+        User currentUser = User.getCurrentUser();
+        if (currentUser instanceof AdminUser || currentUser instanceof ShelterEmployee) {
+            Button reserveButton = findViewById(R.id.reserve_button);
+            reserveButton.setVisibility(View.GONE);
+            reserveButton.setEnabled(false);
+        }
+
         //MapFragment mapFragment = new MapFragment();
         //android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
         //manager.beginTransaction().replace(R.id.mapView, mapFragment).commit();
 
         ArrayList<Shelter> shelters = ShelterListingActivity.getShelters();
         selectedShelter = shelters.get(position);
+        Shelter.setCurrentShelter(selectedShelter);
         name.setText(selectedShelter.getName());
         capacity.setText(getString(R.string.capacity) + selectedShelter.getCapacity());
+        vacancies.setText(getString(R.string.vacancies) + selectedShelter.getVacancies());
         restrictions.setText(getString(R.string.restrictions) + selectedShelter.getRestrictions());
         address.setText(selectedShelter.getAddress());
         String coordinatesStr = "";
@@ -75,5 +91,30 @@ public class ShelterPage extends AppCompatActivity {
 
     public void backButtonAction(View view) {
         finish();
+    }
+
+    public void reservePageButtonAction(View view) {
+        User currentUser = User.getCurrentUser();
+        Reservation currentReservation = currentUser.getCurrentReservation();
+        if (currentReservation == null) {
+            ReserveDialog newFragment = new ReserveDialog();
+            newFragment.setValueChangeListener(this);
+            newFragment.show(getFragmentManager(), "reserve dialog");
+        } else {
+            DoubleReservationDialog newFragment = new DoubleReservationDialog();
+            newFragment.show(getFragmentManager(), "double reservation dialog");
+        }
+    }
+
+    @Override
+    public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView vacancies = findViewById(R.id.text_vacancies);
+        vacancies.setText(getString(R.string.vacancies) + selectedShelter.getVacancies());
     }
 }

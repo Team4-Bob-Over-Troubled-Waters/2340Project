@@ -42,6 +42,15 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/text_vacancies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vacancies"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+        <TextView
             android:id="@+id/text_restrictions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,4 +139,17 @@
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/reserve_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:onClick="reservePageButtonAction"
+        android:text="@string/reserve"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -1,30 +1,22 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
-public class UserHome extends AppCompatActivity {
-
-    private User user;
+public class AdminHome extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = User.getCurrentUser();
-        setContentView(R.layout.activity_user_home);
+        setContentView(R.layout.activity_admin_home);
         TextView welcomeMessage = findViewById(R.id.welcome_message);
-        welcomeMessage.setText(user.getWelcomeMessage());
-    }
-
-    public void logoutButtonAction(View view) {
-        User.logout();
-        finish();
+        welcomeMessage.setText(User.getCurrentUser().getWelcomeMessage());
     }
 
     public void loadShelterAction(View view) {
@@ -33,8 +25,18 @@ public class UserHome extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void logoutButtonAction(View view) {
+        User.logout();
+        finish();
+    }
+
     public void searchSheltersButtonAction(View view) {
         Intent intent = new Intent(this, ShelterSearch.class);
+        startActivity(intent);
+    }
+
+    public void viewUsersButtonAction(View view) {
+        Intent intent = new Intent(this, UserListing.class);
         startActivity(intent);
     }
 }

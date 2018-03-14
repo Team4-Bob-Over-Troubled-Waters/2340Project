@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controller.ShelterPage">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:text="Name"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/text_capacity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Capacity"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/text_restrictions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Restrictions"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+        <!--
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_latitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Latitude"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/text_longitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:text="Longitude"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
+        -->
+
+        <TextView
+            android:id="@+id/text_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp"
+            tools:lines="2" />
+
+        <TextView
+            android:id="@+id/text_coordinates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Coordinates"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/text_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Phone Number"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/text_special_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Special Notes"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="backButtonAction"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</android.support.constraint.ConstraintLayout>

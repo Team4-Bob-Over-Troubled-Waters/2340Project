@@ -23,4 +23,11 @@
     <string name="error_passowrd_mismatch">Passwords do not match</string>
     <string name="error_email_in_use">Email is already in use</string>
     <string name="create_admin_account">Create Admin Account</string>
+    <string name="shelters">Shelters</string>
+    <string name="shelter_profile">Shelter Profile</string>
+    <string name="back">Back</string>
+    <string name="notes">"Notes: "</string>
+    <string name="restrictions">Restrictions: </string>
+    <string name="capacity">Capacity: </string>
+    <string name="title_activity_user_listing">UserListing</string>
 </resources>

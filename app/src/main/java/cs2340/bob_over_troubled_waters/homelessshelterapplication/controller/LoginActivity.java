@@ -3,23 +3,21 @@ package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
+import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,6 +35,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.SingleShelterLoader;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.UserLoader;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -203,8 +207,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 3;
+        return password.length() > 5;
     }
 
     /**
@@ -287,9 +290,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     public void cancelButtonAction(View view) {
-        Context context = view.getContext();
-        Intent intent = new Intent(context, WelcomeScreen.class);
-        context.startActivity(intent);
+        finish();
     }
 
 
@@ -319,28 +320,46 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                User user = User.attemptLogin(mEmail, mPassword);
+                ShelterLoader.start();
+                Context context = getApplicationContext();
+                Intent intent;
+                if (user.getIsBlocked()) {
+                    intent = new Intent(context, BlockedUser.class);
+                } else {
+                    if (user instanceof AdminUser) {
+                        UserLoader.start();
+                        AdminUser admin = (AdminUser) user;
+                        if (!admin.isApproved()) {
+                            intent = new Intent(context, UserPendingApproval.class);
+                        } else {
+                            intent = new Intent(context, AdminHome.class);
+                        }
+                    } else if (user instanceof ShelterEmployee) {
+                        ShelterEmployee employee = (ShelterEmployee) user;
+                        Shelter shelter = new SingleShelterLoader(employee.getShelterId()).execute();
+                        employee.setShelter(shelter);
+                        if (employee.getShelter() == null) {
+                            intent = new Intent(context, ChooseShelter.class);
+                        } else if (!employee.isApproved()) {
+                            intent = new Intent(context, UserPendingApproval.class);
+                        } else {
+                            intent = new Intent(context, UserHome.class);
+                        }
+                    } else {
+                        intent = new Intent(context, UserHome.class);
+                    }
+                }
+                context.startActivity(intent);
+                return true;
+            } catch (Exception e) {
+                mEmailView.setError(e.getMessage());
                 return false;
             }
 
-            User user = User.getUser(mEmail);
-            if (user == null) {
-                return null;
-            }
-            else if (user.passwordCorrect(mPassword)) {
-                User.setCurrentUser(user);
-                Context context = getApplicationContext();
-                Intent intent = new Intent(context, UserHome.class);
-                context.startActivity(intent);
-                return true;
-            } else {
-                return false;
-            }
+
         }
 
         @Override
@@ -348,18 +367,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
-            if (success == null) {
-                mEmailView.setError("This email is not registered");
-                mEmailView.requestFocus();
-            } else {
-
                 if (success) {
                     finish();
                 } else {
-                    mPasswordView.setError(getString(R.string.error_incorrect_password));
-                    mPasswordView.requestFocus();
+                    mEmailView.requestFocus();
                 }
-            }
         }
 
         @Override

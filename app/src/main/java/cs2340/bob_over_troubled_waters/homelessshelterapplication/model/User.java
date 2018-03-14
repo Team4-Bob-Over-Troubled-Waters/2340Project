@@ -1,24 +1,44 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import com.google.firebase.database.DataSnapshot;
+
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.SingleUserLoader;
 
 /**
- * Created by Admin on 2/9/2018.
+ * Created by Sarah on 2/9/2018.
  */
 
-public class User extends Thread {
+public abstract class User {
+
+    protected String id;
     private String email;
-    private int passwordHash;
-    private boolean isAdmin;
     private String name;
+    private boolean isBlocked = false;
 
-    // eventually this should be replaced by a database
-    private static HashMap<String, User> existingUsers = new HashMap<>();
+    public boolean getIsBlocked() {
+        return isBlocked;
+    }
 
-    static {
-        new User("user@example.com", "pass", "User", false);
-        new User("admin@example.com", "pass", null, true);
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * toggles whether or not a user is blocked
+     * @param blockedBy the admin user object for the admin that is blocking the user
+     */
+    public void toggleBlocked(AdminUser blockedBy) {
+        if (blockedBy != null) {
+            this.isBlocked = !this.isBlocked;
+            DataPoster.post(this);
+        } else {
+            throw new IllegalArgumentException("Need Admin to block");
+        }
     }
 
     // the user who is logged in currently
@@ -33,7 +53,7 @@ public class User extends Thread {
     }
 
     public String getUsersName() {
-        if (name == null) return email;
+        if (name == null || name.isEmpty()) return email;
         else return name;
     }
 
@@ -41,54 +61,66 @@ public class User extends Thread {
      * constructs a user object
      * @param email the email the user should have
      * @param password the password for the user
-     * @param isAdmin whether the user should be an admin
      * @throws IllegalArgumentException if a field is null or the email is taken
      */
-    public User(String email, String password, String name, boolean isAdmin)
-            throws IllegalArgumentException {
+    public User(String email, String password, String name) throws Exception {
         if (email == null) throw new IllegalArgumentException(
                 "Email is required");
         if (password == null) throw new IllegalArgumentException(
                 "Password is required");
+        id = DataPoster.addFirebaseUser(email, password);
         this.email = email;
-        this.passwordHash = password.hashCode();
         if (name != null && !name.isEmpty()) this.name = name;
-        this.isAdmin = isAdmin;
-        if (existingUsers.containsKey(email)) {
-            throw new IllegalArgumentException("Username already exists");
-        } else {
-            existingUsers.put(email, this);
-        }
+    }
+
+    public User(DataSnapshot snapshot) {
+        id = snapshot.getKey();
+        email = snapshot.child("email").getValue(String.class);
+        name = snapshot.child("name").getValue(String.class);
+        isBlocked = snapshot.child("isBlocked").getValue(Boolean.class);
     }
 
     /**
-     * gets a user object with a specified username
-     * @param username the username to find a matching user for
-     * @return the user with that username, null if none exist
+     * attempts to login a user
+     * do not call this method in the main thread
+     * @param email email input by the user
+     * @param password password input by the user
+     * @return the user object of the user that was logged in
+     * @throws Exception if there was a problem logging in - usually incorrect credentials
      */
-    public static User getUser(String username) {
-        return existingUsers.get(username);
+    public static User attemptLogin(String email, String password) throws Exception {
+        SingleUserLoader loginPerformer = new SingleUserLoader(email, password);
+        currentUser = loginPerformer.execute();
+        return currentUser;
+    }
+
+    public static void logout() {
+        DataPoster.logout();
     }
 
     /**
-     * checks to see if the password entered for a user is correct
-     * @param enteredPassword the password that was entered in login attempt
-     * @return whether the password is correct
+     * get the string message to print on the user's home page
+     * @return welcome message
      */
-    public boolean passwordCorrect(String enteredPassword) {
-        return passwordHash == enteredPassword.hashCode();
+    public String getWelcomeMessage() {
+        return String.format("Welcome %s!", getUsersName());
     }
 
     public String getEmail() {
         return email;
     }
 
-    /**
-     * tells whether a user is an admin
-     * @return isAdmin
-     */
-    public boolean isAdmin() {
-        return isAdmin;
+    @Override
+    public String toString() {
+        String val = email + "\n";
+        if (this instanceof HomelessPerson) {
+            val += "Homeless Person";
+        } else if (this  instanceof AdminUser) {
+            val += "Admin User";
+        } else {
+            val += "Shelter Employee";
+        }
+        return val;
     }
 
     @Override
@@ -103,4 +135,10 @@ public class User extends Thread {
     public int hashCode() {
         return email.hashCode();
     }
+
+    /**
+     * gets a printable array of the user's info
+     * @return each part of the user's info in an array
+     */
+    public abstract String[] getUserInfo();
 }

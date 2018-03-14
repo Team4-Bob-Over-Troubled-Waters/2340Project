@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cs2340.bob_over_troubled_waters.homelessshelterapplication.controller.ShelterSearch">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shelter Name" />
+
+            <AutoCompleteTextView
+                android:id="@+id/shelter_search_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/gender_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gender" />
+
+            <CheckBox
+                android:id="@+id/male_check_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Male" />
+
+            <CheckBox
+                android:id="@+id/female_check_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+
+            <CheckBox
+                android:id="@+id/both_check_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Both" />
+
+            <TextView
+                android:id="@+id/age_range_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Age Range" />
+
+            <CheckBox
+                android:id="@+id/newborns_check_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Families with Newborns" />
+
+            <CheckBox
+                android:id="@+id/children_check_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Children" />
+
+            <CheckBox
+                android:id="@+id/young_adults_check_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Young Adults" />
+
+            <CheckBox
+                android:id="@+id/anyone_check_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Anyone" />
+
+            <Button
+                android:id="@+id/search_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="searchAction"
+                android:text="Search"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/back_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="backButtonAction"
+                android:text="Back"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

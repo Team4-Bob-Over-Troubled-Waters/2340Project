@@ -3,23 +3,21 @@ package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
+import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -29,7 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -38,6 +36,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.UserLoader;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.HomelessPerson;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -53,13 +57,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
@@ -71,7 +68,9 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private EditText mConfirmPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private Switch mAdminAccount;
+    private RadioButton mHomelessButton;
+    private RadioButton mEmployeeButton;
+    private RadioButton mAdminButton;
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile(
             "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -81,7 +80,9 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         // Set up the login form.
-        mAdminAccount = (Switch) findViewById(R.id.admin);
+        mHomelessButton = (RadioButton) findViewById(R.id.homeless_button);
+        mEmployeeButton = (RadioButton) findViewById(R.id.employee_button);
+        mAdminButton = (RadioButton) findViewById(R.id.admin_button);
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -172,15 +173,23 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         mNameView.setError(null);
         mPasswordView.setError(null);
         mConfirmPasswordView.setError(null);
-        mAdminAccount.setError(null);
+        mHomelessButton.setError(null);
+        mEmployeeButton.setError(null);
+        mAdminButton.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String name = mNameView.getText().toString();
         String password = mPasswordView.getText().toString();
         String confirmPassword = mConfirmPasswordView.getText().toString();
-        boolean isAdmin = mAdminAccount.isChecked();
-        System.out.println("Is admin: " + isAdmin);
+        String userType;
+        if (mHomelessButton.isChecked()) {
+            userType = "homeless";
+        } else if (mEmployeeButton.isChecked()) {
+            userType = "employee";
+        } else {
+            userType = "admin";
+        }
 
         boolean cancel = false;
         View focusView = null;
@@ -212,7 +221,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password, name, isAdmin);
+            mAuthTask = new UserLoginTask(email, password, name, userType);
             mAuthTask.execute((Void) null);
         }
     }
@@ -313,9 +322,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     }
 
     public void cancelButtonAction(View view) {
-        Context context = view.getContext();
-        Intent intent = new Intent(context, WelcomeScreen.class);
-        context.startActivity(intent);
         finish();
     }
 
@@ -339,34 +345,42 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         private final String mEmail;
         private final String mPassword;
         private final String mName;
-        private final boolean mIsAdmin;
+        private final String mUserType;
 
-        UserLoginTask(String email, String password, String name, boolean isAdmin) {
+        UserLoginTask(String email, String password, String name, String userType) {
             mEmail = email;
             mPassword = password;
             mName = name;
-            mIsAdmin = isAdmin;
+            mUserType = userType;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            try {
-                User user = new User(mEmail, mPassword, mName, mIsAdmin);
-                User.setCurrentUser(user);
                 Context context = getApplicationContext();
-                Intent intent = new Intent(context, UserHome.class);
+                Intent intent;
+                User user;
+                if (mUserType.equals("homeless")) {
+                    user = new HomelessPerson(mEmail, mPassword, mName);
+                    intent = new Intent(context, UserHome.class);
+                } else if (mUserType.equals("employee")) {
+                    user = new ShelterEmployee(mEmail, mPassword, mName);
+                    intent = new Intent(context, ChooseShelter.class);
+                } else {
+                    user = new AdminUser(mEmail, mPassword, mName);
+                    intent = new Intent(context, UserPendingApproval.class);
+                }
+                DataPoster.post(user);
+                User.setCurrentUser(user);
+                ShelterLoader.start();
+                if (user instanceof AdminUser) {
+                    UserLoader.start();
+                }
                 context.startActivity(intent);
                 return true;
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
+                mEmailView.setError(e.getMessage());
                 return false;
             }
 
@@ -380,7 +394,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             if (success) {
                 finish();
             } else {
-                mEmailView.setError(getString(R.string.error_email_in_use));
                 mEmailView.requestFocus();
             }
         }

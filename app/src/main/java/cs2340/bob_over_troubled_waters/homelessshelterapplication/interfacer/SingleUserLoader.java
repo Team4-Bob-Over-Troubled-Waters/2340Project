@@ -1,6 +1,5 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer;
 
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -102,6 +101,8 @@ public class SingleUserLoader {
                 }
             }
         });
+
+        Timer timer = Timer.getTimer(15000);
         while (!done) {
             try {
                 Thread.sleep(50);
@@ -109,6 +110,8 @@ public class SingleUserLoader {
                 e.printStackTrace();
             }
         }
+        timer.stopTimer();
+
         if (error != null) {
             throw error;
         }

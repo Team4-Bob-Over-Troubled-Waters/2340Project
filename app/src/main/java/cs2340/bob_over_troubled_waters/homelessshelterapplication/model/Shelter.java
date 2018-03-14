@@ -1,13 +1,12 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.AgeRanges;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Gender;
 
@@ -27,8 +26,6 @@ public class Shelter {
     private String phoneNumber;
     private Gender gender;
     private HashSet<AgeRanges> ageRanges;
-
-    private static DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("shelters");
 
     private static HashMap<Integer, Shelter> shelters = new HashMap<>();
 
@@ -80,8 +77,7 @@ public class Shelter {
         for (AgeRanges range : ageRanges) {
             range.addShelter(this);
         }
-        shelters.put(this.ID, this);
-        ref.child(ID).setValue(this);
+        DataPoster.post(this);
     }
 
     /**
@@ -118,6 +114,7 @@ public class Shelter {
 
     public void setID(int ID) {
         this.ID = ID;
+        DataPoster.post(this);
     }
 
     public String getName() {
@@ -126,6 +123,7 @@ public class Shelter {
 
     public void setName(String name) {
         this.name = name;
+        DataPoster.post(this);
     }
 
     public String getCapacity() {
@@ -134,6 +132,7 @@ public class Shelter {
 
     public void setCapacity(String capacity) {
         this.capacity = capacity;
+        DataPoster.post(this);
     }
 
     public String getRestrictions() {
@@ -142,6 +141,7 @@ public class Shelter {
 
     public void setRestrictions(String restrictions) {
         this.restrictions = restrictions;
+        DataPoster.post(this);
     }
 
     public double getLongitude() {
@@ -150,6 +150,7 @@ public class Shelter {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+        DataPoster.post(this);
     }
 
     public double getLatitude() {
@@ -158,6 +159,7 @@ public class Shelter {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+        DataPoster.post(this);
     }
 
     public String getAddress() {
@@ -166,6 +168,7 @@ public class Shelter {
 
     public void setAddress(String address) {
         this.address = address;
+        DataPoster.post(this);
     }
 
     public String getSpecialNotes() {
@@ -174,6 +177,7 @@ public class Shelter {
 
     public void setSpecialNotes(String specialNotes) {
         this.specialNotes = specialNotes;
+        DataPoster.post(this);
     }
 
     public String getPhoneNumber() {
@@ -182,5 +186,6 @@ public class Shelter {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        DataPoster.post(this);
     }
 }

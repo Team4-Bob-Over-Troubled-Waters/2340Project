@@ -21,6 +21,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
  */
 
 public class ShelterPage extends AppCompatActivity {
+
     private Shelter selectedShelter;
 
     @Override
@@ -34,8 +35,6 @@ public class ShelterPage extends AppCompatActivity {
         TextView name = findViewById(R.id.text_name);
         TextView capacity = findViewById(R.id.text_capacity);
         TextView restrictions = findViewById(R.id.text_restrictions);
-        //TextView latitude = findViewById(R.id.text_latitude);
-        //TextView longitude = findViewById(R.id.text_longitude);
         TextView address = findViewById(R.id.text_address);
         TextView coordinates = findViewById(R.id.text_coordinates);
         TextView phone = findViewById(R.id.text_phone);

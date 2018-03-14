@@ -60,7 +60,8 @@
         <activity android:name=".controller.ChooseShelter" />
         <activity android:name=".controller.AdminHome" />
         <activity android:name=".controller.ErrorPage" />
-        <activity android:name=".controller.UserListing"></activity>
+        <activity android:name=".controller.UserListing" />
+        <activity android:name=".controller.UserProfile"></activity>
     </application>
 
 </manifest>

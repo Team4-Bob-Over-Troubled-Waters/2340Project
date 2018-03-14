@@ -3,6 +3,10 @@ package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.ArrayList;
+
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
+
 /**
  * Created by Admin on 3/5/2018.
  */
@@ -16,11 +20,6 @@ public class ShelterEmployee extends User {
 
     public ShelterEmployee(String email, String password, String name) throws Exception {
         super(email, password, name);
-        path.child("userType").setValue("employee");
-        path.child("isApproved").setValue(isApproved);
-        if (shelter != null) {
-            path.child("shelter").setValue(shelter.getID());
-        }
     }
 
     public ShelterEmployee(DataSnapshot snapshot) {
@@ -36,8 +35,9 @@ public class ShelterEmployee extends User {
     }
 
     public void setShelter(Shelter shelter) {
-        path.child("shelter").setValue(shelter.getID());
+//        path.child("shelter").setValue(shelter.getID());
         this.shelter = shelter;
+        DataPoster.post(this);
     }
 
     public Shelter getShelter() {
@@ -55,8 +55,31 @@ public class ShelterEmployee extends User {
     public void approve(AdminUser approvedBy) {
         if (approvedBy != null) {
             isApproved = true;
+            DataPoster.post(this);
         } else {
             throw new IllegalArgumentException("Need admin to approve");
         }
+    }
+
+    @Override
+    public String[] getUserInfo() {
+        ArrayList<String> info = new ArrayList<>();
+        info.add("Shelter Employee");
+        info.add("Email: " + getEmail());
+        if (!getUsersName().equals(getEmail())) {
+            info.add("Name: " + getUsersName());
+        }
+        if (shelter != null) {
+            info.add("Works at " + shelter);
+        } else {
+            info.add("No shelter selected yet");
+        }
+        if (!isApproved()) {
+            info.add("Pending Approval");
+        }
+        if (getIsBlocked()) {
+            info.add("This user is blocked.");
+        }
+        return info.toArray(new String[info.size()]);
     }
 }

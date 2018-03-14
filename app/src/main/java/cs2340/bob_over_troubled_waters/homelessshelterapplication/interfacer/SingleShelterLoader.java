@@ -60,9 +60,12 @@ public class SingleShelterLoader {
             }
         });
 
+        Timer timer = Timer.getTimer(10000);
         while (!done) {
             Thread.sleep(50);
         }
+        timer.stopTimer();
+
         if (error != null) throw error;
         return loadedShelter;
     }

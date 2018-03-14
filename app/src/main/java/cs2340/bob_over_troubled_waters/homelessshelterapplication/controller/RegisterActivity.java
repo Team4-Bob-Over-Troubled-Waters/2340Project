@@ -3,23 +3,21 @@ package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
+import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,8 +28,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -40,6 +36,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.UserLoader;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.HomelessPerson;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
@@ -357,14 +356,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-//            try {
-//                // Simulate network access.
-//                Thread.sleep(500);
-//            } catch (InterruptedException e) {
-//                return false;
-//            }
 
             try {
                 Context context = getApplicationContext();
@@ -380,7 +371,12 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                     user = new AdminUser(mEmail, mPassword, mName);
                     intent = new Intent(context, UserPendingApproval.class);
                 }
+                DataPoster.post(user);
                 User.setCurrentUser(user);
+                ShelterLoader.start();
+                if (user instanceof AdminUser) {
+                    UserLoader.start();
+                }
                 context.startActivity(intent);
                 return true;
             } catch (Exception e) {
@@ -398,7 +394,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             if (success) {
                 finish();
             } else {
-//                mEmailView.setError(getString(R.string.error_email_in_use));
                 mEmailView.requestFocus();
             }
         }

@@ -41,8 +41,6 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
         TextView capacity = findViewById(R.id.text_capacity);
         TextView vacancies = findViewById(R.id.text_vacancies);
         TextView restrictions = findViewById(R.id.text_restrictions);
-        //TextView latitude = findViewById(R.id.text_latitude);
-        //TextView longitude = findViewById(R.id.text_longitude);
         TextView address = findViewById(R.id.text_address);
         TextView coordinates = findViewById(R.id.text_coordinates);
         TextView phone = findViewById(R.id.text_phone);

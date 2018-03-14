@@ -32,12 +32,7 @@ public class ShelterListingActivity extends AppCompatActivity {
 
         shelters.clear();
 
-        if (!ShelterLoader.sheltersLoaded()) {
-            ShelterLoader.setInstance(new ShelterListingUpdater());
-        } else {
-            updateView();
-        }
-
+        updateView();
     }
 
     /**
@@ -46,9 +41,8 @@ public class ShelterListingActivity extends AppCompatActivity {
     private void updateView() {
         shelters.addAll(Shelter.getShelters());
         narrowResults();
-        ListView shelterListView = (ListView) findViewById(R.id.shelter_listing);
-        Context context = getApplicationContext();
-        ArrayAdapter<Shelter> arrayAdapter = new ArrayAdapter<Shelter>(context,
+        ListView shelterListView = findViewById(R.id.shelter_listing);
+        ArrayAdapter<Shelter> arrayAdapter = new ArrayAdapter<Shelter>(this,
                 android.R.layout.simple_list_item_1, shelters);
         shelterListView.setAdapter(arrayAdapter);
         shelterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,21 +55,6 @@ public class ShelterListingActivity extends AppCompatActivity {
                 System.out.println("Started new intent");
             }
         });
-    }
-
-    private class ShelterListingUpdater extends ShelterLoader {
-
-        @Override
-        public void onPostExecute(final String errorMessage) {
-            if (errorMessage == null) {
-                updateView();
-            } else {
-                Intent intent = new Intent(getApplicationContext(), ErrorPage.class);
-                intent.putExtra("message", errorMessage);
-                getApplicationContext().startActivity(intent);
-                finish();
-            }
-        }
     }
 
     public static ArrayList<Shelter> getShelters() {

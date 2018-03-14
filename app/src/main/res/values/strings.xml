@@ -45,4 +45,6 @@
     <string name="double_reservation">You already have a reservation. Please cancel your current
         reservation before making a new one.</string>
     <string name="view_reservation">View Reservation</string>
+
+    <string name="title_activity_user_listing">UserListing</string>
 </resources>

@@ -6,13 +6,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
-import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.HomelessPerson;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
-import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
 
 /**
- * Created by Admin on 3/12/2018.
+ * Created by Sarah on 3/12/2018.
+ * loads a single shelter as a Shelter object
  */
 
 public class SingleShelterLoader {
@@ -26,6 +24,11 @@ public class SingleShelterLoader {
         this.id = id;
     }
 
+    /**
+     * loads and returns a single Shelter instance from the database
+     * @return a Shelter object
+     * @throws Exception if there is a problem connecting to the database
+     */
     public Shelter execute() throws Exception {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
@@ -34,8 +37,6 @@ public class SingleShelterLoader {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("here");
-                System.out.println(dataSnapshot);
                 loadedShelter = new Shelter(dataSnapshot);
                 done = true;
             }
@@ -47,9 +48,24 @@ public class SingleShelterLoader {
             }
         });
 
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                loadedShelter = new Shelter(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                error = databaseError.toException();
+            }
+        });
+
+        Timer timer = Timer.getTimer(10000);
         while (!done) {
             Thread.sleep(50);
         }
+        timer.stopTimer();
+
         if (error != null) throw error;
         return loadedShelter;
     }

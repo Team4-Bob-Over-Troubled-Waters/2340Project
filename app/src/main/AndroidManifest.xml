@@ -61,6 +61,8 @@
         <activity android:name=".controller.AdminHome" />
         <activity android:name=".controller.ErrorPage" />
         <activity android:name=".controller.ReservationPage"></activity>
+        <activity android:name=".controller.UserListing" />
+        <activity android:name=".controller.UserProfile"></activity>
     </application>
 
 </manifest>

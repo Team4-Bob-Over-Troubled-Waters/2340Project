@@ -3,23 +3,21 @@ package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
+import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -39,6 +37,7 @@ import java.util.regex.Pattern;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.SingleShelterLoader;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.UserLoader;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
@@ -324,35 +323,37 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 User user = User.attemptLogin(mEmail, mPassword);
-                    Context context = getApplicationContext();
-                    Intent intent;
-                    if (user.getIsBlocked()) {
-                        intent = new Intent(context, BlockedUser.class);
-                    } else {
-                        if (user instanceof AdminUser) {
-                            AdminUser admin = (AdminUser) user;
-                            if (!admin.isApproved()) {
-                                intent = new Intent(context, UserPendingApproval.class);
-                            } else {
-                                intent = new Intent(context, UserHome.class);
-                            }
-                        } else if (user instanceof ShelterEmployee) {
-                            ShelterEmployee employee = (ShelterEmployee) user;
-                            Shelter shelter = new SingleShelterLoader(employee.getShelterId()).execute();
-                            employee.setShelter(shelter);
-                            if (employee.getShelter() == null) {
-                                intent = new Intent(context, ChooseShelter.class);
-                            } else if (!employee.isApproved()) {
-                                intent = new Intent(context, UserPendingApproval.class);
-                            } else {
-                                intent = new Intent(context, UserHome.class);
-                            }
+                ShelterLoader.start();
+                Context context = getApplicationContext();
+                Intent intent;
+                if (user.getIsBlocked()) {
+                    intent = new Intent(context, BlockedUser.class);
+                } else {
+                    if (user instanceof AdminUser) {
+                        UserLoader.start();
+                        AdminUser admin = (AdminUser) user;
+                        if (!admin.isApproved()) {
+                            intent = new Intent(context, UserPendingApproval.class);
+                        } else {
+                            intent = new Intent(context, AdminHome.class);
+                        }
+                    } else if (user instanceof ShelterEmployee) {
+                        ShelterEmployee employee = (ShelterEmployee) user;
+                        Shelter shelter = new SingleShelterLoader(employee.getShelterId()).execute();
+                        employee.setShelter(shelter);
+                        if (employee.getShelter() == null) {
+                            intent = new Intent(context, ChooseShelter.class);
+                        } else if (!employee.isApproved()) {
+                            intent = new Intent(context, UserPendingApproval.class);
                         } else {
                             intent = new Intent(context, UserHome.class);
                         }
+                    } else {
+                        intent = new Intent(context, UserHome.class);
                     }
-                    context.startActivity(intent);
-                    return true;
+                }
+                context.startActivity(intent);
+                return true;
             } catch (Exception e) {
                 mEmailView.setError(e.getMessage());
                 return false;
@@ -369,9 +370,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (success) {
                     finish();
                 } else {
-                    mPasswordView.requestFocus();
+                    mEmailView.requestFocus();
                 }
-//            }
         }
 
         @Override

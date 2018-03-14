@@ -16,7 +16,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
  * This class loads instances from the database of Shelter as Shelter class instances
  */
 
-public abstract class ShelterLoader extends AsyncTask<Void, Void, String> {
+public class ShelterLoader extends AsyncTask<Void, Void, String> {
 
     private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("shelters");
     private static int maxChildId = -1;
@@ -26,8 +26,8 @@ public abstract class ShelterLoader extends AsyncTask<Void, Void, String> {
     private boolean done = false;
     private String errorMessage;
 
-    public static void setInstance(ShelterLoader shelterLoader) {
-        instance = shelterLoader;
+    public static void start() {
+        instance = new ShelterLoader();
         instance.execute();
     }
 
@@ -109,7 +109,4 @@ public abstract class ShelterLoader extends AsyncTask<Void, Void, String> {
         }
         return errorMessage;
     }
-
-    @Override
-    public abstract void onPostExecute(final String errorMessage);
 }

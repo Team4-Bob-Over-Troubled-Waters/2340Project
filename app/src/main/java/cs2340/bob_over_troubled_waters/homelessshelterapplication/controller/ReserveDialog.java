@@ -17,6 +17,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.HomelessPerson;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Reservation;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
@@ -39,7 +40,7 @@ public class ReserveDialog extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 System.out.println("clicked positive button");
-                User currentUser = User.getCurrentUser();
+                HomelessPerson currentUser = (HomelessPerson) User.getCurrentUser();
                 Shelter currentShelter = Shelter.getCurrentShelter();
 
                 int vacancies = currentShelter.getVacancies();
@@ -52,15 +53,22 @@ public class ReserveDialog extends DialogFragment {
                     ReserveFailDialog newFragment = new ReserveFailDialog();
                     newFragment.show(getFragmentManager(), "reserve fail dialog");
                 } else {
-                    Reservation reservation = new Reservation(numberOfBeds, currentShelter);
-                    currentUser.setCurrentReservation(reservation);
-                    currentShelter.setVacancies(vacancies - numberOfBeds);
-                    TextView vacanciesText = getActivity().findViewById(R.id.text_vacancies);
-                    vacanciesText.setText(getString(R.string.vacancies) + currentShelter.getVacancies());
+                    try {
+                        Reservation reservation = new Reservation(numberOfBeds, currentShelter);
+                        currentShelter.addReservation(reservation);
+                        currentUser.setCurrentReservation(reservation);
+//                    currentShelter.setVacancies(vacancies - numberOfBeds);
+                        TextView vacanciesText = getActivity().findViewById(R.id.text_vacancies);
+                        vacanciesText.setText(getString(R.string.vacancies) + currentShelter.getVacancies());
 
-                    getFragmentManager().popBackStackImmediate();
-                    ReserveSuccessDialog newFragment = new ReserveSuccessDialog();
-                    newFragment.show(getFragmentManager(), "reserve success dialog");
+                        getFragmentManager().popBackStackImmediate();
+                        ReserveSuccessDialog newFragment = new ReserveSuccessDialog();
+                        newFragment.show(getFragmentManager(), "reserve success dialog");
+                    } catch (Exception e) {
+                        getFragmentManager().popBackStackImmediate();
+                        ReserveFailDialog newFragment = new ReserveFailDialog();
+                        newFragment.show(getFragmentManager(), "reserve fail dialog");
+                    }
                 }
             }
         });

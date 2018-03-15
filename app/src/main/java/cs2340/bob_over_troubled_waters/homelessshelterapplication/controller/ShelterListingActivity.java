@@ -49,16 +49,11 @@ public class ShelterListingActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getBaseContext(), ShelterPage.class);
-                intent.putExtra("position", i);
-                System.out.println("About to open ShelterPage");
+//                intent.putExtra("position", i);
+                Shelter.setCurrentShelter(shelters.get(i));
                 startActivity(intent);
-                System.out.println("Started new intent");
             }
         });
-    }
-
-    public static ArrayList<Shelter> getShelters() {
-        return shelters;
     }
 
     public void backButtonAction(View view) {

@@ -1,6 +1,7 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.AgeRanges;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Gender;
 
@@ -16,11 +18,12 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Ge
  * Created by Francine on 2/16/2018.
  */
 
+@IgnoreExtraProperties
 public class Shelter {
     private int ID;
     private String name;
     private String capacity;
-    private int vacancies;
+    private int reservations;
     private int maxVacancies;
     private String restrictions;
     private double longitude;
@@ -31,6 +34,7 @@ public class Shelter {
     private Gender gender;
     private HashSet<AgeRanges> ageRanges;
 
+    private static HashSet<String> shelterNames = new HashSet<>();
     private static HashMap<Integer, Shelter> shelters = new HashMap<>();
 
     private static Shelter currentShelter = null;
@@ -51,6 +55,10 @@ public class Shelter {
         return shelters.get(shelterId);
     }
 
+    public static boolean shelterNameInUse(String name) {
+        return shelterNames.contains(name);
+    }
+
     /**
      * constructs a shelter object from the saved instance in the database
      * @param snapshot saved instance in the database
@@ -58,13 +66,8 @@ public class Shelter {
     public Shelter(DataSnapshot snapshot) {
         this.ID = snapshot.child("id").getValue(Integer.class);
         this.name = snapshot.child("name").getValue(String.class);
+        shelterNames.add(this.name);
         this.capacity = snapshot.child("capacity").getValue(String.class);
-        try {
-            this.vacancies = NumberFormat.getInstance().parse(this.capacity).intValue();
-        } catch (ParseException e) {
-            this.vacancies = 0;
-        }
-        this.maxVacancies = vacancies;
         this.restrictions = snapshot.child("restrictions").getValue(String.class);
         this.longitude = snapshot.child("longitude").getValue(Double.class);
         this.latitude = snapshot.child("latitude").getValue(Double.class);
@@ -77,18 +80,51 @@ public class Shelter {
         for (AgeRanges range : ageRanges) {
             range.addShelter(this);
         }
+
+        this.maxVacancies = snapshot.child("maxVacancies").getValue(Integer.class);
+        this.reservations = snapshot.child("reservations").getValue(Integer.class);
+
         shelters.put(this.ID, this);
     }
 
-    public Shelter(String ID, String name, String capacity, String restrictions, String longitude,
-                   String latitude, String address, String specialNotes, String phoneNumber) {
-        this.ID = Integer.parseInt(ID);
+    private Shelter(int ID, String name, String capacity, Integer maxVacancies, String restrictions,
+                   Double longitude, Double latitude, String address, String specialNotes,
+                   String phoneNumber) throws IllegalArgumentException {
+        // validate all the data first
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Name is required");
+        }
+        if (capacity == null || capacity.isEmpty()) {
+            capacity = "";
+            if (maxVacancies == null) {
+                maxVacancies = 0;
+            }
+        } else if (maxVacancies == null) {
+            try {
+                maxVacancies = Integer.parseInt(capacity);
+            } catch (Exception e) {
+                maxVacancies = 0;
+            }
+        }
+        if (restrictions == null) restrictions = "";
+        if (longitude == null) throw new IllegalArgumentException("Longitude is required");
+        if (latitude == null) throw new IllegalArgumentException("Latitude is required");
+        if (address == null || address.isEmpty()) throw new IllegalArgumentException("Address is required");
+        if (specialNotes == null) specialNotes = "";
+        if (phoneNumber == null || phoneNumber.isEmpty()) {
+            throw new IllegalArgumentException("Phone number is required");
+        }
+
+        this.ID = ID;
         this.name = name;
+        shelterNames.add(name);
         this.capacity = capacity;
-        vacancies = Integer.parseInt(capacity);
+        this.maxVacancies = maxVacancies;
+        System.out.println("name: " + name + "\nmax vacancies: " + maxVacancies);
+        reservations = 0;
         this.restrictions = restrictions;
-        this.longitude = Double.parseDouble(longitude);
-        this.latitude = Double.parseDouble(latitude);
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.address = address.replaceFirst(",", System.getProperty("line.separator"));
         this.specialNotes = specialNotes;
         this.phoneNumber = phoneNumber;
@@ -99,6 +135,27 @@ public class Shelter {
             range.addShelter(this);
         }
         DataPoster.post(this);
+    }
+
+    public static Shelter addShelter(String name, String capacity, Integer maxVacancies, String restrictions,
+                           Double longitude, Double latitude, String address, String specialNotes,
+                           String phoneNumber) throws IllegalArgumentException {
+        if (shelterNames.contains(name)) {
+            throw new IllegalArgumentException("Shelter name in use");
+        }
+        int ID = ShelterLoader.getNextShelterId();
+        return new Shelter(ID, name, capacity, maxVacancies, restrictions, longitude, latitude, address,
+                specialNotes, phoneNumber);
+    }
+
+    public static Shelter updateShelter(Shelter shelter, String name, String capacity, Integer maxVacancies,
+                              String restrictions, Double longitude, Double latitude, String address,
+                              String specialNotes, String phoneNumber) throws IllegalArgumentException {
+        if (!name.equals(shelter.name) && shelterNames.contains(name)) {
+            throw new IllegalArgumentException("Shelter name in use");
+        }
+        return new Shelter(shelter.ID, name, capacity, maxVacancies, restrictions, longitude, latitude, address,
+                specialNotes, phoneNumber);
     }
 
     /**
@@ -156,12 +213,37 @@ public class Shelter {
         DataPoster.post(this);
     }
 
+    /**
+     * get the current number of vacancies
+     * this can never be less than 0 or more than maxVacancies
+     * @return usually maxVacancies - reservations
+     */
     public int getVacancies() {
-        return vacancies;
+        int vacancies = Math.max(0, maxVacancies - reservations);
+        return Math.min(maxVacancies, vacancies);
     }
 
-    public void setVacancies(int vacancies) {
-        this.vacancies = vacancies;
+    public int getReservations() {
+        return reservations;
+    }
+
+//    public void setVacancies(int vacancies) {
+//        this.vacancies = vacancies;
+//        DataPoster.post(this);
+//    }
+
+    public void addReservation(Reservation reservation) throws Exception {
+        if (reservation.getNumberOfBeds() > getVacancies()) {
+            throw new Exception("Can't make reservation. Not enough vacancies");
+        }
+        reservations += reservation.getNumberOfBeds();
+        DataPoster.post(this);
+    }
+
+    public void cancelReservation(Reservation reservation) {
+        reservations -= reservation.getNumberOfBeds();
+        reservations = Math.max(reservations, 0);
+        DataPoster.post(this);
     }
 
     public int getMaxVacancies() {
@@ -170,6 +252,7 @@ public class Shelter {
 
     public void setMaxVacancies(int maxVacancies) {
         this.maxVacancies = maxVacancies;
+        DataPoster.post(this);
     }
 
     public String getRestrictions() {

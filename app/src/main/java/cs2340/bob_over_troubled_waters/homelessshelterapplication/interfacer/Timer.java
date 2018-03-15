@@ -26,7 +26,7 @@ class Timer extends AsyncTask<Void, Void, Boolean> {
     }
 
     static Timer getTimer() {
-        return getTimer(2000);
+        return getTimer(5000);
     }
 
     private Timer(long stopAt) {
@@ -38,8 +38,6 @@ class Timer extends AsyncTask<Void, Void, Boolean> {
         StopWatch timer = new StopWatch();
         timer.start();
 
-        System.out.println("Timer has been started.");
-
         while (true) {
             try {
                 if (timer.getTime() > stopAt) {
@@ -48,7 +46,6 @@ class Timer extends AsyncTask<Void, Void, Boolean> {
                 if (done) throw new InterruptedException();
                 Thread.sleep(50);
             } catch (InterruptedException e) {
-                System.out.println("Timer has been turned off at " + timer.getTime() + ".");
                 return true;
             }
         }

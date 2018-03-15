@@ -44,7 +44,8 @@ public class ShelterLoader extends AsyncTask<Void, Void, String> {
      * gives the next valid shelter id
      * @return the maximum shelter id incremented by 1
      */
-    public int getNextShelterId() {
+    public static int getNextShelterId() {
+        if (!sheltersLoaded()) throw new RuntimeException("Problem loading shelters.");
         return maxChildId + 1;
     }
 

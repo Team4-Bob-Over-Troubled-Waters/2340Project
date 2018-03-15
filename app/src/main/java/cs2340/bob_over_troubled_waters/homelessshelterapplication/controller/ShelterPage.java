@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.HomelessPerson;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.MapFragment;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Reservation;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
@@ -34,9 +35,6 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelter_page);
 
-        Intent intent = getIntent();
-        int position = intent.getIntExtra("position", 0);
-
         TextView name = findViewById(R.id.text_name);
         TextView capacity = findViewById(R.id.text_capacity);
         TextView vacancies = findViewById(R.id.text_vacancies);
@@ -51,14 +49,16 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
             Button reserveButton = findViewById(R.id.reserve_button);
             reserveButton.setVisibility(View.GONE);
             reserveButton.setEnabled(false);
+
+            Button editButton = findViewById(R.id.edit_shelter_button);
+            editButton.setVisibility(View.VISIBLE);
         }
 
         //MapFragment mapFragment = new MapFragment();
         //android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
         //manager.beginTransaction().replace(R.id.mapView, mapFragment).commit();
 
-        ArrayList<Shelter> shelters = ShelterListingActivity.getShelters();
-        selectedShelter = shelters.get(position);
+        selectedShelter = Shelter.getCurrentShelter();
         Shelter.setCurrentShelter(selectedShelter);
         name.setText(selectedShelter.getName());
         capacity.setText(getString(R.string.capacity) + selectedShelter.getCapacity());
@@ -84,7 +84,6 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
         } else {
             notes.setText("");
         }
-        System.out.println("Set all text fields");
     }
 
     public void backButtonAction(View view) {
@@ -92,7 +91,7 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
     }
 
     public void reservePageButtonAction(View view) {
-        User currentUser = User.getCurrentUser();
+        HomelessPerson currentUser = (HomelessPerson) User.getCurrentUser();
         Reservation currentReservation = currentUser.getCurrentReservation();
         if (currentReservation == null) {
             ReserveDialog newFragment = new ReserveDialog();
@@ -114,5 +113,11 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
         super.onResume();
         TextView vacancies = findViewById(R.id.text_vacancies);
         vacancies.setText(getString(R.string.vacancies) + selectedShelter.getVacancies());
+    }
+
+    public void editShelterButtonAction(View view) {
+        Intent intent = new Intent(this, AddEditShelter.class);
+        startActivity(intent);
+        finish();
     }
 }

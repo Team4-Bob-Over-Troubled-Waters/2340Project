@@ -60,9 +60,11 @@
         <activity android:name=".controller.ChooseShelter" />
         <activity android:name=".controller.AdminHome" />
         <activity android:name=".controller.ErrorPage" />
-        <activity android:name=".controller.ReservationPage"></activity>
+        <activity android:name=".controller.ReservationPage" />
         <activity android:name=".controller.UserListing" />
-        <activity android:name=".controller.UserProfile"></activity>
+        <activity android:name=".controller.UserProfile" />
+        <activity android:name=".controller.EmployeeHome" />
+        <activity android:name=".controller.AddEditShelter"></activity>
     </application>
 
 </manifest>

@@ -346,7 +346,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         } else if (!employee.isApproved()) {
                             intent = new Intent(context, UserPendingApproval.class);
                         } else {
-                            intent = new Intent(context, UserHome.class);
+                            intent = new Intent(context, EmployeeHome.class);
                         }
                     } else {
                         intent = new Intent(context, UserHome.class);

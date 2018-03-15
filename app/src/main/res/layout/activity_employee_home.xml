@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cs2340.bob_over_troubled_waters.homelessshelterapplication.controller.AdminHome">
+    tools:context="cs2340.bob_over_troubled_waters.homelessshelterapplication.controller.EmployeeHome">
 
     <TextView
         android:id="@+id/welcome_message"
         android:layout_width="322dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="36dp"
         android:text="Welcome (email)!"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
@@ -18,30 +18,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/load_shelter_button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:onClick="loadShelterAction"
-        android:text="View Shelters"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_message" />
-
-    <Button
-        android:id="@+id/search_shelters_button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:onClick="searchSheltersButtonAction"
-        android:text="Search Shelers"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/load_shelter_button" />
 
     <Button
         android:id="@+id/logout_button"
@@ -55,28 +31,40 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="150dp"
+    <TextView
+        android:id="@+id/works_at_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:onClick="viewUsersButtonAction"
-        android:text="View Users"
+        android:layout_marginTop="16dp"
+        android:text="Employee at (shelter name)"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_shelters_button" />
+        app:layout_constraintTop_toBottomOf="@+id/welcome_message" />
 
     <Button
-        android:id="@+id/button7"
-        android:layout_width="150dp"
+        android:id="@+id/button5"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:onClick="addShelterButtonAction"
-        android:text="Add Shelter"
+        android:layout_marginTop="16dp"
+        android:onClick="viewShelterInfoButtonAction"
+        android:text="View Shelter Info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/works_at_view" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="manageShelterButtonAction"
+        android:text="Manage My Shelter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
 
 </android.support.constraint.ConstraintLayout>

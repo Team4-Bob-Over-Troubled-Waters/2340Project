@@ -23,16 +23,6 @@ public abstract class User {
 
     private FirebaseUser firebaseUser;
 
-    private Reservation currentReservation = null;
-
-    public Reservation getCurrentReservation() {
-        return currentReservation;
-    }
-
-    public void setCurrentReservation(Reservation currentReservation) {
-        this.currentReservation = currentReservation;
-    }
-
     protected String id;
     private String email;
     private String name;

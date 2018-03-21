@@ -65,6 +65,13 @@
         <activity android:name=".controller.UserProfile" />
         <activity android:name=".controller.EmployeeHome" />
         <activity android:name=".controller.AddEditShelter"></activity>
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

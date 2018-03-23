@@ -108,7 +108,7 @@ public class ShelterListingActivity extends AppCompatActivity {
     private HashSet<Shelter> getShelters(
             String searchString, ArrayList<AgeRanges> ranges, HashSet<Shelter> shelters) {
         if (ranges == null) return shelters;
-        if (!shelters.isEmpty()) {
+        if (!shelters.isEmpty()) { // if shelters isn't empty then there is some gender criteria
             HashSet<Shelter> sheltersForAgeRange =
                     getShelters(searchString, ranges, new HashSet<Shelter>());
             return intersection(shelters, sheltersForAgeRange);
@@ -118,7 +118,7 @@ public class ShelterListingActivity extends AppCompatActivity {
         }
         return shelters;
     }
-
+    
     private HashSet<Shelter> addValidSheltersToHashSet(
             HashSet<Shelter> shelterSet, ArrayList<Shelter> shelterList, String searchString) {
         for (Shelter shelter : shelterList) {
@@ -129,7 +129,8 @@ public class ShelterListingActivity extends AppCompatActivity {
         }
         return shelterSet;
     }
-    
+
+    /* Returns HashSet of elements in both set1 and set2 */
     private HashSet<Shelter> intersection(HashSet<Shelter> set1, HashSet<Shelter> set2) {
         Iterator<Shelter> iterator = set1.iterator();
         while (iterator.hasNext()) {

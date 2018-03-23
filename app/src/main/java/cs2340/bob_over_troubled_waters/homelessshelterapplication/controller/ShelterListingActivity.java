@@ -1,6 +1,5 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,9 +10,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
-import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.AgeRanges;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Gender;
@@ -65,6 +64,25 @@ public class ShelterListingActivity extends AppCompatActivity {
      * TODO make this better
      */
     private void narrowResults() {
+        String searchString = ShelterSearch.getSearchString();
+        HashSet<Shelter> narrowed = getShelters(searchString,
+                ShelterSearch.getAgeCriteria(), ShelterSearch.getGenderCriteria());
+        System.out.println("after: " + narrowed.toString());
+        if (!narrowed.isEmpty()) {
+            shelters.clear();
+            shelters.addAll(narrowed);
+        } else if (searchString != null) {
+            for (Shelter shelter : shelters) {
+                if (shelter.toString().toLowerCase().contains(searchString)) {
+                    narrowed.add(shelter);
+                }
+            }
+            shelters.clear();
+            shelters.addAll(narrowed);
+        }
+
+
+        /*
         HashSet<Shelter> narrowed = new HashSet<>();
         boolean genderNarrowed = false;
         boolean ageNarrowed = false;
@@ -87,7 +105,7 @@ public class ShelterListingActivity extends AppCompatActivity {
             ageNarrowed = true;
             if (!genderNarrowed) {
                 for (AgeRanges range : ShelterSearch.getAgeCriteria()) {
-                    if (searchString != null) {
+                    if (searchString != null) { //redundant if you add condition to below if statement
                         for (Shelter shelter : range.getShelters()) {
                             if (shelter.toString().toLowerCase().contains(searchString)) {
                                 narrowed.add(shelter);
@@ -122,5 +140,58 @@ public class ShelterListingActivity extends AppCompatActivity {
             shelters.clear();
             shelters.addAll(narrowed);
         }
+        */
+
     }
+
+    private HashSet<Shelter> getShelters(
+            String searchString, ArrayList<AgeRanges> ranges, ArrayList<Gender> genders) {
+        HashSet<Shelter> shelters = new HashSet<>();
+        System.out.println("first -- searchString: " + searchString + "; ranges: " + ranges
+                + "; genders: " + genders);
+        if (genders == null) return getShelters(searchString, ranges, shelters);
+        for (Gender gender : genders) {
+            shelters.addAll(addValidSheltersToHashSet(shelters, gender.getShelters(), searchString, ));
+        }
+        System.out.println("second -- shelters: " + shelters);
+        return getShelters(searchString, ranges, shelters);
+    }
+
+    private HashSet<Shelter> getShelters(
+            String searchString, ArrayList<AgeRanges> ranges, HashSet<Shelter> shelters) {
+        System.out.println("third -- searchString: " + searchString + "; ranges: " + ranges
+                + "; shelters: " + shelters);
+        if (ranges == null) return shelters; // adjust for searchString?
+        boolean sameIteration = false;
+        for (AgeRanges range : ranges) {
+            addValidSheltersToHashSet(shelters, range.getShelters(), searchString, );
+        }
+        System.out.println("forth -- shelters: " + shelters);
+        return shelters;
+    }
+
+    //TODO: rename to reflect the searchString thing
+    private HashSet<Shelter> addValidSheltersToHashSet(
+            HashSet<Shelter> shelterSet, ArrayList<Shelter> shelterList, String searchString,
+            boolean sameIteration) {
+        System.out.println("fifth -- shelterSet: " + shelterSet + "; shelterList: " + shelterList);
+        if (!shelterSet.isEmpty() && !sameIteration) {
+            Iterator<Shelter> iterator = shelterSet.iterator();
+            while (iterator.hasNext()) {
+                Shelter shelter = iterator.next();
+                if (!shelterList.contains(shelter)) iterator.remove();
+            }
+        } else {
+            for (Shelter shelter : shelterList) {
+                if (searchString == null //the shelterList cannot be null
+                        || shelter.toString().toLowerCase().contains(searchString)) {
+                    System.out.println("being added: " + shelter);
+                    shelterSet.add(shelter);
+                }
+            }
+        }
+        System.out.println("shelter set after addValid method: " + shelterSet);
+        return shelterSet;
+    }
+
 }

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.HomelessPerson;
-import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.MapFragment;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Reservation;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
@@ -54,10 +53,6 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
             editButton.setVisibility(View.VISIBLE);
         }
 
-        //MapFragment mapFragment = new MapFragment();
-        //android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-        //manager.beginTransaction().replace(R.id.mapView, mapFragment).commit();
-
         selectedShelter = Shelter.getCurrentShelter();
         Shelter.setCurrentShelter(selectedShelter);
         name.setText(selectedShelter.getName());
@@ -93,7 +88,7 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
     public void reservePageButtonAction(View view) {
         HomelessPerson currentUser = (HomelessPerson) User.getCurrentUser();
         Reservation currentReservation = currentUser.getCurrentReservation();
-        if (currentReservation == null) {
+        if (currentReservation == null || currentReservation.getShelter() == null) {
             ReserveDialog newFragment = new ReserveDialog();
             newFragment.setValueChangeListener(this);
             newFragment.show(getFragmentManager(), "reserve dialog");

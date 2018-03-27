@@ -65,4 +65,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_shelters_button" />
 
+    <Button
+        android:id="@+id/view_map_button"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:onClick="viewMapButtonAction"
+        android:text="View Map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_reservation_button" />
+
 </android.support.constraint.ConstraintLayout>

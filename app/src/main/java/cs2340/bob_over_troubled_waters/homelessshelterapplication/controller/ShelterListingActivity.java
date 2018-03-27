@@ -24,6 +24,10 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Ge
 public class ShelterListingActivity extends AppCompatActivity {
     private static ArrayList<Shelter> shelters = new ArrayList<Shelter>();
 
+    public static ArrayList<Shelter> getShelters() {
+        return shelters;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,11 @@ public class ShelterListingActivity extends AppCompatActivity {
 
     public void backButtonAction(View view) {
         finish();
+    }
+
+    public void viewMapButtonAction(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 
     /**

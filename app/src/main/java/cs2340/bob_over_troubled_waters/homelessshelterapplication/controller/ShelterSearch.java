@@ -84,7 +84,7 @@ public class ShelterSearch extends AppCompatActivity {
         searchBar = findViewById(R.id.shelter_search_field);
         ArrayList<String> shelters = new ArrayList<>();
         for (Shelter shelter : Shelter.getShelters()) shelters.add(shelter.toString());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_dropdown_item_1line, shelters);
         searchBar.setAdapter(adapter);
     }

@@ -10,7 +10,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -40,9 +43,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        ArrayList<Shelter> shelters = ShelterListingActivity.getShelters();
+        for (Shelter shelter : shelters) {
+            LatLng coordinates = new LatLng(shelter.getLatitude(), shelter.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(coordinates));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 12));
+        }
     }
 }

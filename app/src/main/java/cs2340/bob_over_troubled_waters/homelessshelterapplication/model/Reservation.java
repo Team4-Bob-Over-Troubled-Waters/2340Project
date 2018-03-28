@@ -8,24 +8,21 @@ import com.google.firebase.database.DataSnapshot;
 
 public class Reservation {
     private int numberOfBeds;
-    private Shelter shelter;
     private Integer shelterId;
 
     public Reservation(int numberOfBeds, Integer shelterId) {
         this.numberOfBeds = numberOfBeds;
         this.shelterId = shelterId;
-        shelter = Shelter.getShelter(shelterId);
     }
 
     public Reservation(int numberOfBeds, Shelter shelter) {
         this.numberOfBeds = numberOfBeds;
-        this.shelter = shelter;
         this.shelterId = shelter.getID();
     }
 
     @Override
     public String toString() {
-        return (numberOfBeds + " beds at " + shelter);
+        return (numberOfBeds + " beds at " + getShelter());
     }
 
     public int getNumberOfBeds() {
@@ -37,11 +34,7 @@ public class Reservation {
     }
 
     public Shelter getShelter() {
-        return shelter;
-    }
-
-    public void setShelter(Shelter shelter) {
-        this.shelter = shelter;
+        return Shelter.getShelter(shelterId);
     }
 
     public Integer getShelterId() {

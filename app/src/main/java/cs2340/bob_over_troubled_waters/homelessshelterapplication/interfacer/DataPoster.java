@@ -82,6 +82,9 @@ public class DataPoster {
         } else if (user.getCurrentReservedShelterId() != null) {
             path.child("currentReservedShelter").setValue(user.getCurrentReservedShelterId());
             path.child("currentReservedNum").setValue(user.getCurrentReservedNum());
+        } else {
+            path.child("currentReservedShelter").removeValue();
+            path.child("currentReservedNum").removeValue();
         }
         timer.stopTimer();
     }

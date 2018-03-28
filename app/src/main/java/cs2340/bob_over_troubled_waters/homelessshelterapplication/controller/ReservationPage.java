@@ -14,7 +14,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 public class ReservationPage extends AppCompatActivity {
-    private Reservation currentReservation;
+    private Reservation currentReservation = null;
     private TextView reservationDetails;
     private HomelessPerson currentUser;
 
@@ -27,7 +27,7 @@ public class ReservationPage extends AppCompatActivity {
 
         currentReservation = currentUser.getCurrentReservation();
         reservationDetails = findViewById(R.id.text_reservation);
-        if (currentReservation == null) {
+        if (currentReservation == null || currentReservation.getShelter() == null) {
             noReservation();
         } else {
             reservationDetails.setText(currentReservation.toString());

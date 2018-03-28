@@ -1,6 +1,5 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,9 +10,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
-import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.AgeRanges;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Gender;
@@ -24,6 +23,10 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Ge
 
 public class ShelterListingActivity extends AppCompatActivity {
     private static ArrayList<Shelter> shelters = new ArrayList<Shelter>();
+
+    public static ArrayList<Shelter> getShelters() {
+        return shelters;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,67 +63,89 @@ public class ShelterListingActivity extends AppCompatActivity {
         finish();
     }
 
+    public void viewMapButtonAction(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
     /**
      * if we're searching for shelters in a particular category
-     * TODO make this better
      */
     private void narrowResults() {
-        HashSet<Shelter> narrowed = new HashSet<>();
-        boolean genderNarrowed = false;
-        boolean ageNarrowed = false;
         String searchString = ShelterSearch.getSearchString();
-        if (ShelterSearch.getGenderCriteria() != null) {
-            genderNarrowed = true;
-            for (Gender gender : ShelterSearch.getGenderCriteria()) {
-                if (searchString != null) {
-                    for (Shelter shelter : gender.getShelters()) {
-                        if (shelter.toString().toLowerCase().contains(searchString)) {
-                            narrowed.add(shelter);
-                        }
-                    }
-                } else {
-                    narrowed.addAll(gender.getShelters());
-                }
-            }
-        }
-        if (ShelterSearch.getAgeCriteria() != null) {
-            ageNarrowed = true;
-            if (!genderNarrowed) {
-                for (AgeRanges range : ShelterSearch.getAgeCriteria()) {
-                    if (searchString != null) {
-                        for (Shelter shelter : range.getShelters()) {
-                            if (shelter.toString().toLowerCase().contains(searchString)) {
-                                narrowed.add(shelter);
-                            }
-                        }
-                    } else {
-                        narrowed.addAll(range.getShelters());
-                    }
-                }
-            } else {
-                ArrayList<Shelter> temp = new ArrayList<>();
-                for (AgeRanges range : ShelterSearch.getAgeCriteria()) {
-                    for (Shelter shelter : range.getShelters()) {
-                        if (narrowed.contains(shelter)) {
-                            temp.add(shelter);
-                        }
-                    }
-                }
-                narrowed.clear();
-                narrowed.addAll(temp);
-            }
-        }
-        if (genderNarrowed || ageNarrowed) {
+
+        /*
+        Returns an empty set if all shelters meet age and gender criteria;
+        null if no shelters meet the age, gender, and searchString criteria;
+        and, otherwise, the set of shelters meeting the age, gender, and
+        searchString criteria.
+         */
+        HashSet<Shelter> narrowedShelters = getShelters(searchString,
+                ShelterSearch.getAgeCriteria(), ShelterSearch.getGenderCriteria());
+
+        if (narrowedShelters == null) {
             shelters.clear();
-            shelters.addAll(narrowed);
+        } else if (!narrowedShelters.isEmpty()) {
+            shelters.clear();
+            shelters.addAll(narrowedShelters);
         } else if (searchString != null) {
+            /*
+            Note that if the empty set is returned, we only know that all
+            shelters meet the age and gender criteria; we still need to
+            check to make sure that they the searchString criteria.
+            */
             for (Shelter shelter : shelters) {
                 if (shelter.toString().toLowerCase().contains(searchString)) {
-                    narrowed.add(shelter);
+                    narrowedShelters.add(shelter);
                 }
             }
             shelters.clear();
-            shelters.addAll(narrowed);
+            shelters.addAll(narrowedShelters);
         }
+    }
+
+    private HashSet<Shelter> getShelters(
+            String searchString, ArrayList<AgeRanges> ranges, ArrayList<Gender> genders) {
+        HashSet<Shelter> shelters = new HashSet<>();
+        if (genders == null) return getShelters(searchString, ranges, shelters);
+        for (Gender gender : genders) {
+            addValidSheltersToHashSet(shelters, gender.getShelters(), searchString);
+        }
+        return getShelters(searchString, ranges, shelters);
+    }
+
+    private HashSet<Shelter> getShelters(
+            String searchString, ArrayList<AgeRanges> ranges, HashSet<Shelter> shelters) {
+        if (ranges == null) return shelters;
+        if (!shelters.isEmpty()) { // if shelters isn't empty then there is some gender criteria
+            HashSet<Shelter> sheltersForAgeRange =
+                    getShelters(searchString, ranges, new HashSet<Shelter>());
+            return intersection(shelters, sheltersForAgeRange);
+        }
+        for (AgeRanges range : ranges) {
+            addValidSheltersToHashSet(shelters, range.getShelters(), searchString);
+        }
+        return shelters;
+    }
+    
+    private HashSet<Shelter> addValidSheltersToHashSet(
+            HashSet<Shelter> shelterSet, ArrayList<Shelter> shelterList, String searchString) {
+        for (Shelter shelter : shelterList) {
+            if (searchString == null
+                        || shelter.toString().toLowerCase().contains(searchString)) {
+                    shelterSet.add(shelter);
+            }
+        }
+        return shelterSet;
+    }
+
+    /* Returns HashSet of elements in both set1 and set2 */
+    private HashSet<Shelter> intersection(HashSet<Shelter> set1, HashSet<Shelter> set2) {
+        Iterator<Shelter> iterator = set1.iterator();
+        while (iterator.hasNext()) {
+            Shelter shelter = iterator.next();
+            if (!set2.contains(shelter)) iterator.remove();
+        }
+        return !set1.isEmpty() ? set1 : null;
     }
 }

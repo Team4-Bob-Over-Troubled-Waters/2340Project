@@ -50,4 +50,9 @@ public class UserHome extends AppCompatActivity {
         Intent intent = new Intent(this, ReservationPage.class);
         startActivity(intent);
     }
+
+    public void viewMapButtonAction(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
 }

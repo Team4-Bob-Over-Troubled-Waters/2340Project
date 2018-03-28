@@ -1,13 +1,16 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -15,9 +18,10 @@ import java.util.ArrayList;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
+    private LatLng centerCoordinates = new LatLng(33.753594, -84.390429);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +37,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -46,8 +45,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ArrayList<Shelter> shelters = ShelterListingActivity.getShelters();
         for (Shelter shelter : shelters) {
             LatLng coordinates = new LatLng(shelter.getLatitude(), shelter.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(coordinates));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 12));
+            mMap.addMarker(new MarkerOptions()
+                    .position(coordinates)
+                    .title(shelter.getName())
+                    .snippet("tap for details"));
         }
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(centerCoordinates, 12));
+        mMap.setOnInfoWindowClickListener(this);
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Shelter selected = Shelter.getShelterByName(marker.getTitle());
+        if (selected != null) {
+            Shelter.setCurrentShelter(selected);
+            Intent myIntent = new Intent(this, ShelterPage.class);
+            startActivity(myIntent);
+        }
+    }
+
+    public void searchButtonAction(View view) {
+        Intent intent = new Intent(this, ShelterSearch.class);
+        startActivity(intent);
     }
 }

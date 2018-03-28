@@ -55,6 +55,15 @@ public class Shelter {
         return shelters.get(shelterId);
     }
 
+    public static Shelter getShelterByName(String name) {
+        for (Shelter shelter : shelters.values()) {
+            if (name.equals(shelter.getName())) {
+                return shelter;
+            }
+        }
+        return null;
+    }
+
     public static boolean shelterNameInUse(String name) {
         return shelterNames.contains(name);
     }

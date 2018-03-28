@@ -98,6 +98,11 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
         }
     }
 
+    public void mapButtonAction(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onValueChange(NumberPicker numberPicker, int i, int i1) {
 

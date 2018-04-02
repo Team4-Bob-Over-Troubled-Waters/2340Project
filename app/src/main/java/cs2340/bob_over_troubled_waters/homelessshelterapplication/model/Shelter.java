@@ -1,11 +1,14 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
+import android.util.SparseArray;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
@@ -20,14 +23,14 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Ge
 
 @IgnoreExtraProperties
 public class Shelter {
-    private int ID;
+    private Integer ID;
     private String name;
     private String capacity;
-    private int reservations;
-    private int maxVacancies;
+    private Integer reservations = 0;
+    private Integer maxVacancies;
     private String restrictions;
-    private double longitude;
-    private double latitude;
+    private Double longitude;
+    private Double latitude;
     private String address;
     private String specialNotes;
     private String phoneNumber;
@@ -35,7 +38,7 @@ public class Shelter {
     private HashSet<AgeRanges> ageRanges;
 
     private static final HashSet<String> shelterNames = new HashSet<>();
-    private static final HashMap<Integer, Shelter> shelters = new HashMap<>();
+    private static final SparseArray<Shelter> shelters = new SparseArray<>();
 
     private static Shelter currentShelter = null;
 
@@ -48,7 +51,11 @@ public class Shelter {
     }
 
     public static Collection<Shelter> getShelters() {
-        return shelters.values();
+        Collection<Shelter> collection = new ArrayList<>();
+        for (int i = 0; i < shelters.size(); i++) {
+            collection.add(shelters.get(i));
+        }
+        return collection;
     }
 
     public static Shelter getShelter(Integer shelterId) {
@@ -56,7 +63,8 @@ public class Shelter {
     }
 
     public static Shelter getShelterByName(String name) {
-        for (Shelter shelter : shelters.values()) {
+        for (int i = 0; i < shelters.size(); i++) {
+            Shelter shelter = shelters.get(i);
             if (name.equals(shelter.getName())) {
                 return shelter;
             }
@@ -92,9 +100,7 @@ public class Shelter {
             range.addShelter(this);
         }
 
-        if (snapshot.child("maxVacancies").getValue(Integer.class) != null) {
-            this.maxVacancies = snapshot.child("maxVacancies").getValue(Integer.class);
-        }
+        this.maxVacancies = snapshot.child("maxVacancies").getValue(Integer.class);
         if (snapshot.child("reservations").getValue(Integer.class) != null) {
             this.reservations = snapshot.child("reservations").getValue(Integer.class);
         }
@@ -114,7 +120,8 @@ public class Shelter {
             if (maxVacancies == null) {
                 maxVacancies = 0;
             }
-        } else if (maxVacancies == null) {
+        }
+        if (maxVacancies == null) {
             try {
                 maxVacancies = Integer.parseInt(capacity);
             } catch (Exception e) {
@@ -188,7 +195,7 @@ public class Shelter {
         }
         if (this == other) return true;
         Shelter that = (Shelter) other;
-        return this.ID == that.ID;
+        return Objects.equals(this.ID, that.ID);
     }
 
     @Override

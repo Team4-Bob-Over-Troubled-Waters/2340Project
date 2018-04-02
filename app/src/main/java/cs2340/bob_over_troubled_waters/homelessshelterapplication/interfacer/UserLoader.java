@@ -15,6 +15,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterE
 
 /**
  * Created by Sarah on 3/12/2018.
+ * Loads users from database.
  */
 
 public class UserLoader extends AsyncTask<Void, Void, String> {
@@ -43,6 +44,7 @@ public class UserLoader extends AsyncTask<Void, Void, String> {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     try {
                         String userType = child.child("userType").getValue(String.class);
+                        assert userType != null;
                         switch (userType) {
                             case "user":
                                 AdminUser.addUser(new HomelessPerson(child));
@@ -71,6 +73,7 @@ public class UserLoader extends AsyncTask<Void, Void, String> {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String userType = dataSnapshot.child("userType").getValue(String.class);
+                assert userType != null;
                 switch (userType) {
                     case "user":
                         AdminUser.addUser(new HomelessPerson(dataSnapshot));
@@ -87,6 +90,7 @@ public class UserLoader extends AsyncTask<Void, Void, String> {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 String userType = dataSnapshot.child("userType").getValue(String.class);
+                assert userType != null;
                 switch (userType) {
                     case "user":
                         AdminUser.addUser(new HomelessPerson(dataSnapshot));

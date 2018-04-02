@@ -101,7 +101,9 @@ public class DataPoster {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser firebaseUser = auth.getCurrentUser();
-                            firebaseId = firebaseUser.getUid();
+                            if (firebaseUser != null) {
+                                firebaseId = firebaseUser.getUid();
+                            }
                         } else {
                             firebaseException = task.getException();
                         }

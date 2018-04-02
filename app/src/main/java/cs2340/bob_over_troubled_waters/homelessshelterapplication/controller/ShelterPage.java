@@ -89,7 +89,6 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
         Reservation currentReservation = currentUser.getCurrentReservation();
         if (currentReservation == null || currentReservation.getShelter() == null) {
             ReserveDialog newFragment = new ReserveDialog();
-            newFragment.setValueChangeListener(this);
             newFragment.show(getFragmentManager(), "reserve dialog");
         } else {
             DoubleReservationDialog newFragment = new DoubleReservationDialog();

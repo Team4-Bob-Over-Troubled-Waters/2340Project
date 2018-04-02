@@ -24,7 +24,7 @@ public abstract class User {
     private String id;
     private String email;
     private String name;
-    private boolean isBlocked = false;
+    private Boolean isBlocked = false;
 
     public boolean getIsBlocked() {
         return isBlocked;

@@ -52,6 +52,7 @@ public class SingleUserLoader {
                         error = new Exception("Login unsuccessful");
                     }
 
+                    assert id != null;
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
                             .child("users").child(id);
 
@@ -59,6 +60,7 @@ public class SingleUserLoader {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             String userType = dataSnapshot.child("userType").getValue(String.class);
+                            assert userType != null;
                             switch (userType) {
                                 case "user":
                                     loadedUser = new HomelessPerson(dataSnapshot);
@@ -84,6 +86,7 @@ public class SingleUserLoader {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             String userType = dataSnapshot.child("userType").getValue(String.class);
+                            assert userType != null;
                             switch (userType) {
                                 case "user":
                                     loadedUser = new HomelessPerson(dataSnapshot);

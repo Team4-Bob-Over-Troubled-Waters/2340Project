@@ -19,6 +19,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Ge
 
 /**
  * Created by Francine on 2/21/2018.
+ * Page with a ListView of shelters.
  */
 
 public class ShelterListingActivity extends AppCompatActivity {

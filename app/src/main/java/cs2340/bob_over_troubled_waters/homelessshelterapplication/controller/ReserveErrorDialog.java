@@ -10,6 +10,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 
 /**
  * Created by Francine on 4/2/2018.
+ * Dialog that appears when there is a runtime error while making a reservation.
  */
 
 public class ReserveErrorDialog extends DialogFragment {

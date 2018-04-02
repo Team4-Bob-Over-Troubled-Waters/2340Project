@@ -57,7 +57,6 @@ public class ReserveDialog extends DialogFragment {
                         ReserveSuccessDialog newFragment = new ReserveSuccessDialog();
                         newFragment.show(getFragmentManager(), "reserve success dialog");
                     } catch (Exception e) {
-                        System.out.println(e);
                         currentShelter.cancelReservation(reservation);
                         currentUser.setCurrentReservation(null);
                         getFragmentManager().popBackStackImmediate();
@@ -81,7 +80,4 @@ public class ReserveDialog extends DialogFragment {
 //        return valueChangeListener;
 //    }
 // --Commented out by Inspection STOP (3/31/2018 15:35)
-
-    public void setValueChangeListener(NumberPicker.OnValueChangeListener valueChangeListener) {
-    }
 }

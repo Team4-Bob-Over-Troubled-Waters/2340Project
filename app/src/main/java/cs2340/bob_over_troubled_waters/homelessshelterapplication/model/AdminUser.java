@@ -65,7 +65,7 @@ public class AdminUser extends User {
         return users;
     }
 
-    private boolean isApproved = false;
+    private Boolean isApproved = false;
 
     public boolean isApproved() {
         return isApproved;

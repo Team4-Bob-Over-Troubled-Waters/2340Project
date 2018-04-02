@@ -18,7 +18,7 @@ public class ShelterEmployee extends User {
 
     private Shelter shelter;
     private Integer shelterId = null;
-    private boolean isApproved = false;
+    private Boolean isApproved = false;
 
     public ShelterEmployee(String email, String password, String name) throws Exception {
         super(email, password, name);

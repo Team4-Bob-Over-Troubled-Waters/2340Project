@@ -7,7 +7,7 @@ package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
  */
 
 public class Reservation {
-    private int numberOfBeds;
+    private final int numberOfBeds;
     private final Integer shelterId;
 
     public Reservation(int numberOfBeds, Integer shelterId) {

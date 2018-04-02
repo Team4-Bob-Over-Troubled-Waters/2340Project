@@ -13,7 +13,7 @@ public enum Gender {
     FEMALE(new ArrayList<Shelter>()),
     BOTH(new ArrayList<Shelter>());
 
-    private ArrayList<Shelter> shelters;
+    private final ArrayList<Shelter> shelters;
 
     Gender(ArrayList<Shelter> shelters) {
         this.shelters = shelters;

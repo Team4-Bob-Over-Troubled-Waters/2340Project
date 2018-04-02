@@ -17,10 +17,10 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 public class UserProfile extends AppCompatActivity {
 
-    User user;
-    AdminUser currentUser;
+    private User user;
+    private AdminUser currentUser;
 
-    Button approveButton;
+    private Button approveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class UserProfile extends AppCompatActivity {
     private void updateUserInfoView() {
         // set the user's info on the view
         ListView userInfo = findViewById(R.id.user_info_view);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, user.getUserInfo());
         userInfo.setAdapter(adapter);
     }

@@ -12,7 +12,7 @@ import org.apache.commons.lang3.time.StopWatch;
  */
 class Timer extends AsyncTask<Void, Void, Boolean> {
 
-    private long stopAt;
+    private final long stopAt;
     private boolean done = false;
 
     static Timer getTimer(long stopAt) {

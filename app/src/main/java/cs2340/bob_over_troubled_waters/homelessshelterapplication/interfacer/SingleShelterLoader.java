@@ -15,7 +15,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 
 public class SingleShelterLoader {
 
-    private int id;
+    private final int id;
     private Shelter loadedShelter;
     private boolean done = false;
     private Exception error;

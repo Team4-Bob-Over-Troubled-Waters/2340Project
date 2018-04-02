@@ -3,8 +3,6 @@ package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +14,8 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Ge
 
 /**
  * Created by Francine on 2/16/2018.
+ *
+ * Holds information about a shelter.
  */
 
 @IgnoreExtraProperties
@@ -34,8 +34,8 @@ public class Shelter {
     private Gender gender;
     private HashSet<AgeRanges> ageRanges;
 
-    private static HashSet<String> shelterNames = new HashSet<>();
-    private static HashMap<Integer, Shelter> shelters = new HashMap<>();
+    private static final HashSet<String> shelterNames = new HashSet<>();
+    private static final HashMap<Integer, Shelter> shelters = new HashMap<>();
 
     private static Shelter currentShelter = null;
 
@@ -64,9 +64,11 @@ public class Shelter {
         return null;
     }
 
-    public static boolean shelterNameInUse(String name) {
-        return shelterNames.contains(name);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public static boolean shelterNameInUse(String name) {
+//        return shelterNames.contains(name);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     /**
      * constructs a shelter object from the saved instance in the database
@@ -90,8 +92,12 @@ public class Shelter {
             range.addShelter(this);
         }
 
-        this.maxVacancies = snapshot.child("maxVacancies").getValue(Integer.class);
-        this.reservations = snapshot.child("reservations").getValue(Integer.class);
+        if (snapshot.child("maxVacancies").getValue(Integer.class) != null) {
+            this.maxVacancies = snapshot.child("maxVacancies").getValue(Integer.class);
+        }
+        if (snapshot.child("reservations").getValue(Integer.class) != null) {
+            this.reservations = snapshot.child("reservations").getValue(Integer.class);
+        }
 
         shelters.put(this.ID, this);
     }
@@ -199,28 +205,34 @@ public class Shelter {
         return ID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setID(int ID) {
+//        this.ID = ID;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setName(String name) {
+//        this.name = name;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public String getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
-        this.capacity = capacity;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setCapacity(String capacity) {
+//        this.capacity = capacity;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     /**
      * get the current number of vacancies
@@ -232,9 +244,11 @@ public class Shelter {
         return Math.min(maxVacancies, vacancies);
     }
 
-    public int getReservations() {
-        return reservations;
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public int getReservations() {
+//        return reservations;
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
 //    public void setVacancies(int vacancies) {
 //        this.vacancies = vacancies;
@@ -259,62 +273,76 @@ public class Shelter {
         return maxVacancies;
     }
 
-    public void setMaxVacancies(int maxVacancies) {
-        this.maxVacancies = maxVacancies;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setMaxVacancies(int maxVacancies) {
+//        this.maxVacancies = maxVacancies;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public String getRestrictions() {
         return restrictions;
     }
 
-    public void setRestrictions(String restrictions) {
-        this.restrictions = restrictions;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setRestrictions(String restrictions) {
+//        this.restrictions = restrictions;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setLongitude(double longitude) {
+//        this.longitude = longitude;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setLatitude(double latitude) {
+//        this.latitude = latitude;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setAddress(String address) {
+//        this.address = address;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public String getSpecialNotes() {
         return specialNotes;
     }
 
-    public void setSpecialNotes(String specialNotes) {
-        this.specialNotes = specialNotes;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setSpecialNotes(String specialNotes) {
+//        this.specialNotes = specialNotes;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setPhoneNumber(String phoneNumber) {
+//        this.phoneNumber = phoneNumber;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 }

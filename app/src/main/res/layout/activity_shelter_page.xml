@@ -7,7 +7,6 @@
     tools:context=".controller.ShelterPage">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -29,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="15dp"
-            android:text="Name"
+            android:text="@string/name"
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="30sp" />
@@ -38,7 +37,7 @@
             android:id="@+id/text_capacity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Capacity"
+            android:text="@string/capacity_no_colon"
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="18sp" />
@@ -47,7 +46,7 @@
             android:id="@+id/text_vacancies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Vacancies"
+            android:text="@string/vacancies_no_colon"
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="18sp" />
@@ -56,7 +55,7 @@
             android:id="@+id/text_restrictions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Restrictions"
+            android:text="@string/restrictions_no_colon"
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="18sp" />
@@ -65,7 +64,7 @@
             android:id="@+id/text_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Address"
+            android:text="@string/address"
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="18sp"
@@ -75,7 +74,7 @@
             android:id="@+id/text_coordinates"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Coordinates"
+            android:text="@string/coordinates"
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="18sp" />
@@ -84,7 +83,7 @@
             android:id="@+id/text_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Phone Number"
+            android:text="@string/phone_number"
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="18sp" />
@@ -93,17 +92,16 @@
             android:id="@+id/text_special_notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Special Notes"
+            android:text="@string/special_notes"
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/map_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="mapButtonAction"
-            android:text="View in Map"
+            android:text="@string/view_in_map"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -111,7 +109,6 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -141,7 +138,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
         android:onClick="editShelterButtonAction"
-        android:text="Edit"
+        android:text="@string/edit"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

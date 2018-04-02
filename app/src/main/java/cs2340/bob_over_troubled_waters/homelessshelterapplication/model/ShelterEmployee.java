@@ -9,6 +9,8 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.Dat
 
 /**
  * Created by Admin on 3/5/2018.
+ *
+ * Holds information about a shelter employee user.
  */
 
 @IgnoreExtraProperties

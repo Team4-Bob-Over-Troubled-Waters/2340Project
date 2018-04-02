@@ -7,7 +7,6 @@
     tools:context="cs2340.bob_over_troubled_waters.homelessshelterapplication.controller.AddEditShelter">
 
     <ScrollView
-        android:id="@+id/scrollView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -28,134 +27,125 @@
                 android:id="@+id/shelter_name_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="New Shelter"
+                android:text="@string/new_shelter"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="30sp" />
 
             <TextView
-                android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Shelter Name" />
+                android:text="@string/shelter_name" />
 
             <EditText
                 android:id="@+id/shelter_name_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Shelter Name"
+                android:hint="@string/shelter_name"
                 android:inputType="textPersonName" />
 
             <TextView
-                android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Address" />
+                android:text="@string/address" />
 
             <EditText
                 android:id="@+id/address_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Address"
+                android:hint="@string/address"
                 android:inputType="textPostalAddress" />
 
             <TextView
-                android:id="@+id/textView10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Latitude" />
+                android:text="@string/latitude" />
 
             <EditText
                 android:id="@+id/latitude_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Latitude"
+                android:hint="@string/latitude"
                 android:inputType="numberSigned|numberDecimal" />
 
             <TextView
-                android:id="@+id/textView11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Longitude" />
+                android:text="@string/longitude" />
 
             <EditText
                 android:id="@+id/longitude_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Longitude"
+                android:hint="@string/longitude"
                 android:inputType="numberSigned|numberDecimal" />
 
             <TextView
-                android:id="@+id/textView12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Phone Number" />
+                android:text="@string/phone_number" />
 
             <EditText
                 android:id="@+id/phone_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Phone Number"
+                android:hint="@string/phone_number"
                 android:inputType="phone" />
 
             <TextView
-                android:id="@+id/textView13"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Restrictions" />
+                android:text="@string/restrictions_no_colon" />
 
             <EditText
                 android:id="@+id/restrictions_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Restrictions"
+                android:hint="@string/restrictions_no_colon"
                 android:inputType="textPersonName" />
 
             <TextView
-                android:id="@+id/textView14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Capacity" />
+                android:text="@string/capacity_no_colon" />
 
             <EditText
                 android:id="@+id/capacity_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Capacity"
+                android:hint="@string/capacity_no_colon"
                 android:inputType="textPersonName" />
 
             <TextView
-                android:id="@+id/textView15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Special Notes" />
+                android:text="@string/special_notes" />
 
             <EditText
                 android:id="@+id/notes_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Special Notes"
+                android:hint="@string/special_notes"
                 android:inputType="textPersonName" />
 
             <TextView
-                android:id="@+id/textView16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Max Vacancies" />
+                android:text="@string/max_vacancies" />
 
             <EditText
                 android:id="@+id/max_vacancies_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Max Vacancies"
+                android:hint="@string/max_vacancies"
                 android:inputType="number" />
 
             <Button
@@ -163,14 +153,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="confirmButtonAction"
-                android:text="Confirm" />
+                android:text="@string/confirm" />
 
             <Button
-                android:id="@+id/button8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="backButtonAction"
-                android:text="Back" />
+                android:text="@string/back" />
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

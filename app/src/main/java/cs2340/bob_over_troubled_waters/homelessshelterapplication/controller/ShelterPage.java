@@ -2,17 +2,11 @@ package cs2340.bob_over_troubled_waters.homelessshelterapplication.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.ArrayList;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
@@ -24,6 +18,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 /**
  * Created by Francine on 2/21/2018.
+ * The page displaying information about a single shelter.
  */
 
 public class ShelterPage extends AppCompatActivity implements NumberPicker.OnValueChangeListener{
@@ -56,9 +51,12 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
         selectedShelter = Shelter.getCurrentShelter();
         Shelter.setCurrentShelter(selectedShelter);
         name.setText(selectedShelter.getName());
-        capacity.setText(getString(R.string.capacity) + selectedShelter.getCapacity());
-        vacancies.setText(getString(R.string.vacancies) + selectedShelter.getVacancies());
-        restrictions.setText(getString(R.string.restrictions) + selectedShelter.getRestrictions());
+        String text = getString(R.string.capacity) + selectedShelter.getCapacity();
+        capacity.setText(text);
+        text = getString(R.string.vacancies) + selectedShelter.getVacancies();
+        vacancies.setText(text);
+        text = getString(R.string.restrictions) + selectedShelter.getRestrictions();
+        restrictions.setText(text);
         address.setText(selectedShelter.getAddress());
         String coordinatesStr = "";
         if (selectedShelter.getLatitude() > 0) {
@@ -75,7 +73,8 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
         phone.setText(selectedShelter.getPhoneNumber());
         if (selectedShelter.getSpecialNotes() != null
                 && !selectedShelter.getSpecialNotes().isEmpty()) {
-            notes.setText(getString(R.string.notes) + selectedShelter.getSpecialNotes());
+            text = getString(R.string.notes) + selectedShelter.getSpecialNotes();
+            notes.setText(text);
         } else {
             notes.setText("");
         }
@@ -112,7 +111,8 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
     protected void onResume() {
         super.onResume();
         TextView vacancies = findViewById(R.id.text_vacancies);
-        vacancies.setText(getString(R.string.vacancies) + selectedShelter.getVacancies());
+        String text = getString(R.string.vacancies) + selectedShelter.getVacancies();
+        vacancies.setText(text);
     }
 
     public void editShelterButtonAction(View view) {

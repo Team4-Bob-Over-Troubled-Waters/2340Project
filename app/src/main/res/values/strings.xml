@@ -9,20 +9,15 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">Contacts permissions are needed for providing email
         completions.
     </string>
-    <string name="prompt_username">Username</string>
-    <string name="error_invalid_username">This username is invalid</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_login_register">Register</string>
     <string name="prompt_confirm_password">Retype password</string>
     <string name="prompt_name">Name</string>
     <string name="error_passowrd_mismatch">Passwords do not match</string>
-    <string name="error_email_in_use">Email is already in use</string>
-    <string name="create_admin_account">Create Admin Account</string>
     <string name="shelters">Shelters</string>
     <string name="shelter_profile">Shelter Profile</string>
     <string name="back">Back</string>
@@ -38,6 +33,7 @@
     <string name="reserve_success">Reservation successful!</string>
     <string name="reserve_fail">There are not enough vacancies at this shelter to complete your
         reservation.</string>
+    <string name="reserve_error">There was an error making your reservation.</string>
     <string name="ok">OK</string>
     <string name="close">Close</string>
     <string name="no_current_reservation">No current reservation</string>
@@ -46,7 +42,64 @@
         reservation before making a new one.</string>
     <string name="view_reservation">View Reservation</string>
 
-    <string name="title_activity_user_listing">UserListing</string>
-    <string name="title_activity_employee_home">EmployeeHome</string>
     <string name="title_activity_maps">Map</string>
+
+    <!-- getting rid of hardcoded strings, will organize later -->
+    <string name="new_shelter">New Shelter</string>
+    <string name="shelter_name">Shelter Name</string>
+    <string name="address">Address</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="restrictions_no_colon">Restrictions</string>
+    <string name="capacity_no_colon">Capacity</string>
+    <string name="vacancies_no_colon">Vacancies</string>
+    <string name="special_notes">Special Notes</string>
+    <string name="max_vacancies">Max Vacancies</string>
+    <string name="confirm">Confirm</string>
+    <string name="search_shelters">Search Shelters</string>
+    <string name="view_map">View Map</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="welcome_message">Welcome to Homeless Shelter App!</string>
+    <string name="blocked_message">Your account has been blocked. If you believe this is an error, please send an email to admin@example.com.</string>
+    <string name="continue_button">Continue</string>
+    <string name="oops">Oops!</string>
+    <string name="connection_error_message">There was a connection problem.</string>
+    <string name="account_type">Account Type</string>
+    <string name="user">User</string>
+    <string name="shelter_employee">Shelter Employee</string>
+    <string name="admin">Admin</string>
+    <string name="your_current_reservation">Your current reservation:</string>
+    <string name="reservation">reservation</string>
+    <string name="cancel_reservation">Cancel Reservation</string>
+    <string name="welcome_employee">Welcome new shelter employee! To get started choose your shelter.</string>
+    <string name="pending_approval">Your account is pending admin approval. Please come back later.</string>
+    <string name="welcome_email">Welcome (email)!</string>
+    <string name="employee_at_shelter_name">Employee at (shelter name)</string>
+    <string name="view_shelter_info">View Shelter Info</string>
+    <string name="manage_my_shelter">Manage My Shelter</string>
+    <string name="view_shelters">View Shelters</string>
+    <string name="user_name_here">User\'s Name Here</string>
+    <string name="toggle_button">ToggleButton</string>
+    <string name="block">Block</string>
+    <string name="unblock">Unblock</string>
+    <string name="approve">Approve</string>
+    <string name="view_users">View Users</string>
+    <string name="add_shelter">Add Shelter</string>
+    <string name="name">Name</string>
+    <string name="coordinates">Coordinates</string>
+    <string name="view_in_map">View in Map</string>
+    <string name="edit">Edit</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="both">Both</string>
+    <string name="age_range">Age Range</string>
+    <string name="families_with_newborns">Families with Newborns</string>
+    <string name="children">Children</string>
+    <string name="young_adults">Young Adults</string>
+    <string name="anyone">Anyone</string>
+    <string name="search">Search</string>
 </resources>

@@ -7,11 +7,10 @@
     tools:context="cs2340.bob_over_troubled_waters.homelessshelterapplication.controller.BlockedUser">
 
     <TextView
-        android:id="@+id/textView4"
         android:layout_width="322dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:text="Your account has been blocked. If you believe this is an error, please send an email to admin@example.com."
+        android:text="@string/blocked_message"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="30sp"
@@ -21,13 +20,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/logout_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:onClick="logoutButtonAction"
-        android:text="Logout"
+        android:text="@string/logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>

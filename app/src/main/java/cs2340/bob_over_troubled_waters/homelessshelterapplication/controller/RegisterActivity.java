@@ -72,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private RadioButton mEmployeeButton;
     private RadioButton mAdminButton;
 
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile(
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile(
             "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     @Override
@@ -80,17 +80,17 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         // Set up the login form.
-        mHomelessButton = (RadioButton) findViewById(R.id.homeless_button);
-        mEmployeeButton = (RadioButton) findViewById(R.id.employee_button);
-        mAdminButton = (RadioButton) findViewById(R.id.admin_button);
+        mHomelessButton = findViewById(R.id.homeless_button);
+        mEmployeeButton = findViewById(R.id.employee_button);
+        mAdminButton = findViewById(R.id.admin_button);
 
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = findViewById(R.id.email);
         populateAutoComplete();
 
-        mNameView = (EditText) findViewById(R.id.name);
+        mNameView = findViewById(R.id.name);
 
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mConfirmPasswordView = (EditText) findViewById(R.id.password_confirm);
+        mPasswordView = findViewById(R.id.password);
+        mConfirmPasswordView = findViewById(R.id.password_confirm);
         mConfirmPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -102,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -333,7 +333,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         };
 
         int ADDRESS = 0;
-        int IS_PRIMARY = 1;
+        // --Commented out by Inspection (3/31/2018 15:35):int IS_PRIMARY = 1;
     }
 
     /**
@@ -361,15 +361,19 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 Context context = getApplicationContext();
                 Intent intent;
                 User user;
-                if (mUserType.equals("homeless")) {
-                    user = new HomelessPerson(mEmail, mPassword, mName);
-                    intent = new Intent(context, UserHome.class);
-                } else if (mUserType.equals("employee")) {
-                    user = new ShelterEmployee(mEmail, mPassword, mName);
-                    intent = new Intent(context, ChooseShelter.class);
-                } else {
-                    user = new AdminUser(mEmail, mPassword, mName);
-                    intent = new Intent(context, UserPendingApproval.class);
+                switch (mUserType) {
+                    case "homeless":
+                        user = new HomelessPerson(mEmail, mPassword, mName);
+                        intent = new Intent(context, UserHome.class);
+                        break;
+                    case "employee":
+                        user = new ShelterEmployee(mEmail, mPassword, mName);
+                        intent = new Intent(context, ChooseShelter.class);
+                        break;
+                    default:
+                        user = new AdminUser(mEmail, mPassword, mName);
+                        intent = new Intent(context, UserPendingApproval.class);
+                        break;
                 }
                 DataPoster.post(user);
                 User.setCurrentUser(user);

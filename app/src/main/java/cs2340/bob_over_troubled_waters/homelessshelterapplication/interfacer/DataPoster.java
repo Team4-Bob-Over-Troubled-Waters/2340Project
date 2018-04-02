@@ -29,7 +29,6 @@ public class DataPoster {
     /**
      * saves (or updates) a user record in the database
      * @param user the user object to be saved to the database
-     * @return the error message if there was an error
      */
     public static void post(User user) {
         Timer timer = Timer.getTimer();

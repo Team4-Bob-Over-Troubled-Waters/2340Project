@@ -15,7 +15,7 @@ public enum AgeRanges {
     YOUNG_ADULTS(new ArrayList<Shelter>()),
     ANYONE(new ArrayList<Shelter>());
 
-    private ArrayList<Shelter> shelters;
+    private final ArrayList<Shelter> shelters;
 
     AgeRanges(ArrayList<Shelter> shelters) {
         this.shelters = shelters;

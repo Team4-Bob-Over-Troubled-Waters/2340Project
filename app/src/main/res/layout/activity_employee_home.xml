@@ -11,7 +11,7 @@
         android:layout_width="322dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="Welcome (email)!"
+        android:text="@string/welcome_email"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,14 +20,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/logout_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:onClick="logoutButtonAction"
-        android:text="Logout"
+        android:text="@string/logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -36,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Employee at (shelter name)"
+        android:text="@string/employee_at_shelter_name"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -49,19 +47,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:onClick="viewShelterInfoButtonAction"
-        android:text="View Shelter Info"
+        android:text="@string/view_shelter_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/works_at_view" />
 
     <Button
-        android:id="@+id/button6"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:onClick="manageShelterButtonAction"
-        android:text="Manage My Shelter"
+        android:text="@string/manage_my_shelter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

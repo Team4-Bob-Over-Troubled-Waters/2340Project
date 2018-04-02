@@ -1,14 +1,14 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
-import com.google.firebase.database.DataSnapshot;
-
 /**
  * Created by Francine on 3/13/2018.
+ *
+ * Holds information about a reservation.
  */
 
 public class Reservation {
     private int numberOfBeds;
-    private Integer shelterId;
+    private final Integer shelterId;
 
     public Reservation(int numberOfBeds, Integer shelterId) {
         this.numberOfBeds = numberOfBeds;
@@ -29,9 +29,11 @@ public class Reservation {
         return numberOfBeds;
     }
 
-    public void setNumberOfBeds(int numberOfBeds) {
-        this.numberOfBeds = numberOfBeds;
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setNumberOfBeds(int numberOfBeds) {
+//        this.numberOfBeds = numberOfBeds;
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public Shelter getShelter() {
         return Shelter.getShelter(shelterId);

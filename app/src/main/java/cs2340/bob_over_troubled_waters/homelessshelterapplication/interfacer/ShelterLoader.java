@@ -33,11 +33,10 @@ public class ShelterLoader extends AsyncTask<Void, Void, String> {
 
     /**
      * tells whether the shelters have already been loaded
-     * @return
+     * @return whether the shelters have already been loaded
      */
     public static boolean sheltersLoaded() {
-        if (instance == null) return false;
-        return instance.done;
+        return instance == null || !instance.done;
     }
 
     /**
@@ -45,7 +44,7 @@ public class ShelterLoader extends AsyncTask<Void, Void, String> {
      * @return the maximum shelter id incremented by 1
      */
     public static int getNextShelterId() {
-        if (!sheltersLoaded()) throw new RuntimeException("Problem loading shelters.");
+        if (sheltersLoaded()) throw new RuntimeException("Problem loading shelters.");
         return maxChildId + 1;
     }
 
@@ -106,7 +105,7 @@ public class ShelterLoader extends AsyncTask<Void, Void, String> {
         while (!done && errorMessage == null) {
             try {
                 Thread.sleep(50);
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException ignored) {}
         }
         return errorMessage;
     }

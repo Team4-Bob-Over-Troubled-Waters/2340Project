@@ -1,29 +1,27 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.SingleUserLoader;
 
 /**
  * Created by Sarah on 2/9/2018.
+ *
+ * Abstract class holding information common amongst all user types.
  */
 
 public abstract class User {
 
-    protected static DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    // --Commented out by Inspection (3/31/2018 15:35):protected static DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
-    protected DatabaseReference path;
+    // --Commented out by Inspection (3/31/2018 15:35):protected DatabaseReference path;
 
-    private static FirebaseAuth auth = FirebaseAuth.getInstance();
+    // --Commented out by Inspection (3/31/2018 15:35):private static FirebaseAuth auth = FirebaseAuth.getInstance();
 
-    private FirebaseUser firebaseUser;
+    // --Commented out by Inspection (3/31/2018 15:35):private FirebaseUser firebaseUser;
 
-    protected String id;
+    private String id;
     private String email;
     private String name;
     private boolean isBlocked = false;
@@ -44,7 +42,7 @@ public abstract class User {
      * toggles whether or not a user is blocked
      * @param blockedBy the admin user object for the admin that is blocking the user
      */
-    public void toggleBlocked(AdminUser blockedBy) {
+    void toggleBlocked(AdminUser blockedBy) {
         if (blockedBy != null) {
             this.isBlocked = !this.isBlocked;
             DataPoster.post(this);
@@ -75,7 +73,7 @@ public abstract class User {
      * @param password the password for the user
      * @throws IllegalArgumentException if a field is null or the email is taken
      */
-    public User(String email, String password, String name) throws Exception {
+    User(String email, String password, String name) throws Exception {
         if (email == null) throw new IllegalArgumentException(
                 "Email is required");
         if (password == null) throw new IllegalArgumentException(
@@ -85,7 +83,7 @@ public abstract class User {
         if (name != null && !name.isEmpty()) this.name = name;
     }
 
-    public User(DataSnapshot snapshot) {
+    User(DataSnapshot snapshot) {
         id = snapshot.getKey();
         email = snapshot.child("email").getValue(String.class);
         name = snapshot.child("name").getValue(String.class);

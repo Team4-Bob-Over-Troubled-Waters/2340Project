@@ -19,17 +19,16 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterE
 
 public class UserLoader extends AsyncTask<Void, Void, String> {
 
-    private static UserLoader instance;
-
     public static void start() {
-        instance = new UserLoader();
+        UserLoader instance = new UserLoader();
         instance.execute();
     }
 
-    public static boolean usersLoaded() {
-        if (instance == null) return false;
-        return instance.done;
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public static boolean usersLoaded() {
+//        return instance != null && instance.done;
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users");
 
@@ -44,12 +43,16 @@ public class UserLoader extends AsyncTask<Void, Void, String> {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     try {
                         String userType = child.child("userType").getValue(String.class);
-                        if (userType.equals("user")) {
-                            AdminUser.addUser(new HomelessPerson(child));
-                        } else if (userType.equals("employee")) {
-                            AdminUser.addUser(new ShelterEmployee(child));
-                        } else {
-                            AdminUser.addUser(new AdminUser(child));
+                        switch (userType) {
+                            case "user":
+                                AdminUser.addUser(new HomelessPerson(child));
+                                break;
+                            case "employee":
+                                AdminUser.addUser(new ShelterEmployee(child));
+                                break;
+                            default:
+                                AdminUser.addUser(new AdminUser(child));
+                                break;
                         }
                     } catch (Exception e) {
                         errorMessage = e.getMessage();
@@ -68,24 +71,32 @@ public class UserLoader extends AsyncTask<Void, Void, String> {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String userType = dataSnapshot.child("userType").getValue(String.class);
-                if (userType.equals("user")) {
-                    AdminUser.addUser(new HomelessPerson(dataSnapshot));
-                } else if (userType.equals("employee")) {
-                    AdminUser.addUser(new ShelterEmployee(dataSnapshot));
-                } else {
-                    AdminUser.addUser(new AdminUser(dataSnapshot));
+                switch (userType) {
+                    case "user":
+                        AdminUser.addUser(new HomelessPerson(dataSnapshot));
+                        break;
+                    case "employee":
+                        AdminUser.addUser(new ShelterEmployee(dataSnapshot));
+                        break;
+                    default:
+                        AdminUser.addUser(new AdminUser(dataSnapshot));
+                        break;
                 }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 String userType = dataSnapshot.child("userType").getValue(String.class);
-                if (userType.equals("user")) {
-                    AdminUser.addUser(new HomelessPerson(dataSnapshot));
-                } else if (userType.equals("employee")) {
-                    AdminUser.addUser(new ShelterEmployee(dataSnapshot));
-                } else {
-                    AdminUser.addUser(new AdminUser(dataSnapshot));
+                switch (userType) {
+                    case "user":
+                        AdminUser.addUser(new HomelessPerson(dataSnapshot));
+                        break;
+                    case "employee":
+                        AdminUser.addUser(new ShelterEmployee(dataSnapshot));
+                        break;
+                    default:
+                        AdminUser.addUser(new AdminUser(dataSnapshot));
+                        break;
                 }
             }
 

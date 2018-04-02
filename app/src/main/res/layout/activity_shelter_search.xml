@@ -7,7 +7,6 @@
     tools:context="cs2340.bob_over_troubled_waters.homelessshelterapplication.controller.ShelterSearch">
 
     <ScrollView
-        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -20,9 +19,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -34,74 +32,73 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Shelter Name" />
+                android:text="@string/shelter_name" />
 
             <AutoCompleteTextView
                 android:id="@+id/shelter_search_field"
+                android:labelFor="@+id/shelter_search_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/gender_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gender" />
+                android:text="@string/gender" />
 
             <CheckBox
                 android:id="@+id/male_check_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Male" />
+                android:text="@string/male" />
 
             <CheckBox
                 android:id="@+id/female_check_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Female" />
+                android:text="@string/female" />
 
             <CheckBox
                 android:id="@+id/both_check_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Both" />
+                android:text="@string/both" />
 
             <TextView
-                android:id="@+id/age_range_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Age Range" />
+                android:text="@string/age_range" />
 
             <CheckBox
                 android:id="@+id/newborns_check_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Families with Newborns" />
+                android:text="@string/families_with_newborns" />
 
             <CheckBox
                 android:id="@+id/children_check_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Children" />
+                android:text="@string/children" />
 
             <CheckBox
                 android:id="@+id/young_adults_check_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Young Adults" />
+                android:text="@string/young_adults" />
 
             <CheckBox
                 android:id="@+id/anyone_check_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Anyone" />
+                android:text="@string/anyone" />
 
             <Button
                 android:id="@+id/search_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="searchAction"
-                android:text="Search"
+                android:text="@string/search"
                 android:textSize="12sp" />
 
             <Button
@@ -109,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="backButtonAction"
-                android:text="Back"
+                android:text="@string/back"
                 android:textSize="12sp" />
 
         </LinearLayout>

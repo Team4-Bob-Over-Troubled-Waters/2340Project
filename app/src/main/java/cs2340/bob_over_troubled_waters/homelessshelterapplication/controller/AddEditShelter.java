@@ -14,17 +14,17 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 
 public class AddEditShelter extends AppCompatActivity {
 
-    Shelter shelter;
-    TextView shelterNameView;
-    EditText shelterNameBox;
-    EditText addressBox;
-    EditText latitudeBox;
-    EditText longitudeBox;
-    EditText phoneBox;
-    EditText restrictionsBox;
-    EditText capacityBox;
-    EditText notesBox;
-    EditText maxVacanciesBox;
+    private Shelter shelter;
+    private TextView shelterNameView;
+    private EditText shelterNameBox;
+    private EditText addressBox;
+    private EditText latitudeBox;
+    private EditText longitudeBox;
+    private EditText phoneBox;
+    private EditText restrictionsBox;
+    private EditText capacityBox;
+    private EditText notesBox;
+    private EditText maxVacanciesBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +46,20 @@ public class AddEditShelter extends AppCompatActivity {
         if (shelter != null) setFields();
     }
 
-    public void setFields() {
+    private void setFields() {
         shelterNameView.setText(shelter.getName());
         shelterNameBox.setText(shelter.getName());
         addressBox.setText(shelter.getAddress());
-        latitudeBox.setText("" + shelter.getLatitude());
-        longitudeBox.setText("" + shelter.getLongitude());
+        String text = "" + shelter.getLatitude();
+        latitudeBox.setText(text);
+        text = "" + shelter.getLongitude();
+        longitudeBox.setText(text);
         phoneBox.setText(shelter.getPhoneNumber());
         restrictionsBox.setText(shelter.getRestrictions());
         capacityBox.setText(shelter.getCapacity());
         notesBox.setText(shelter.getSpecialNotes());
-        maxVacanciesBox.setText("" + shelter.getMaxVacancies());
+        text = "" + shelter.getMaxVacancies();
+        maxVacanciesBox.setText(text);
     }
 
     public void confirmButtonAction(View view) {
@@ -96,15 +99,15 @@ public class AddEditShelter extends AppCompatActivity {
 
     private class ShelterAdder extends AsyncTask<Void, Void, String> {
 
-        String name;
-        String capacity;
-        Integer maxVacancies;
-        String restrictions;
-        Double longitude;
-        Double latitude;
-        String address;
-        String specialNotes;
-        String phoneNumber;
+        final String name;
+        final String capacity;
+        final Integer maxVacancies;
+        final String restrictions;
+        final Double longitude;
+        final Double latitude;
+        final String address;
+        final String specialNotes;
+        final String phoneNumber;
 
         public ShelterAdder(String name, String capacity, Integer maxVacancies, String restrictions,
                             Double longitude, Double latitude, String address, String specialNotes,

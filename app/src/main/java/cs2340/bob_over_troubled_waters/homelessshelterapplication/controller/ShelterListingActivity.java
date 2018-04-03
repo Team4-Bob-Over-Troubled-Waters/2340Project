@@ -19,10 +19,11 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Ge
 
 /**
  * Created by Francine on 2/21/2018.
+ * Page with a ListView of shelters.
  */
 
 public class ShelterListingActivity extends AppCompatActivity {
-    private static ArrayList<Shelter> shelters = defaultShelters();
+    private static final ArrayList<Shelter> shelters = defaultShelters();
 
     public static ArrayList<Shelter> getShelters() {
         return shelters;
@@ -138,7 +139,7 @@ public class ShelterListingActivity extends AppCompatActivity {
         return shelters;
     }
     
-    private HashSet<Shelter> addValidSheltersToHashSet(
+    private void addValidSheltersToHashSet(
             HashSet<Shelter> shelterSet, ArrayList<Shelter> shelterList, String searchString) {
         for (Shelter shelter : shelterList) {
             if (searchString == null
@@ -146,7 +147,6 @@ public class ShelterListingActivity extends AppCompatActivity {
                     shelterSet.add(shelter);
             }
         }
-        return shelterSet;
     }
 
     /* Returns HashSet of elements in both set1 and set2 */

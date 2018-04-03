@@ -1,9 +1,6 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
-import android.content.Intent;
-
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
@@ -12,6 +9,8 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.Dat
 
 /**
  * Created by Sarah on 3/5/2018.
+ *
+ * Holds information for a homeless user.
  */
 
 @IgnoreExtraProperties

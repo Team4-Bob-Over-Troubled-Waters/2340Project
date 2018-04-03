@@ -10,6 +10,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 
 /**
  * Created by Francine on 3/13/2018.
+ * Dialog that appears when a reservation is made successfully.
  */
 
 public class ReserveSuccessDialog extends DialogFragment {

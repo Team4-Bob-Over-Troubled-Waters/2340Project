@@ -14,12 +14,10 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 public class UserHome extends AppCompatActivity {
 
-    private User user;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = User.getCurrentUser();
+        User user = User.getCurrentUser();
         setContentView(R.layout.activity_user_home);
         TextView welcomeMessage = findViewById(R.id.welcome_message);
         welcomeMessage.setText(user.getWelcomeMessage());

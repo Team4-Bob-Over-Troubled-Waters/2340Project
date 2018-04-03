@@ -1,11 +1,6 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
-import android.support.constraint.solver.widgets.Snapshot;
-import android.test.mock.MockContext;
-import android.widget.ArrayAdapter;
-
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
@@ -15,15 +10,17 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.Dat
 
 /**
  * Created by Sarah on 3/5/2018.
+ *
+ * Holds information for an admin user.
  */
 
 @IgnoreExtraProperties
 public class AdminUser extends User {
 
     // these hash maps allow the admin to see add the users - map email to user object
-    private static HashMap<String, AdminUser> adminUsers = new HashMap<>();
-    private static HashMap<String, ShelterEmployee> shelterEmployees = new HashMap<>();
-    private static HashMap<String, HomelessPerson> homelessPeople = new HashMap<>();
+    private static final HashMap<String, AdminUser> adminUsers = new HashMap<>();
+    private static final HashMap<String, ShelterEmployee> shelterEmployees = new HashMap<>();
+    private static final HashMap<String, HomelessPerson> homelessPeople = new HashMap<>();
 
     // adds a user to the appropriate map
     public static void addUser(User user) {
@@ -68,7 +65,7 @@ public class AdminUser extends User {
         return users;
     }
 
-    private boolean isApproved = false;
+    private Boolean isApproved = false;
 
     public boolean isApproved() {
         return isApproved;

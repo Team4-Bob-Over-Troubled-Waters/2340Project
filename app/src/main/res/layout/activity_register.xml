@@ -25,7 +25,6 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -36,32 +35,31 @@
                 android:checkedButton="@+id/homeless_button">
 
                 <TextView
-                    android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Account Type" />
+                    android:text="@string/account_type" />
 
                 <RadioButton
                     android:id="@+id/homeless_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="User" />
+                    android:text="@string/user" />
 
                 <RadioButton
                     android:id="@+id/employee_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Shelter Employee" />
+                    android:text="@string/shelter_employee" />
 
                 <RadioButton
                     android:id="@+id/admin_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Admin" />
+                    android:text="@string/admin" />
             </RadioGroup>
 
             <android.support.design.widget.TextInputLayout
@@ -143,7 +141,6 @@
                 android:textSize="12sp" />
 
             <Button
-                android:id="@+id/cancel_button"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -20,8 +20,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
-    private GoogleMap mMap;
-    private LatLng centerCoordinates = new LatLng(33.753594, -84.390429);
+    private final LatLng centerCoordinates = new LatLng(33.753594, -84.390429);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +39,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
         ArrayList<Shelter> shelters = ShelterListingActivity.getShelters();
         for (Shelter shelter : shelters) {
             LatLng coordinates = new LatLng(shelter.getLatitude(), shelter.getLongitude());
-            mMap.addMarker(new MarkerOptions()
+            googleMap.addMarker(new MarkerOptions()
                     .position(coordinates)
                     .title(shelter.getName())
                     .snippet("tap for details"));
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(centerCoordinates, 12));
-        mMap.setOnInfoWindowClickListener(this);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(centerCoordinates, 12));
+        googleMap.setOnInfoWindowClickListener(this);
     }
 
     @Override

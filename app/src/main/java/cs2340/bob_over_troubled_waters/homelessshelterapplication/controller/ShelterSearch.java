@@ -17,10 +17,10 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Ge
 
 public class ShelterSearch extends AppCompatActivity {
 
-    AutoCompleteTextView searchBar;
+    private AutoCompleteTextView searchBar;
 
-    private static ArrayList<Gender> genderCriteria = new ArrayList<>();
-    private static ArrayList<AgeRanges> ageCriteria = new ArrayList<>();
+    private static final ArrayList<Gender> genderCriteria = new ArrayList<>();
+    private static final ArrayList<AgeRanges> ageCriteria = new ArrayList<>();
     private static String searchString = null;
 
     public static void clearCriteria() {
@@ -53,19 +53,19 @@ public class ShelterSearch extends AppCompatActivity {
 
     public void searchAction(View view) {
         clearCriteria();
-        CheckBox maleBox = (CheckBox) findViewById(R.id.male_check_box);
+        CheckBox maleBox = findViewById(R.id.male_check_box);
         if (maleBox.isChecked()) genderCriteria.add(Gender.MALE);
-        CheckBox femaleBox = (CheckBox) findViewById(R.id.female_check_box);
+        CheckBox femaleBox = findViewById(R.id.female_check_box);
         if (femaleBox.isChecked()) genderCriteria.add(Gender.FEMALE);
-        CheckBox bothBox = (CheckBox) findViewById(R.id.both_check_box);
+        CheckBox bothBox = findViewById(R.id.both_check_box);
         if (bothBox.isChecked()) genderCriteria.add(Gender.BOTH);
-        CheckBox newbornBox = (CheckBox) findViewById(R.id.newborns_check_box);
+        CheckBox newbornBox = findViewById(R.id.newborns_check_box);
         if (newbornBox.isChecked()) ageCriteria.add(AgeRanges.FAMILIES_WITH_NEWBORNS);
-        CheckBox youngAdultsBox = (CheckBox) findViewById(R.id.young_adults_check_box);
+        CheckBox youngAdultsBox = findViewById(R.id.young_adults_check_box);
         if (youngAdultsBox.isChecked()) ageCriteria.add(AgeRanges.YOUNG_ADULTS);
-        CheckBox childrenBox = (CheckBox) findViewById(R.id.children_check_box);
+        CheckBox childrenBox = findViewById(R.id.children_check_box);
         if (childrenBox.isChecked()) ageCriteria.add(AgeRanges.CHILDREN);
-        CheckBox anyoneBox = (CheckBox) findViewById(R.id.anyone_check_box);
+        CheckBox anyoneBox = findViewById(R.id.anyone_check_box);
         if (anyoneBox.isChecked()) ageCriteria.add(AgeRanges.ANYONE);
         searchString = searchBar.getText().toString().toLowerCase();
         if (searchString.isEmpty()) searchString = null;

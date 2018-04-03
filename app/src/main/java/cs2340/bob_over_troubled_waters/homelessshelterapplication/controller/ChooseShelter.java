@@ -21,7 +21,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 public class ChooseShelter extends AppCompatActivity {
 
-    Spinner shelterSpinner;
+    private Spinner shelterSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class ChooseShelter extends AppCompatActivity {
         shelterSpinner = findViewById(R.id.shelter_spinner);
         ArrayList<Shelter> shelters;
         shelters = new ArrayList<>(Shelter.getShelters());
-        ArrayAdapter<Shelter> shelterAdapter = new ArrayAdapter<Shelter>(getApplicationContext(),
+        ArrayAdapter<Shelter> shelterAdapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_dropdown_item, shelters);
         shelterSpinner.setAdapter(shelterAdapter);
         shelterSpinner.requestFocus();
@@ -74,7 +74,7 @@ public class ChooseShelter extends AppCompatActivity {
             // to avoid potential memory leaks - fail-safe to stop task after 10 seconds
             StopWatch timer = new StopWatch();
             timer.start();
-            while (!ShelterLoader.sheltersLoaded() && timer.getTime() < 10000) {
+            while (ShelterLoader.sheltersLoaded() && timer.getTime() < 10000) {
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {

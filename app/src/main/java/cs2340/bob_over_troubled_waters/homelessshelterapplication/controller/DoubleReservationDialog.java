@@ -11,6 +11,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 
 /**
  * Created by Francine on 3/14/2018.
+ * Dialog that appears when user tries to make a reservation but already has one.
  */
 
 public class DoubleReservationDialog extends DialogFragment {

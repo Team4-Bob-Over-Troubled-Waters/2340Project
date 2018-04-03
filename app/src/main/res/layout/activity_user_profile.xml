@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="User's Name Here"
+        android:text="@string/user_name_here"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,15 +21,18 @@
 
     <ListView
         android:id="@+id/user_info_view"
-        android:layout_width="368dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/back_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_text_view"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="8dp" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <ToggleButton
         android:id="@+id/toggle_blocked_button"
@@ -38,9 +41,9 @@
         android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
         android:onClick="toggleBlockedButtonAction"
-        android:text="ToggleButton"
-        android:textOff="Block"
-        android:textOn="Unblock"
+        android:text="@string/toggle_button"
+        android:textOff="@string/block"
+        android:textOn="@string/unblock"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -50,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:onClick="approveButtonAction"
-        android:text="Approve"
+        android:text="@string/approve"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/back_button"
@@ -64,7 +67,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:onClick="backButtonAction"
-        android:text="Back"
+        android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

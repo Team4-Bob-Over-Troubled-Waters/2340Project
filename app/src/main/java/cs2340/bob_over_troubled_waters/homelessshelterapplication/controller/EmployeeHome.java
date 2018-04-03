@@ -14,7 +14,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 public class EmployeeHome extends AppCompatActivity {
 
-    ShelterEmployee currentUser;
+    private ShelterEmployee currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,8 @@ public class EmployeeHome extends AppCompatActivity {
 
         TextView worksAt = findViewById(R.id.works_at_view);
         if (currentUser.getShelter() != null) {
-            worksAt.setText("Works at " + currentUser.getShelter());
+            String text = "Works at " + currentUser.getShelter();
+            worksAt.setText(text);
         } else {
             worksAt.setText("");
         }

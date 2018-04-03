@@ -1,13 +1,14 @@
 package cs2340.bob_over_troubled_waters.homelessshelterapplication.model;
 
+import android.util.SparseArray;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.ShelterLoader;
@@ -16,26 +17,28 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.enums.Ge
 
 /**
  * Created by Francine on 2/16/2018.
+ *
+ * Holds information about a shelter.
  */
 
 @IgnoreExtraProperties
 public class Shelter {
-    private int ID;
+    private Integer ID;
     private String name;
     private String capacity;
-    private int reservations;
-    private int maxVacancies;
+    private Integer reservations = 0;
+    private Integer maxVacancies;
     private String restrictions;
-    private double longitude;
-    private double latitude;
+    private Double longitude;
+    private Double latitude;
     private String address;
     private String specialNotes;
     private String phoneNumber;
     private Gender gender;
     private HashSet<AgeRanges> ageRanges;
 
-    private static HashSet<String> shelterNames = new HashSet<>();
-    private static HashMap<Integer, Shelter> shelters = new HashMap<>();
+    private static final HashSet<String> shelterNames = new HashSet<>();
+    private static final SparseArray<Shelter> shelters = new SparseArray<>();
 
     private static Shelter currentShelter = null;
 
@@ -48,7 +51,11 @@ public class Shelter {
     }
 
     public static Collection<Shelter> getShelters() {
-        return shelters.values();
+        Collection<Shelter> collection = new ArrayList<>();
+        for (int i = 0; i < shelters.size(); i++) {
+            collection.add(shelters.get(i));
+        }
+        return collection;
     }
 
     public static Shelter getShelter(Integer shelterId) {
@@ -56,7 +63,8 @@ public class Shelter {
     }
 
     public static Shelter getShelterByName(String name) {
-        for (Shelter shelter : shelters.values()) {
+        for (int i = 0; i < shelters.size(); i++) {
+            Shelter shelter = shelters.get(i);
             if (name.equals(shelter.getName())) {
                 return shelter;
             }
@@ -64,9 +72,11 @@ public class Shelter {
         return null;
     }
 
-    public static boolean shelterNameInUse(String name) {
-        return shelterNames.contains(name);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public static boolean shelterNameInUse(String name) {
+//        return shelterNames.contains(name);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     /**
      * constructs a shelter object from the saved instance in the database
@@ -91,7 +101,9 @@ public class Shelter {
         }
 
         this.maxVacancies = snapshot.child("maxVacancies").getValue(Integer.class);
-        this.reservations = snapshot.child("reservations").getValue(Integer.class);
+        if (snapshot.child("reservations").getValue(Integer.class) != null) {
+            this.reservations = snapshot.child("reservations").getValue(Integer.class);
+        }
 
         shelters.put(this.ID, this);
     }
@@ -108,7 +120,8 @@ public class Shelter {
             if (maxVacancies == null) {
                 maxVacancies = 0;
             }
-        } else if (maxVacancies == null) {
+        }
+        if (maxVacancies == null) {
             try {
                 maxVacancies = Integer.parseInt(capacity);
             } catch (Exception e) {
@@ -182,7 +195,7 @@ public class Shelter {
         }
         if (this == other) return true;
         Shelter that = (Shelter) other;
-        return this.ID == that.ID;
+        return Objects.equals(this.ID, that.ID);
     }
 
     @Override
@@ -199,28 +212,34 @@ public class Shelter {
         return ID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setID(int ID) {
+//        this.ID = ID;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setName(String name) {
+//        this.name = name;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public String getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
-        this.capacity = capacity;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setCapacity(String capacity) {
+//        this.capacity = capacity;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     /**
      * get the current number of vacancies
@@ -232,9 +251,11 @@ public class Shelter {
         return Math.min(maxVacancies, vacancies);
     }
 
-    public int getReservations() {
-        return reservations;
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public int getReservations() {
+//        return reservations;
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
 //    public void setVacancies(int vacancies) {
 //        this.vacancies = vacancies;
@@ -259,62 +280,76 @@ public class Shelter {
         return maxVacancies;
     }
 
-    public void setMaxVacancies(int maxVacancies) {
-        this.maxVacancies = maxVacancies;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setMaxVacancies(int maxVacancies) {
+//        this.maxVacancies = maxVacancies;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public String getRestrictions() {
         return restrictions;
     }
 
-    public void setRestrictions(String restrictions) {
-        this.restrictions = restrictions;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setRestrictions(String restrictions) {
+//        this.restrictions = restrictions;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setLongitude(double longitude) {
+//        this.longitude = longitude;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setLatitude(double latitude) {
+//        this.latitude = latitude;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setAddress(String address) {
+//        this.address = address;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public String getSpecialNotes() {
         return specialNotes;
     }
 
-    public void setSpecialNotes(String specialNotes) {
-        this.specialNotes = specialNotes;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setSpecialNotes(String specialNotes) {
+//        this.specialNotes = specialNotes;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        DataPoster.post(this);
-    }
+// --Commented out by Inspection START (3/31/2018 15:35):
+//    public void setPhoneNumber(String phoneNumber) {
+//        this.phoneNumber = phoneNumber;
+//        DataPoster.post(this);
+//    }
+// --Commented out by Inspection STOP (3/31/2018 15:35)
 }

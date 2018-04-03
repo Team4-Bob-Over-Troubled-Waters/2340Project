@@ -34,7 +34,7 @@ public class UserListing extends AppCompatActivity {
 
         ListView usersView = findViewById(R.id.user_view);
         users = AdminUser.getUsers();
-        ArrayAdapter<User> adapter = new ArrayAdapter<User>(
+        ArrayAdapter<User> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_list_item_1, users);
         usersView.setAdapter(adapter);
         usersView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

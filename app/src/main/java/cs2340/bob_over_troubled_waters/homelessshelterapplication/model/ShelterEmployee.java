@@ -9,6 +9,8 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.Dat
 
 /**
  * Created by Admin on 3/5/2018.
+ *
+ * Holds information about a shelter employee user.
  */
 
 @IgnoreExtraProperties
@@ -16,7 +18,7 @@ public class ShelterEmployee extends User {
 
     private Shelter shelter;
     private Integer shelterId = null;
-    private boolean isApproved = false;
+    private Boolean isApproved = false;
 
     public ShelterEmployee(String email, String password, String name) throws Exception {
         super(email, password, name);

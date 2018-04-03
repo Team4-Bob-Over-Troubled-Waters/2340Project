@@ -11,7 +11,7 @@
         android:layout_width="322dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="Welcome (email)!"
+        android:text="@string/welcome_email"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,14 +20,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/logout_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:onClick="logoutButtonAction"
-        android:text="Logout"
+        android:text="@string/logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -37,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:onClick="loadShelterAction"
-        android:text="View Shelters"
+        android:text="@string/view_shelters"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:onClick="searchSheltersButtonAction"
-        android:text="Search Shelters"
+        android:text="@string/search_shelters"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/load_shelter_button" />
@@ -60,18 +58,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:onClick="viewReservationButtonAction"
-        android:text="View Reservation"
+        android:text="@string/view_reservation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_shelters_button" />
 
     <Button
-        android:id="@+id/view_map_button"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:onClick="viewMapButtonAction"
-        android:text="View Map"
+        android:text="@string/view_map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_reservation_button" />

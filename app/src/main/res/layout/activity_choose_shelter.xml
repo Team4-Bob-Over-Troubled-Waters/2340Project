@@ -11,7 +11,7 @@
         android:layout_width="274dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Welcome new shelter employee! To get started choose your shelter."
+        android:text="@string/welcome_employee"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="30sp"
@@ -39,18 +39,17 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="12dp"
         android:onClick="continueButtonAction"
-        android:text="Continue"
+        android:text="@string/continue_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shelter_spinner" />
 
     <Button
-        android:id="@+id/logout_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:onClick="logoutButtonAction"
-        android:text="Logout"
+        android:text="@string/logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>

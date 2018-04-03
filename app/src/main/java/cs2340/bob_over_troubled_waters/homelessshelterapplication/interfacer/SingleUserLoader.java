@@ -27,9 +27,9 @@ public class SingleUserLoader {
 
     private static final FirebaseAuth auth = FirebaseAuth.getInstance();
 
-    private String email;
+    private final String email;
     private User loadedUser;
-    private String password;
+    private final String password;
     private Exception error;
     private boolean done = false;
 
@@ -52,6 +52,7 @@ public class SingleUserLoader {
                         error = new Exception("Login unsuccessful");
                     }
 
+                    assert id != null;
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
                             .child("users").child(id);
 
@@ -59,12 +60,17 @@ public class SingleUserLoader {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             String userType = dataSnapshot.child("userType").getValue(String.class);
-                            if (userType.equals("user")) {
-                                loadedUser = new HomelessPerson(dataSnapshot);
-                            } else if (userType.equals("employee")) {
-                                loadedUser = new ShelterEmployee(dataSnapshot);
-                            } else {
-                                loadedUser = new AdminUser(dataSnapshot);
+                            assert userType != null;
+                            switch (userType) {
+                                case "user":
+                                    loadedUser = new HomelessPerson(dataSnapshot);
+                                    break;
+                                case "employee":
+                                    loadedUser = new ShelterEmployee(dataSnapshot);
+                                    break;
+                                default:
+                                    loadedUser = new AdminUser(dataSnapshot);
+                                    break;
                             }
                             done = true;
                         }
@@ -80,12 +86,17 @@ public class SingleUserLoader {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             String userType = dataSnapshot.child("userType").getValue(String.class);
-                            if (userType.equals("user")) {
-                                loadedUser = new HomelessPerson(dataSnapshot);
-                            } else if (userType.equals("employee")) {
-                                loadedUser = new ShelterEmployee(dataSnapshot);
-                            } else {
-                                loadedUser = new AdminUser(dataSnapshot);
+                            assert userType != null;
+                            switch (userType) {
+                                case "user":
+                                    loadedUser = new HomelessPerson(dataSnapshot);
+                                    break;
+                                case "employee":
+                                    loadedUser = new ShelterEmployee(dataSnapshot);
+                                    break;
+                                default:
+                                    loadedUser = new AdminUser(dataSnapshot);
+                                    break;
                             }
                         }
 

@@ -251,16 +251,15 @@ public class Shelter {
         return Math.min(maxVacancies, vacancies);
     }
 
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public int getReservations() {
-//        return reservations;
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-
-//    public void setVacancies(int vacancies) {
-//        this.vacancies = vacancies;
-//        DataPoster.post(this);
-//    }
+    /**
+     * getter for reservations
+     * DO NOT REMOVE!
+     * appears un used but actually required to save shelter to database
+     * @return number of reservations
+     */
+    public int getReservations() {
+        return reservations;
+    }
 
     public void addReservation(Reservation reservation) throws Exception {
         if (reservation.getNumberOfBeds() > getVacancies()) {

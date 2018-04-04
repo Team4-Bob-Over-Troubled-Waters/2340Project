@@ -31,13 +31,12 @@ public class UserLoader extends AsyncTask<Void, Void, String> {
 //    }
 // --Commented out by Inspection STOP (3/31/2018 15:35)
 
-    private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users");
-
     private boolean done;
     private String errorMessage;
 
     @Override
     public String doInBackground(Void ... params) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

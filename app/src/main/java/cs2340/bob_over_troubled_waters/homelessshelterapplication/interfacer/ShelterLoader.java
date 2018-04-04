@@ -18,7 +18,6 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 
 public class ShelterLoader extends AsyncTask<Void, Void, String> {
 
-    private static final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("shelters");
     private static int maxChildId = -1;
 
     private static ShelterLoader instance;
@@ -44,12 +43,13 @@ public class ShelterLoader extends AsyncTask<Void, Void, String> {
      * @return the maximum shelter id incremented by 1
      */
     public static int getNextShelterId() {
-        if (sheltersLoaded()) throw new RuntimeException("Problem loading shelters.");
+//        if (sheltersLoaded()) throw new RuntimeException("Problem loading shelters.");
         return maxChildId + 1;
     }
 
     @Override
     public String doInBackground(Void ... params) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("shelters");
         if (!done) {
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

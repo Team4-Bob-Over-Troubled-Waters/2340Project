@@ -4,6 +4,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.HomelessPerson;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 import static org.junit.Assert.*;
 
@@ -20,7 +24,19 @@ public class UnitTests {
     }
 
     @Test (timeout = 200)
-    public void testMethod() {
-
+    public void testUserToString() {
+        try {
+            User employee = new ShelterEmployee("employee@test.com", "testing", null);
+            User homelessPerson = new HomelessPerson("user@test.com", "testing", null);
+            User admin = new AdminUser("admin@test.com", "testing", null);
+            String employeeString = "employee@test.com\nShelter Employee";
+            String userString = "user@test.com\nHomeless Person";
+            String adminString = "admin@test.com\nAdmin User";
+            assertEquals(employeeString, employee.toString());
+            assertEquals(userString, homelessPerson.toString());
+            assertEquals(adminString, admin.toString());
+        } catch (Exception e) {
+            assertTrue(false);
+        }
     }
 }

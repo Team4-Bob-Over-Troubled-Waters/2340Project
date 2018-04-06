@@ -78,13 +78,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile(
             "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
-    private CallbackManager callbackManager;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,38 +86,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = findViewById(R.id.email);
         populateAutoComplete();
-
-
-        callbackManager = CallbackManager.Factory.create();
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList("email"));
-
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d("Success", "Login");
-            }
-
-            @Override
-            public void onCancel() {
-                Toast.makeText(LoginActivity.this, "Login Cancel",
-                        Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                Toast.makeText(LoginActivity.this,
-                        exception.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-
-        setContentView(R.layout.activity_login);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile"));
-            }
-        });
 
 
 

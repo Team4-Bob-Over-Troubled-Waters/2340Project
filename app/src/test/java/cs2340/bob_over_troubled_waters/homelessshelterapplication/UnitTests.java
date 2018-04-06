@@ -6,6 +6,7 @@ import org.junit.Test;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.HomelessPerson;
+import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Reservation;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
@@ -35,6 +36,19 @@ public class UnitTests {
             assertEquals(employeeString, employee.toString());
             assertEquals(userString, homelessPerson.toString());
             assertEquals(adminString, admin.toString());
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+
+    @Test (timeout = 200)
+    public void testHomelessPersonGetCurrentReservedNum() {
+        try {
+            HomelessPerson homelessPerson = new HomelessPerson("hp@test.com", "testing", null);
+            assertEquals(homelessPerson.getCurrentReservedNum(), 0);
+            Reservation reserve = new Reservation(4, 1);
+            homelessPerson.setCurrentReservation(reserve);
+            assertEquals(homelessPerson.getCurrentReservedNum(), 4);
         } catch (Exception e) {
             assertTrue(false);
         }

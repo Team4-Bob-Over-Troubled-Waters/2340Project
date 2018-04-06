@@ -25,7 +25,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 public class SingleUserLoader {
 
-    private static final FirebaseAuth auth = FirebaseAuth.getInstance();
+    private static FirebaseAuth auth;
 
     private final String email;
     private User loadedUser;
@@ -39,6 +39,7 @@ public class SingleUserLoader {
     }
 
     public User execute() throws Exception {
+        auth = FirebaseAuth.getInstance();
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

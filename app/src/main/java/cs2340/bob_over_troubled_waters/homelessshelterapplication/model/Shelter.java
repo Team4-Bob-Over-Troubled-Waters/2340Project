@@ -193,7 +193,9 @@ public class Shelter {
         if (other == null || !(other instanceof Shelter)) {
             return false;
         }
-        if (this == other) return true;
+        if (this == other) {
+            return true;
+        }
         Shelter that = (Shelter) other;
         return Objects.equals(this.ID, that.ID);
     }

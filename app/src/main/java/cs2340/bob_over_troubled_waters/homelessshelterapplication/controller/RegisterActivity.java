@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,8 +30,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookException;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.login.LoginResult;
+import com.facebook.FacebookCallback;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,6 +53,8 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUse
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.HomelessPerson;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
+
+import org.json.JSONObject;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -60,6 +72,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+
+    /**
+     * CallbackManager for facebook login
+     */
+    private CallbackManager callbackManager;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -79,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        LoginManager.getInstance().logOut();
         // Set up the login form.
         mHomelessButton = findViewById(R.id.homeless_button);
         mEmployeeButton = findViewById(R.id.employee_button);
@@ -112,6 +130,50 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        // Facebook login
+        callbackManager = CallbackManager.Factory.create();
+        LoginButton mLoginButton = (LoginButton) findViewById(R.id.login_button);
+        mLoginButton.setReadPermissions("email");
+        mLoginButton.registerCallback(callbackManager, mFacebookCallback);
+    }
+
+    private FacebookCallback<LoginResult> mFacebookCallback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            Log.d("Success", "Login");
+            GraphRequest request = GraphRequest.newMeRequest(
+                loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                @Override
+                public void onCompleted(JSONObject object, GraphResponse response) {
+                    if (response.getError() != null) {
+                        Log.d("Failed", "Get facebook info failed.");
+                    } else {
+                        String user_email =response.getJSONObject().optString("email");
+                        mEmailView.setText(user_email);
+                    }
+                }
+            });
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "email");
+            request.setParameters(parameters);
+            request.executeAsync();
+        }
+
+        @Override
+        public void onCancel() {
+            Log.d("Cancel", "Login");
+        }
+
+        @Override
+        public void onError(FacebookException error) {
+            Log.d("Failed", "Login " + error);
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void populateAutoComplete() {

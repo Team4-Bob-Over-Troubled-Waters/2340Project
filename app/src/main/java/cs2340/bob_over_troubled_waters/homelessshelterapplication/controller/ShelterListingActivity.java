@@ -43,9 +43,7 @@ public class ShelterListingActivity extends AppCompatActivity {
      * sets up list with all shelters by default, needed for map
      */
     private static ArrayList<Shelter> defaultShelters() {
-        ArrayList<Shelter> shelters = new ArrayList<>();
-        shelters.addAll(Shelter.getShelters());
-        return shelters;
+        return new ArrayList<>(Shelter.getShelters());
     }
 
     /**

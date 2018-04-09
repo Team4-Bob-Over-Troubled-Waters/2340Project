@@ -109,7 +109,7 @@ public class AddEditShelter extends AppCompatActivity {
         final String specialNotes;
         final String phoneNumber;
 
-        public ShelterAdder(String name, String capacity, Integer maxVacancies, String restrictions,
+        ShelterAdder(String name, String capacity, Integer maxVacancies, String restrictions,
                             Double longitude, Double latitude, String address, String specialNotes,
                             String phoneNumber) {
             this.name = name;

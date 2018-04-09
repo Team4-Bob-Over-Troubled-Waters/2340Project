@@ -16,10 +16,6 @@
 
     <!-- Facebook login -->
     <string name="facebook_app_id">159967651484633</string>
-    <string name="fb_login_protocol_scheme">fb159967651484633</string>
-
-    <string name="prompt_username">Username</string>
-    <string name="error_invalid_username">This username is invalid</string>
 
     <string name="title_activity_register">Register</string>
     <string name="title_activity_login_register">Register</string>

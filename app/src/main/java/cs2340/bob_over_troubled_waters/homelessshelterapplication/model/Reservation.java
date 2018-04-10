@@ -28,22 +28,47 @@ public class Reservation {
         return (numberOfBeds + " beds at " + shelter);
     }
 
+    /**
+     * Fetches and returns the number of beds.
+     *
+     * @return the number of beds.
+     */
     public int getNumberOfBeds() {
         return numberOfBeds;
     }
 
+    /**
+     * Sets the number of beds.
+     *
+     * @param numberOfBeds the number of beds.
+     */
     public void setNumberOfBeds(int numberOfBeds) {
         this.numberOfBeds = numberOfBeds;
     }
 
+    /**
+     * Fetches and returns the shelter.
+     *
+     * @return the shelter.
+     */
     public Shelter getShelter() {
         return shelter;
     }
 
+    /**
+     * Sets the shelter.
+     *
+     * @param shelter the shelter to set.
+     */
     public void setShelter(Shelter shelter) {
         this.shelter = shelter;
     }
 
+    /**
+     * Fetches and returns the shelter id.
+     *
+     * @return the shelter id.
+     */
     public Integer getShelterId() {
         return shelterId;
     }

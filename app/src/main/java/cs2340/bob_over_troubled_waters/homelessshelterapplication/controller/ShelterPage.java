@@ -86,10 +86,20 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
         }
     }
 
+    /**
+     * Terminates necessary processes to leave the shelter page.
+     *
+     * @param view the View object of the shelter page.
+     */
     public void backButtonAction(View view) {
         finish();
     }
 
+    /**
+     * Opens page to make a reservation.
+     *
+     * @param view the View object of the shelter page.
+     */
     public void reservePageButtonAction(View view) {
         HomelessPerson currentUser = (HomelessPerson) User.getCurrentUser();
         Reservation currentReservation = currentUser.getCurrentReservation();
@@ -115,6 +125,11 @@ public class ShelterPage extends AppCompatActivity implements NumberPicker.OnVal
         vacancies.setText(getString(R.string.vacancies) + selectedShelter.getVacancies());
     }
 
+    /**
+     * Opens page to edit a shelter.
+     *
+     * @param view the View object of the shelter page.
+     */
     public void editShelterButtonAction(View view) {
         Intent intent = new Intent(this, AddEditShelter.class);
         startActivity(intent);

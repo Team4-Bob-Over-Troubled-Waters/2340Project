@@ -23,15 +23,30 @@ public class HomelessPerson extends User {
 
     private Reservation currentReservation = null;
 
+    /**
+     * Fetches and returns the current reservation.
+     *
+     * @return the current reservation.
+     */
     public Reservation getCurrentReservation() {
         return currentReservation;
     }
 
+    /**
+     * Sets the current reservation.
+     *
+     * @param currentReservation the reservation to set as current reservation.
+     */
     public void setCurrentReservation(Reservation currentReservation) {
         this.currentReservation = currentReservation;
         DataPoster.post(this);
     }
 
+    /**
+     * Fetches and returns the currently reserved shelter.
+     *
+     * @return the currently reserved shelter.
+     */
     public Shelter getCurrentReservedShelter() {
         if (currentReservation != null) {
             return currentReservation.getShelter();
@@ -39,6 +54,11 @@ public class HomelessPerson extends User {
         return null;
     }
 
+    /**
+     * Fetches and returns the shelter id for the currently reserved shelter.
+     *
+     * @return the shelter id of the currently reserved shelter.
+     */
     public Integer getCurrentReservedShelterId() {
         if (currentReservation != null) {
             return currentReservation.getShelterId();
@@ -46,6 +66,11 @@ public class HomelessPerson extends User {
         return null;
     }
 
+    /**
+     * Fetches and returns the number of currently reserved beds.
+     *
+     * @return the number of currently reserved beds.
+     */
     public int getCurrentReservedNum() {
         if (currentReservation != null) {
             return currentReservation.getNumberOfBeds();

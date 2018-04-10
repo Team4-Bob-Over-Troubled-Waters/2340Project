@@ -30,22 +30,41 @@ public class UserHome extends AppCompatActivity {
         }
     }
 
+    /**
+     * Logs the user out after they hit the logout button.
+     *
+     * @param view the View object of the home screen user interface for the user.
+     */
     public void logoutButtonAction(View view) {
         User.logout();
         finish();
     }
 
+    /**
+     * Loads and starts the shelter listing page.
+     *
+     * @param view the View object of the home screen user interface for the user.
+     */
     public void loadShelterAction(View view) {
         ShelterSearch.clearCriteria();
         Intent intent = new Intent(this, ShelterListingActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Loads and starts the shelter search page.
+     *
+     * @param view the View object of the home screen user interface for the user.
+     */
     public void searchSheltersButtonAction(View view) {
         Intent intent = new Intent(this, ShelterSearch.class);
         startActivity(intent);
     }
 
+    /**
+     * Loads and starts the page for viewing reservations.
+     * @param view
+     */
     public void viewReservationButtonAction(View view) {
         Intent intent = new Intent(this, ReservationPage.class);
         startActivity(intent);

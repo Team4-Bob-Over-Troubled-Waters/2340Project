@@ -57,7 +57,6 @@ public class ReserveDialog extends DialogFragment {
                         Reservation reservation = new Reservation(numberOfBeds, currentShelter);
                         currentShelter.addReservation(reservation);
                         currentUser.setCurrentReservation(reservation);
-//                    currentShelter.setVacancies(vacancies - numberOfBeds);
                         TextView vacanciesText = getActivity().findViewById(R.id.text_vacancies);
                         vacanciesText.setText(getString(R.string.vacancies) + currentShelter.getVacancies());
 
@@ -81,10 +80,20 @@ public class ReserveDialog extends DialogFragment {
         return builder.create();
     }
 
+    /**
+     * Fetches and returns the valueChangeListener object.
+     *
+     * @return the valueChangeListner object
+     */
     public NumberPicker.OnValueChangeListener getValueChangeListener() {
         return valueChangeListener;
     }
 
+    /**
+     * Sets the value of the valueChangeListener object.
+     *
+     * @param valueChangeListener the valueChangeListener to give.
+     */
     public void setValueChangeListener(NumberPicker.OnValueChangeListener valueChangeListener) {
         this.valueChangeListener = valueChangeListener;
     }

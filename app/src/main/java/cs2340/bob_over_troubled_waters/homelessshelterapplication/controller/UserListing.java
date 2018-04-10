@@ -27,8 +27,9 @@ public class UserListing extends AppCompatActivity {
     }
 
     /**
-     * 
-     * @param view
+     * Exits out of the user listing page after the user hits the back button.
+     *
+     * @param view the View object fo the User Listing page.
      */
     public void backButtonAction(View view) {
         finish();
@@ -51,6 +52,11 @@ public class UserListing extends AppCompatActivity {
         });
     }
 
+    /**
+     * Fetches and returns the array list of users.
+     *
+     * @return the users of the application.
+     */
     public static ArrayList<User> getUsers() {
         return users;
     }

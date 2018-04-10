@@ -65,6 +65,11 @@ public class UserProfile extends AppCompatActivity {
         userInfo.setAdapter(adapter);
     }
 
+    /**
+     * Terminates this page after the user ompts to back out of it.
+     *
+     * @param view the View object of the current page.
+     */
     public void backButtonAction(View view) {
         finish();
     }
@@ -81,6 +86,11 @@ public class UserProfile extends AppCompatActivity {
         updateUserInfoView();
     }
 
+    /**
+     * Prevents the user from backing out of the page.
+     *
+     * @param view the View object of the current page user interface.
+     */
     public void toggleBlockedButtonAction(View view) {
         currentUser.toggleBlockUser(user);
         updateUserInfoView();

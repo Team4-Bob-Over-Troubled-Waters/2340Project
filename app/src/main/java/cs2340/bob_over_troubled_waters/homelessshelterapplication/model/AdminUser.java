@@ -76,16 +76,12 @@ public class AdminUser extends User {
         return users;
     }
 
-<<<<<<< HEAD
-    private Boolean isApproved = false;
 
-=======
     /**
      * Returns a boolean indicating whether or not there is approval.
      *
      * @return true if there is approval; false otherwise.
      */
->>>>>>> gunnarmisha
     public boolean isApproved() {
         return isApproved;
     }

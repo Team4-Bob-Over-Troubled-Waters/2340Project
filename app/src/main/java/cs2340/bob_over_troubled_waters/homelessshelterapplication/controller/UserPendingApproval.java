@@ -15,6 +15,11 @@ public class UserPendingApproval extends AppCompatActivity {
         setContentView(R.layout.activity_user_pending_approval);
     }
 
+    /**
+     * Initiates action to log the user out of the application.
+     *
+     * @param view the View object of the current page on the user interface.
+     */
     public void logoutButtonAction(View view) {
         User.logout();
         finish();

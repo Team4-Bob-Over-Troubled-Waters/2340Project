@@ -3,6 +3,8 @@ package cs2340.bob_over_troubled_waters.homelessshelterapplication;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.DataPoster;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.AdminUser;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.HomelessPerson;
@@ -49,6 +51,45 @@ public class UnitTests {
             Reservation reserve = new Reservation(4, 1);
             homelessPerson.setCurrentReservation(reserve);
             assertEquals(homelessPerson.getCurrentReservedNum(), 4);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+
+    @Test (timeout = 200)
+    public void testAdminGetUsers() {
+        try {
+            User employee = new ShelterEmployee("employee@test.com", "testing", null);
+            User homelessPerson = new HomelessPerson("user@test.com", "testing", null);
+            User admin = new AdminUser("admin@test.com", "testing", null);
+            AdminUser.addUser(employee);
+            AdminUser.addUser(homelessPerson);
+            AdminUser.addUser(admin);
+
+            ArrayList<User> users = new ArrayList<>();
+
+            users.add(admin);
+            assertEquals(AdminUser.getUsers(AdminUser.class), users);
+
+            users.add(employee);
+            assertEquals(AdminUser.getUsers(AdminUser.class, ShelterEmployee.class), users);
+
+            users.add(homelessPerson);
+            assertEquals(AdminUser.getUsers(AdminUser.class, ShelterEmployee.class, HomelessPerson.class), users);
+            assertEquals(AdminUser.getUsers(), users);
+
+            users.remove(employee);
+            assertEquals(AdminUser.getUsers(AdminUser.class, HomelessPerson.class), users);
+
+            users.remove(admin);
+            assertEquals(AdminUser.getUsers(HomelessPerson.class), users);
+
+            users.clear();
+            User homelessPerson2 = new HomelessPerson("user2@test.com", "testing", null);
+            AdminUser.addUser(homelessPerson2);
+            users.add(homelessPerson2);
+            users.add(homelessPerson);
+            assertEquals(AdminUser.getUsers(HomelessPerson.class), users);
         } catch (Exception e) {
             assertTrue(false);
         }

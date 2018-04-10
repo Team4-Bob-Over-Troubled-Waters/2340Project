@@ -46,7 +46,10 @@ public class AddEditShelter extends AppCompatActivity {
         if (shelter != null) setFields();
     }
 
-    private void setFields() {
+    /**
+     * Sets the values for the fields for a shelter.
+     */
+    public void setFields() {
         shelterNameView.setText(shelter.getName());
         shelterNameBox.setText(shelter.getName());
         addressBox.setText(shelter.getAddress());
@@ -62,6 +65,13 @@ public class AddEditShelter extends AppCompatActivity {
         maxVacanciesBox.setText(text);
     }
 
+    /**
+     * Updates internal information to correspond with user input after the user
+     * presses the confirmation button.
+     *
+     * @param view the View object of the user interface screen for adding
+     *             and editing shelters.
+     */
     public void confirmButtonAction(View view) {
         String name = shelterNameBox.getText().toString();
         String capacity = capacityBox.getText().toString();
@@ -93,6 +103,13 @@ public class AddEditShelter extends AppCompatActivity {
         adder.execute();
     }
 
+    /**
+     * Finalizes action to leave the add/edit shelter interface once the
+     * user hits the back button.
+     *
+     * @param view the View object for the User Interface of the add/edit shelter
+     *             functions
+     */
     public void backButtonAction(View view) {
         finish();
     }
@@ -109,7 +126,7 @@ public class AddEditShelter extends AppCompatActivity {
         final String specialNotes;
         final String phoneNumber;
 
-        public ShelterAdder(String name, String capacity, Integer maxVacancies, String restrictions,
+        ShelterAdder(String name, String capacity, Integer maxVacancies, String restrictions,
                             Double longitude, Double latitude, String address, String specialNotes,
                             String phoneNumber) {
             this.name = name;

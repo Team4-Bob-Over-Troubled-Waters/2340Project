@@ -25,20 +25,30 @@ public class Reservation {
         return (numberOfBeds + " beds at " + getShelter());
     }
 
+    /**
+     * Fetches and returns the number of beds.
+     *
+     * @return the number of beds.
+     */
     public int getNumberOfBeds() {
         return numberOfBeds;
     }
 
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setNumberOfBeds(int numberOfBeds) {
-//        this.numberOfBeds = numberOfBeds;
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-
+    /**
+     * Fetches and returns the shelter.
+     *
+     * @return the shelter.
+     */
     public Shelter getShelter() {
         return Shelter.getShelter(shelterId);
     }
 
+
+    /**
+     * Fetches and returns the shelter id.
+     *
+     * @return the shelter id.
+     */
     public Integer getShelterId() {
         return shelterId;
     }

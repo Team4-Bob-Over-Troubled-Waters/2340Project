@@ -48,7 +48,6 @@ public class ReserveDialog extends DialogFragment {
                     try {
                         currentShelter.addReservation(reservation);
                         currentUser.setCurrentReservation(reservation);
-//                    currentShelter.setVacancies(vacancies - numberOfBeds);
                         TextView vacanciesText = getActivity().findViewById(R.id.text_vacancies);
                         String text = getString(R.string.vacancies) + currentShelter.getVacancies();
                         vacanciesText.setText(text);
@@ -75,9 +74,4 @@ public class ReserveDialog extends DialogFragment {
         return builder.create();
     }
 
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public NumberPicker.OnValueChangeListener getValueChangeListener() {
-//        return valueChangeListener;
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
 }

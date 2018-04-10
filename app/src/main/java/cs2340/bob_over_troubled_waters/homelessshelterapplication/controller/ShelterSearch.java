@@ -23,22 +23,47 @@ public class ShelterSearch extends AppCompatActivity {
     private static ArrayList<AgeRanges> ageCriteria = new ArrayList<>();
     private static String searchString = null;
 
+    /**
+     * Clears the search criteria.
+     *
+     * Namely, it clears the restrictions on the search set based on
+     * gender, age, and/or searchString given.
+     *
+     */
     public static void clearCriteria() {
         genderCriteria.clear();
         ageCriteria.clear();
         searchString = null;
     }
 
+    /**
+     * Fetches and returns the gender criteria restriction on the search.
+     *
+     * @return the array list of possible genders.
+     */
     public static ArrayList<Gender> getGenderCriteria() {
         if (genderCriteria.isEmpty() || genderCriteria.size() == 3) return null;
         return genderCriteria;
     }
 
+    /**
+     * Fetches and returns the age criteria restrictions on the search.
+     *
+     * @return the array list of possible age ranges.
+     */
     public static ArrayList<AgeRanges> getAgeCriteria() {
         if (ageCriteria.isEmpty()) return null;
         return ageCriteria;
     }
 
+    /**
+     * Fetches and returns the searchString.
+     *
+     * The search string is the string inserted into the search bar
+     * to search for a shelter of a specific name.
+     *
+     * @return the string inputed into the search bar.
+     */
     public static String getSearchString() {
         return searchString;
     }
@@ -51,6 +76,12 @@ public class ShelterSearch extends AppCompatActivity {
         populateAutoComplete();
     }
 
+    /**
+     * Takes the data that the user inputed for their search and
+     * updates internal search criteria appropriately.
+     *
+     * @param view the View object for the user interface.
+     */
     public void searchAction(View view) {
         clearCriteria();
         CheckBox maleBox = (CheckBox) findViewById(R.id.male_check_box);
@@ -73,6 +104,11 @@ public class ShelterSearch extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Finalizes closing the search page when finished.
+     *
+     * @param view the View object of the user interface.
+     */
     public void backButtonAction(View view) {
         finish();
     }

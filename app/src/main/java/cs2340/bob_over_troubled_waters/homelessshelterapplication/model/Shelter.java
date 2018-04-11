@@ -83,7 +83,12 @@ public class Shelter {
         return shelters.get(shelterId);
     }
 
-<<<<<<< HEAD
+
+    /**
+     * gets shelter with a given name
+     * @param name to search for
+     * @return shelter with that name
+     */
     public static Shelter getShelterByName(String name) {
         for (int i = 0; i < shelters.size(); i++) {
             Shelter shelter = shelters.get(i);
@@ -92,23 +97,7 @@ public class Shelter {
             }
         }
         return null;
-=======
-    /**
-     * Returns a boolean indicating whether a shelter is already being used.
-     *
-     * @param name the name you want to check if it is being used.
-     * @return true if the shelter name is currently being used; false otherwise.
-     */
-    public static boolean shelterNameInUse(String name) {
-        return shelterNames.contains(name);
->>>>>>> gunnarmisha
     }
-
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public static boolean shelterNameInUse(String name) {
-//        return shelterNames.contains(name);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     /**
      * constructs a shelter object from the saved instance in the database
@@ -160,11 +149,21 @@ public class Shelter {
                 maxVacancies = 0;
             }
         }
-        if (restrictions == null) restrictions = "";
-        if (longitude == null) throw new IllegalArgumentException("Longitude is required");
-        if (latitude == null) throw new IllegalArgumentException("Latitude is required");
-        if (address == null || address.isEmpty()) throw new IllegalArgumentException("Address is required");
-        if (specialNotes == null) specialNotes = "";
+        if (restrictions == null) {
+            restrictions = "";
+        }
+        if (longitude == null) {
+            throw new IllegalArgumentException("Longitude is required");
+        }
+        if (latitude == null) {
+            throw new IllegalArgumentException("Latitude is required");
+        }
+        if (address == null || address.isEmpty()) {
+            throw new IllegalArgumentException("Address is required");
+        }
+        if (specialNotes == null) {
+            specialNotes = "";
+        }
         if (phoneNumber == null || phoneNumber.isEmpty()) {
             throw new IllegalArgumentException("Phone number is required");
         }
@@ -174,7 +173,6 @@ public class Shelter {
         shelterNames.add(name);
         this.capacity = capacity;
         this.maxVacancies = maxVacancies;
-        System.out.println("name: " + name + "\nmax vacancies: " + maxVacancies);
         reservations = 0;
         this.restrictions = restrictions;
         this.longitude = longitude;
@@ -213,8 +211,8 @@ public class Shelter {
             throw new IllegalArgumentException("Shelter name in use");
         }
         int ID = ShelterLoader.getNextShelterId();
-        return new Shelter(ID, name, capacity, maxVacancies, restrictions, longitude, latitude, address,
-                specialNotes, phoneNumber);
+        return new Shelter(ID, name, capacity, maxVacancies, restrictions, longitude, latitude,
+                address, specialNotes, phoneNumber);
     }
 
     /**
@@ -239,8 +237,8 @@ public class Shelter {
         if (!name.equals(shelter.name) && shelterNames.contains(name)) {
             throw new IllegalArgumentException("Shelter name in use");
         }
-        return new Shelter(shelter.ID, name, capacity, maxVacancies, restrictions, longitude, latitude, address,
-                specialNotes, phoneNumber);
+        return new Shelter(shelter.ID, name, capacity, maxVacancies, restrictions, longitude,
+                latitude, address, specialNotes, phoneNumber);
     }
 
     /**
@@ -282,25 +280,6 @@ public class Shelter {
         return ID;
     }
 
-<<<<<<< HEAD
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setID(int ID) {
-//        this.ID = ID;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-=======
-    /**
-     * Sets the ID of the shelter.
-     *
-     * @param ID the id of the shelter.
-     */
-    public void setID(int ID) {
-        this.ID = ID;
-        DataPoster.post(this);
-    }
->>>>>>> gunnarmisha
-
     /**
      * Fetches and returns the name of the shelter.
      * @return
@@ -308,25 +287,6 @@ public class Shelter {
     public String getName() {
         return name;
     }
-
-<<<<<<< HEAD
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setName(String name) {
-//        this.name = name;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-=======
-    /**
-     * Sets the name of the shelter.
-     *
-     * @param name the name of the shelter.
-     */
-    public void setName(String name) {
-        this.name = name;
-        DataPoster.post(this);
-    }
->>>>>>> gunnarmisha
 
     /**
      * Fetches and returns the capacity of the shelter.
@@ -336,25 +296,6 @@ public class Shelter {
     public String getCapacity() {
         return capacity;
     }
-
-<<<<<<< HEAD
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setCapacity(String capacity) {
-//        this.capacity = capacity;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-=======
-    /**
-     * Sets the capacity of the shelter.
-     *
-     * @param capacity the capacity of the shelter.
-     */
-    public void setCapacity(String capacity) {
-        this.capacity = capacity;
-        DataPoster.post(this);
-    }
->>>>>>> gunnarmisha
 
     /**
      * get the current number of vacancies
@@ -367,27 +308,14 @@ public class Shelter {
     }
 
     /**
-<<<<<<< HEAD
      * getter for reservations
      * DO NOT REMOVE!
      * appears un used but actually required to save shelter to database
      * @return number of reservations
-=======
-     * Fetches and returns the reservations.
-     *
-     * @return the reservations.
->>>>>>> gunnarmisha
      */
     public int getReservations() {
         return reservations;
     }
-
-<<<<<<< HEAD
-=======
-//    public void setVacancies(int vacancies) {
-//        this.vacancies = vacancies;
-//        DataPoster.post(this);
-//    }
 
     /**
      * Adds a reservation.
@@ -395,7 +323,6 @@ public class Shelter {
      * @param reservation the reservation to add.
      * @throws Exception if there are not enough vacancies.
      */
->>>>>>> gunnarmisha
     public void addReservation(Reservation reservation) throws Exception {
         if (reservation.getNumberOfBeds() > getVacancies()) {
             throw new Exception("Can't make reservation. Not enough vacancies");
@@ -424,25 +351,6 @@ public class Shelter {
         return maxVacancies;
     }
 
-<<<<<<< HEAD
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setMaxVacancies(int maxVacancies) {
-//        this.maxVacancies = maxVacancies;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-=======
-    /**
-     * Sets the max number of vacancies.
-     *
-     * @param maxVacancies the max number of vacancies.
-     */
-    public void setMaxVacancies(int maxVacancies) {
-        this.maxVacancies = maxVacancies;
-        DataPoster.post(this);
-    }
->>>>>>> gunnarmisha
-
     /**
      * Fetches and returns the restrictions for the shelter.
      *
@@ -451,25 +359,6 @@ public class Shelter {
     public String getRestrictions() {
         return restrictions;
     }
-
-<<<<<<< HEAD
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setRestrictions(String restrictions) {
-//        this.restrictions = restrictions;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-=======
-    /**
-     * Sets the restrictions for a shelter.
-     *
-     * @param restrictions the restrictions for a shelter.
-     */
-    public void setRestrictions(String restrictions) {
-        this.restrictions = restrictions;
-        DataPoster.post(this);
-    }
->>>>>>> gunnarmisha
 
     /**
      * Fetches and returns the longitude value for the location
@@ -481,25 +370,6 @@ public class Shelter {
         return longitude;
     }
 
-<<<<<<< HEAD
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setLongitude(double longitude) {
-//        this.longitude = longitude;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-=======
-    /**
-     * Sets the longitude value for the location of a shelter.
-     *
-     * @param longitude the longitude value for the location of the shelter.
-     */
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-        DataPoster.post(this);
-    }
->>>>>>> gunnarmisha
-
     /**
      * Fetches and returns the latitude value for the location of the shelter.
      *
@@ -508,13 +378,6 @@ public class Shelter {
     public double getLatitude() {
         return latitude;
     }
-
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setLatitude(double latitude) {
-//        this.latitude = latitude;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     /**
      * Fetches and returns the address of the shelter.
@@ -525,25 +388,6 @@ public class Shelter {
         return address;
     }
 
-<<<<<<< HEAD
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setAddress(String address) {
-//        this.address = address;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-=======
-    /**
-     * Sets the address of the shelter.
-     *
-     * @param address the address of the shelter.
-     */
-    public void setAddress(String address) {
-        this.address = address;
-        DataPoster.post(this);
-    }
->>>>>>> gunnarmisha
-
     /**
      * Fetches and returns any special notes for the shelter.
      *
@@ -553,25 +397,6 @@ public class Shelter {
         return specialNotes;
     }
 
-<<<<<<< HEAD
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setSpecialNotes(String specialNotes) {
-//        this.specialNotes = specialNotes;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-=======
-    /**
-     * Sets any special notes for the shelter.
-     *
-     * @param specialNotes any special notes for the shelter.
-     */
-    public void setSpecialNotes(String specialNotes) {
-        this.specialNotes = specialNotes;
-        DataPoster.post(this);
-    }
->>>>>>> gunnarmisha
-
     /**
      * Fetches and returns the phone number for the shelter.
      *
@@ -580,23 +405,4 @@ public class Shelter {
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
-<<<<<<< HEAD
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setPhoneNumber(String phoneNumber) {
-//        this.phoneNumber = phoneNumber;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-=======
-    /**
-     * Sets the phone number for the shelter.
-     *
-     * @param phoneNumber the phone number for the shelter.
-     */
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        DataPoster.post(this);
-    }
->>>>>>> gunnarmisha
 }

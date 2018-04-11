@@ -30,11 +30,12 @@ public class AdminUser extends User {
      * @param user the user to add to the appropriate map.
      */
     public static void addUser(User user) {
-        if (user instanceof AdminUser) {
+        Class<? extends User> userClass = user.getClass();
+        if (userClass.equals(AdminUser.class)) {
             adminUsers.put(user.getEmail(), (AdminUser) user);
-        } else if (user instanceof ShelterEmployee) {
+        } else if (userClass.equals(ShelterEmployee.class)) {
             shelterEmployees.put(user.getEmail(), (ShelterEmployee) user);
-        } else if (user instanceof HomelessPerson) {
+        } else {
             homelessPeople.put(user.getEmail(), (HomelessPerson) user);
         }
     }
@@ -61,8 +62,9 @@ public class AdminUser extends User {
      */
     public static ArrayList<User> getUsers(Class ... types) {
         ArrayList<User> users = new ArrayList<>();
-        if (types.length == 0) types = new Class[]{
-                AdminUser.class, ShelterEmployee.class, HomelessPerson.class};
+        if (types.length == 0) {
+            types = new Class[]{AdminUser.class, ShelterEmployee.class, HomelessPerson.class};
+        }
         for (Class type : types) {
             if (type.equals(AdminUser.class)) {
                 users.addAll(adminUsers.values());
@@ -86,10 +88,21 @@ public class AdminUser extends User {
         return isApproved;
     }
 
+    /**
+     * constructor for an AdminUser
+     * @param email user email
+     * @param password user password
+     * @param name of user
+     * @throws Exception if problem with data
+     */
     public AdminUser(String email, String password, String name) throws Exception {
         super(email, password, name);
     }
 
+    /**
+     * constructor for AdminUser from database snapshot
+     * @param snapshot from database
+     */
     public AdminUser(DataSnapshot snapshot) {
         super(snapshot);
         isApproved = snapshot.child("isApproved").getValue(Boolean.class);

@@ -30,15 +30,11 @@ public class ReserveDialog extends DialogFragment {
         builder.setPositiveButton(R.string.reserve, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                System.out.println("clicked positive button");
                 HomelessPerson currentUser = (HomelessPerson) User.getCurrentUser();
                 Shelter currentShelter = Shelter.getCurrentShelter();
 
                 int vacancies = currentShelter.getVacancies();
                 int numberOfBeds = numberPicker.getValue();
-                System.out.println("current shelter: " + currentShelter.getName());
-                System.out.println("vacancies: " + vacancies);
-                System.out.println("beds: " + numberOfBeds);
                 if (numberOfBeds > vacancies) {
                     getFragmentManager().popBackStackImmediate();
                     ReserveFailDialog newFragment = new ReserveFailDialog();

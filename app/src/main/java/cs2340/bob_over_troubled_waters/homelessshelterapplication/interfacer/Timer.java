@@ -10,7 +10,7 @@ import org.apache.commons.lang3.time.StopWatch;
  *
  * this prevents infinite looping if there is no network connection
  */
-class Timer extends AsyncTask<Void, Void, Boolean> {
+final class Timer extends AsyncTask<Void, Void, Boolean> {
 
     private final long stopAt;
     private boolean done = false;
@@ -43,7 +43,9 @@ class Timer extends AsyncTask<Void, Void, Boolean> {
                 if (timer.getTime() > stopAt) {
                     return false;
                 }
-                if (done) throw new InterruptedException();
+                if (done) {
+                    throw new InterruptedException();
+                }
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 return true;
@@ -54,7 +56,6 @@ class Timer extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(final Boolean stopped) {
         if (!stopped) {
-            System.out.println("Timed out.");
             throw new RuntimeException("There is an issue with your connection.");
         }
     }

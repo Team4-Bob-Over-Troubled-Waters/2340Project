@@ -328,7 +328,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (user.getIsBlocked()) {
                     intent = new Intent(context, BlockedUser.class);
                 } else {
-                    if (user instanceof AdminUser) {
+                    Class<? extends User> userClass = user.getClass();
+                    if (userClass.equals(AdminUser.class)) {
                         UserLoader.start();
                         AdminUser admin = (AdminUser) user;
                         if (!admin.isApproved()) {
@@ -336,9 +337,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         } else {
                             intent = new Intent(context, AdminHome.class);
                         }
-                    } else if (user instanceof ShelterEmployee) {
+                    } else if (userClass.equals(ShelterEmployee.class)) {
                         ShelterEmployee employee = (ShelterEmployee) user;
-                        Shelter shelter = new SingleShelterLoader(employee.getShelterId()).execute();
+                        Shelter shelter = new SingleShelterLoader(
+                                employee.getShelterId()).execute();
                         employee.setShelter(shelter);
                         if (employee.getShelter() == null) {
                             intent = new Intent(context, ChooseShelter.class);

@@ -39,6 +39,10 @@ public class DataPoster {
     // set this to false when running tests so database isn't changed
     private static boolean enabled = true;
 
+    /**
+     * sets whether data posting is enabled
+     * @param enabled boolean value
+     */
     public static void setEnabled(boolean enabled) {
         DataPoster.enabled = enabled;
     }
@@ -54,9 +58,10 @@ public class DataPoster {
             path.child("email").setValue(user.getEmail());
             path.child("name").setValue(user.getName());
             path.child("isBlocked").setValue(user.getIsBlocked());
-            if (user instanceof AdminUser) {
+            Class<? extends User> userClass = user.getClass();
+            if (userClass.equals(AdminUser.class)) {
                 saveAdminData((AdminUser) user, path);
-            } else if (user instanceof ShelterEmployee) {
+            } else if (userClass.equals(ShelterEmployee.class)) {
                 saveEmployeeData((ShelterEmployee) user, path);
             } else {
                 saveUserData((HomelessPerson) user, path);
@@ -65,6 +70,10 @@ public class DataPoster {
         }
     }
 
+    /**
+     * posts a shelter to the database
+     * @param shelter to be posted
+     */
     public static void post(Shelter shelter) {
         if (enabled) {
             Timer timer = Timer.getTimer();
@@ -106,6 +115,13 @@ public class DataPoster {
     private static String firebaseId;
     private static Exception firebaseException;
 
+    /**
+     * adds a firebase user to the database
+     * @param email email of new user
+     * @param password password of new user
+     * @return user id of new user
+     * @throws Exception if user could not be created
+     */
     public static String addFirebaseUser(String email, String password) throws Exception {
         firebaseId = null;
         firebaseException = null;
@@ -138,6 +154,9 @@ public class DataPoster {
         return firebaseId;
     }
 
+    /**
+     * log out current user (if any)
+     */
     public static void logout() {
         Timer timer = Timer.getTimer();
         auth.signOut();

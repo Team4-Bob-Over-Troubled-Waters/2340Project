@@ -97,12 +97,7 @@ public abstract class User {
         }
     }
 
-<<<<<<< HEAD
-    User(DataSnapshot snapshot) {
-=======
-
     public User(DataSnapshot snapshot) {
->>>>>>> gunnarmisha
         id = snapshot.getKey();
         email = snapshot.child("email").getValue(String.class);
         name = snapshot.child("name").getValue(String.class);

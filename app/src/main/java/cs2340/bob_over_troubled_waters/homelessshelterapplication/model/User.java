@@ -46,14 +46,29 @@ public abstract class User {
     // the user who is logged in currently
     private static User currentUser = null;
 
+    /**
+     * Fetches and returns the User object of the current user.
+     *
+     * @return the current user.
+     */
     public static User getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * Sets the current user.
+     *
+     * @param user the new current user.
+     */
     public static void setCurrentUser(User user) {
         currentUser = user;
     }
 
+    /**
+     * Fetches and returns the user name of the user.
+     *
+     * @return the user name of the user.
+     */
     public String getUsersName() {
         if (name == null || name.isEmpty()) {
             return email;
@@ -82,7 +97,12 @@ public abstract class User {
         }
     }
 
+<<<<<<< HEAD
     User(DataSnapshot snapshot) {
+=======
+
+    public User(DataSnapshot snapshot) {
+>>>>>>> gunnarmisha
         id = snapshot.getKey();
         email = snapshot.child("email").getValue(String.class);
         name = snapshot.child("name").getValue(String.class);
@@ -103,6 +123,9 @@ public abstract class User {
         return currentUser;
     }
 
+    /**
+     * Logs out of the user account.
+     */
     public static void logout() {
         DataPoster.logout();
     }
@@ -115,6 +138,11 @@ public abstract class User {
         return String.format("Welcome %s!", getUsersName());
     }
 
+    /**
+     * Fetches and returns the user email.
+     *
+     * @return the email of the user.
+     */
     public String getEmail() {
         return email;
     }

@@ -32,11 +32,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:labelFor="@+id/shelter_search_field"
                 android:text="@string/shelter_name" />
 
             <AutoCompleteTextView
                 android:id="@+id/shelter_search_field"
-                android:labelFor="@+id/shelter_search_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp" />

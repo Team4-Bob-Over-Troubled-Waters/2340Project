@@ -36,24 +36,49 @@ public class ShelterEmployee extends User {
         }
     }
 
+    /**
+     * Sets the shelter that an employee is associated with.
+     *
+     * @param shelter the shelter employing the employee.
+     */
     public void setShelter(Shelter shelter) {
 //        path.child("shelter").setValue(shelter.getID());
         this.shelter = shelter;
         DataPoster.post(this);
     }
 
+    /**
+     * Fetches and returns the shelter employing the employee.
+     *
+     * @return the Shelter that the employee works for.
+     */
     public Shelter getShelter() {
         return shelter;
     }
 
+    /**
+     * Fetches and returns the shelter id of the shelther the employee works for.
+     *
+     * @return the shelter id of the shelter employing the employee in question.
+     */
     public Integer getShelterId() {
         return shelterId;
     }
 
+    /**
+     * Returns a boolean indicating whether or not the employee has been approved.
+     *
+     * @return true if approved; false otherwise.
+     */
     public boolean isApproved() {
         return isApproved;
     }
 
+    /**
+     * Approves the employee.
+     *
+     * @param approvedBy the admin user who approves the employee.
+     */
     public void approve(AdminUser approvedBy) {
         if (approvedBy != null) {
             isApproved = true;

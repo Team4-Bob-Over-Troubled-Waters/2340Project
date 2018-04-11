@@ -43,9 +43,7 @@ public class ShelterListingActivity extends AppCompatActivity {
      * sets up list with all shelters by default, needed for map
      */
     private static ArrayList<Shelter> defaultShelters() {
-        ArrayList<Shelter> shelters = new ArrayList<>();
-        shelters.addAll(Shelter.getShelters());
-        return shelters;
+        return new ArrayList<>(Shelter.getShelters());
     }
 
     /**
@@ -63,13 +61,16 @@ public class ShelterListingActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getBaseContext(), ShelterPage.class);
-//                intent.putExtra("position", i);
                 Shelter.setCurrentShelter(shelters.get(i));
                 startActivity(intent);
             }
         });
     }
 
+    /**
+     *
+     * @param view
+     */
     public void backButtonAction(View view) {
         finish();
     }

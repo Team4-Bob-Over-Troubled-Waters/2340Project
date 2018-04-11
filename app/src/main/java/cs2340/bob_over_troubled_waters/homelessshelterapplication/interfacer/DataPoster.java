@@ -23,6 +23,7 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
 public class DataPoster {
 
+    // cannot make these final, will cause an error that makes the program fail to compile
     private static DatabaseReference database;
     private static FirebaseAuth auth;
 

@@ -18,12 +18,22 @@ public class WelcomeScreen extends AppCompatActivity {
         User.logout();
     }
 
+    /**
+     * Opens the login page.
+     *
+     * @param view the View object of the welcome screen.
+     */
     public void loginButtonAction(View view) {
         Context context = view.getContext();
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
     }
 
+    /**
+     * Opens the resister new account page.
+     *
+     * @param view the View object of the welcome screen.
+     */
     public void registerButtonAction(View view) {
         Context context = view.getContext();
         Intent intent = new Intent(context, RegisterActivity.class);

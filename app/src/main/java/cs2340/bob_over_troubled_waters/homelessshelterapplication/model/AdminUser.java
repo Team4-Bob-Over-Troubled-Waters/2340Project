@@ -22,9 +22,12 @@ public class AdminUser extends User {
     private static final HashMap<String, ShelterEmployee> shelterEmployees = new HashMap<>();
     private static final HashMap<String, HomelessPerson> homelessPeople = new HashMap<>();
 
+    private boolean isApproved = false;
+
     /**
-     * adds a user to the appropriate map
-     * @param user to be added
+     * Adds a user to the appropriate map.
+     *
+     * @param user the user to add to the appropriate map.
      */
     public static void addUser(User user) {
         Class<? extends User> userClass = user.getClass();
@@ -38,8 +41,9 @@ public class AdminUser extends User {
     }
 
     /**
-     * removes user from map
-     * @param email of user to remove
+     * Removes the user with the given email.
+     *
+     * @param email the email of the user to remove.
      */
     public static void removeUser(String email) {
         if (adminUsers.containsKey(email)) {
@@ -74,11 +78,11 @@ public class AdminUser extends User {
         return users;
     }
 
-    private Boolean isApproved = false;
 
     /**
-     * whether user is approved
-     * @return boolean value
+     * Returns a boolean indicating whether or not there is approval.
+     *
+     * @return true if there is approval; false otherwise.
      */
     public boolean isApproved() {
         return isApproved;
@@ -131,8 +135,9 @@ public class AdminUser extends User {
     }
 
     /**
-     * approves a shelter employee
-     * @param newEmployee to be approved
+     * Method to approve a shelter employee.
+     *
+     * @param newEmployee shelter employee to approve.
      */
     public void approveShelterEmployee(ShelterEmployee newEmployee) {
         if (newEmployee == null) {

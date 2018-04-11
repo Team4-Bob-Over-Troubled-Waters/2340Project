@@ -43,24 +43,27 @@ public class Shelter {
     private static Shelter currentShelter = null;
 
     /**
-     * getter for current shelter
-     * @return current shelter
+     * Fetches and returns the currentShelter Shelter object.
+     *
+     * @return the Shelter object of the current instance.
      */
     public static Shelter getCurrentShelter() {
         return currentShelter;
     }
 
     /**
-     * setter for current shelter
-     * @param currentShelter new value
+     * Sets the current shelter object.
+     *
+     * @param currentShelter Shelter object to set as currentShelter object.
      */
     public static void setCurrentShelter(Shelter currentShelter) {
         Shelter.currentShelter = currentShelter;
     }
 
     /**
-     * get list of all shelters
-     * @return collection of all shelters
+     * Returns the collection of shelters.
+     *
+     * @return the collection of shelters.
      */
     public static Collection<Shelter> getShelters() {
         Collection<Shelter> collection = new ArrayList<>();
@@ -71,13 +74,15 @@ public class Shelter {
     }
 
     /**
-     * gets a shelter by id
-     * @param shelterId shelter id
-     * @return shelter with that id
+     * Fetches and returns the shelter associated with a particular shelter id.
+     *
+     * @param shelterId the id with which to identify the shelter to find.
+     * @return the shelter associated with the given shelter id.
      */
     public static Shelter getShelter(Integer shelterId) {
         return shelters.get(shelterId);
     }
+
 
     /**
      * gets shelter with a given name
@@ -184,10 +189,24 @@ public class Shelter {
         DataPoster.post(this);
     }
 
-    public static Shelter addShelter(String name, String capacity, Integer maxVacancies,
-                                     String restrictions, Double longitude, Double latitude,
-                                     String address, String specialNotes, String phoneNumber)
-            throws IllegalArgumentException {
+    /**
+     * Adds a new shelter with the given information to the database of shelters.
+     *
+     * @param name the name of the shelter.
+     * @param capacity the maximum capacity of the shelter.
+     * @param maxVacancies the maximum number of vacancies of the shelter.
+     * @param restrictions the restrictions for the shelter.
+     * @param longitude the longitude of the location of the shelter.
+     * @param latitude the latitude of the location of the shelter.
+     * @param address the address of the shelter.
+     * @param specialNotes and special notes for the shelter.
+     * @param phoneNumber the phone number of the shelter.
+     * @return the new shelter object.
+     * @throws IllegalArgumentException if the shelter name is already in use.
+     */
+    public static Shelter addShelter(String name, String capacity, Integer maxVacancies, String restrictions,
+                           Double longitude, Double latitude, String address, String specialNotes,
+                           String phoneNumber) throws IllegalArgumentException {
         if (shelterNames.contains(name)) {
             throw new IllegalArgumentException("Shelter name in use");
         }
@@ -196,10 +215,25 @@ public class Shelter {
                 address, specialNotes, phoneNumber);
     }
 
-    public static Shelter updateShelter(Shelter shelter, String name, String capacity,
-                                        Integer maxVacancies, String restrictions, Double longitude,
-                                        Double latitude, String address, String specialNotes,
-                                        String phoneNumber) throws IllegalArgumentException {
+    /**
+     * Updates the information for a given shelter.
+     *
+     * @param shelter the shelter being updated.
+     * @param name the updated name of the shelter.
+     * @param capacity the updated capacity of the shelter.
+     * @param maxVacancies the updated maximum number of vacancies for the shelter.
+     * @param restrictions the updated restrictions for the shelter.
+     * @param longitude the updated longitude for the location of the shelter.
+     * @param latitude the updated latitutde for the location of the shelter.
+     * @param address the updated address of the shelter.
+     * @param specialNotes the updated special notes for the shelter.
+     * @param phoneNumber the updated phone number for the shelter.
+     * @return the updated shelter object.
+     * @throws IllegalArgumentException if the shelter name is already in use.
+     */
+    public static Shelter updateShelter(Shelter shelter, String name, String capacity, Integer maxVacancies,
+                              String restrictions, Double longitude, Double latitude, String address,
+                              String specialNotes, String phoneNumber) throws IllegalArgumentException {
         if (!name.equals(shelter.name) && shelterNames.contains(name)) {
             throw new IllegalArgumentException("Shelter name in use");
         }
@@ -237,38 +271,31 @@ public class Shelter {
         return name;
     }
 
+    /**
+     * Returns the ID of the shelter.
+     *
+     * @return the id of the shelter.
+     */
     public int getID() {
         return ID;
     }
 
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setID(int ID) {
-//        this.ID = ID;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-
+    /**
+     * Fetches and returns the name of the shelter.
+     * @return
+     */
     public String getName() {
         return name;
     }
 
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setName(String name) {
-//        this.name = name;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-
+    /**
+     * Fetches and returns the capacity of the shelter.
+     *
+     * @return the capacity of the shelter.
+     */
     public String getCapacity() {
         return capacity;
     }
-
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setCapacity(String capacity) {
-//        this.capacity = capacity;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     /**
      * get the current number of vacancies
@@ -290,6 +317,12 @@ public class Shelter {
         return reservations;
     }
 
+    /**
+     * Adds a reservation.
+     *
+     * @param reservation the reservation to add.
+     * @throws Exception if there are not enough vacancies.
+     */
     public void addReservation(Reservation reservation) throws Exception {
         if (reservation.getNumberOfBeds() > getVacancies()) {
             throw new Exception("Can't make reservation. Not enough vacancies");
@@ -298,86 +331,78 @@ public class Shelter {
         DataPoster.post(this);
     }
 
+    /**
+     * Cancels a reservation.
+     *
+     * @param reservation the reservation to cancel.
+     */
     public void cancelReservation(Reservation reservation) {
         reservations -= reservation.getNumberOfBeds();
         reservations = Math.max(reservations, 0);
         DataPoster.post(this);
     }
 
+    /**
+     * Fetches and returns the maximum number of vacancies.
+     *
+     * @return the max number of vacancies.
+     */
     public int getMaxVacancies() {
         return maxVacancies;
     }
 
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setMaxVacancies(int maxVacancies) {
-//        this.maxVacancies = maxVacancies;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-
+    /**
+     * Fetches and returns the restrictions for the shelter.
+     *
+     * @return the restrictions for the shelter.
+     */
     public String getRestrictions() {
         return restrictions;
     }
 
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setRestrictions(String restrictions) {
-//        this.restrictions = restrictions;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-
+    /**
+     * Fetches and returns the longitude value for the location
+     * of a shelter.
+     *
+     * @return the longitude value for the location of a shelter.
+     */
     public double getLongitude() {
         return longitude;
     }
 
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setLongitude(double longitude) {
-//        this.longitude = longitude;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-
+    /**
+     * Fetches and returns the latitude value for the location of the shelter.
+     *
+     * @return the latitude value for the location of the shelter.
+     */
     public double getLatitude() {
         return latitude;
     }
 
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setLatitude(double latitude) {
-//        this.latitude = latitude;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-
+    /**
+     * Fetches and returns the address of the shelter.
+     *
+     * @return the address of the shelter.
+     */
     public String getAddress() {
         return address;
     }
 
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setAddress(String address) {
-//        this.address = address;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-
+    /**
+     * Fetches and returns any special notes for the shelter.
+     *
+     * @return any special notes for the shelter.
+     */
     public String getSpecialNotes() {
         return specialNotes;
     }
 
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setSpecialNotes(String specialNotes) {
-//        this.specialNotes = specialNotes;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
-
+    /**
+     * Fetches and returns the phone number for the shelter.
+     *
+     * @return the phone number for the shelter.
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public void setPhoneNumber(String phoneNumber) {
-//        this.phoneNumber = phoneNumber;
-//        DataPoster.post(this);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
 }

@@ -51,7 +51,10 @@ public class AddEditShelter extends AppCompatActivity {
         }
     }
 
-    private void setFields() {
+    /**
+     * Sets the values for the fields for a shelter.
+     */
+    public void setFields() {
         shelterNameView.setText(shelter.getName());
         shelterNameBox.setText(shelter.getName());
         addressBox.setText(shelter.getAddress());
@@ -69,7 +72,8 @@ public class AddEditShelter extends AppCompatActivity {
 
     /**
      * adds or edits a shelter according to user input info
-     * @param view it was called from
+     * @param view the View object of the user interface screen for adding
+     *             and editing shelters.
      */
     public void confirmButtonAction(View view) {
         String name = shelterNameBox.getText().toString();
@@ -103,8 +107,11 @@ public class AddEditShelter extends AppCompatActivity {
     }
 
     /**
-     * go back a view
-     * @param view current view
+     * Finalizes action to leave the add/edit shelter interface once the
+     * user hits the back button.
+     *
+     * @param view the View object for the User Interface of the add/edit shelter
+     *             functions
      */
     public void backButtonAction(View view) {
         finish();

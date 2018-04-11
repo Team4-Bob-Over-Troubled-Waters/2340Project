@@ -66,7 +66,9 @@ public class SingleShelterLoader {
         }
         timer.stopTimer();
 
-        if (error != null) throw error;
+        if (error != null) {
+            throw error;
+        }
         return loadedShelter;
     }
 }

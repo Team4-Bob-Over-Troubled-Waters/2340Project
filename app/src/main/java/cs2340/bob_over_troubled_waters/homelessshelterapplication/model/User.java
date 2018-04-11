@@ -13,14 +13,6 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.interfacer.Sin
 
 public abstract class User {
 
-    // --Commented out by Inspection (3/31/2018 15:35):protected static DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-
-    // --Commented out by Inspection (3/31/2018 15:35):protected DatabaseReference path;
-
-    // --Commented out by Inspection (3/31/2018 15:35):private static FirebaseAuth auth = FirebaseAuth.getInstance();
-
-    // --Commented out by Inspection (3/31/2018 15:35):private FirebaseUser firebaseUser;
-
     private String id;
     private String email;
     private String name;
@@ -78,8 +70,11 @@ public abstract class User {
      * @return the user name of the user.
      */
     public String getUsersName() {
-        if (name == null || name.isEmpty()) return email;
-        else return name;
+        if (name == null || name.isEmpty()) {
+            return email;
+        } else {
+            return name;
+        }
     }
 
     /**
@@ -89,13 +84,17 @@ public abstract class User {
      * @throws IllegalArgumentException if a field is null or the email is taken
      */
     User(String email, String password, String name) throws Exception {
-        if (email == null) throw new IllegalArgumentException(
-                "Email is required");
-        if (password == null) throw new IllegalArgumentException(
-                "Password is required");
+        if (email == null) {
+            throw new IllegalArgumentException("Email is required");
+        }
+        if (password == null) {
+            throw new IllegalArgumentException("Password is required");
+        }
         id = DataPoster.addFirebaseUser(email, password);
         this.email = email;
-        if (name != null && !name.isEmpty()) this.name = name;
+        if (name != null && !name.isEmpty()) {
+            this.name = name;
+        }
     }
 
 <<<<<<< HEAD
@@ -151,9 +150,10 @@ public abstract class User {
     @Override
     public String toString() {
         String val = email + "\n";
-        if (this instanceof HomelessPerson) {
+        Class<? extends User> userClass = getClass();
+        if (userClass.equals(HomelessPerson.class)) {
             val += "Homeless Person";
-        } else if (this  instanceof AdminUser) {
+        } else if (userClass.equals(AdminUser.class)) {
             val += "Admin User";
         } else {
             val += "Shelter Employee";
@@ -163,8 +163,12 @@ public abstract class User {
 
     @Override
     public boolean equals(Object other) {
-        if (this == other) return true;
-        if (other == null || !(other instanceof User)) return false;
+        if (this == other) {
+            return true;
+        }
+        if (other == null || !(other instanceof User)) {
+            return false;
+        }
         User that = (User) other;
         return (this.email.equals(that.email));
     }

@@ -12,6 +12,9 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
+/**
+ * home screen for a shelter employee
+ */
 public class EmployeeHome extends AppCompatActivity {
 
     private ShelterEmployee currentUser;
@@ -35,17 +38,29 @@ public class EmployeeHome extends AppCompatActivity {
         }
     }
 
+    /**
+     * logout current user
+     * @param view current view
+     */
     public void logoutButtonAction(View view) {
         DataPoster.logout();
         finish();
     }
 
+    /**
+     * open the view for that employee's shelter
+     * @param view current view
+     */
     public void viewShelterInfoButtonAction(View view) {
         Intent intent = new Intent(this, ShelterPage.class);
         Shelter.setCurrentShelter(currentUser.getShelter());
         startActivity(intent);
     }
 
+    /**
+     * edit your shelter's info
+     * @param view current view
+     */
     public void manageShelterButtonAction(View view) {
         Intent intent = new Intent(this, AddEditShelter.class);
         Shelter.setCurrentShelter(currentUser.getShelter());

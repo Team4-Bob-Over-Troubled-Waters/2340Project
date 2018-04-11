@@ -119,7 +119,9 @@ public class ShelterListingActivity extends AppCompatActivity {
     private HashSet<Shelter> getShelters(
             String searchString, ArrayList<AgeRanges> ranges, ArrayList<Gender> genders) {
         HashSet<Shelter> shelters = new HashSet<>();
-        if (genders == null) return getShelters(searchString, ranges, shelters);
+        if (genders == null) {
+            return getShelters(searchString, ranges, shelters);
+        }
         for (Gender gender : genders) {
             addValidSheltersToHashSet(shelters, gender.getShelters(), searchString);
         }
@@ -128,7 +130,9 @@ public class ShelterListingActivity extends AppCompatActivity {
 
     private HashSet<Shelter> getShelters(
             String searchString, ArrayList<AgeRanges> ranges, HashSet<Shelter> shelters) {
-        if (ranges == null) return shelters;
+        if (ranges == null) {
+            return shelters;
+        }
         if (!shelters.isEmpty()) { // if shelters isn't empty then there is some gender criteria
             HashSet<Shelter> sheltersForAgeRange =
                     getShelters(searchString, ranges, new HashSet<Shelter>());
@@ -155,7 +159,9 @@ public class ShelterListingActivity extends AppCompatActivity {
         Iterator<Shelter> iterator = set1.iterator();
         while (iterator.hasNext()) {
             Shelter shelter = iterator.next();
-            if (!set2.contains(shelter)) iterator.remove();
+            if (!set2.contains(shelter)) {
+                iterator.remove();
+            }
         }
         return !set1.isEmpty() ? set1 : null;
     }

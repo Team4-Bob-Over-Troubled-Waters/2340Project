@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener {
 
     private final LatLng centerCoordinates = new LatLng(33.753594, -84.390429);
 

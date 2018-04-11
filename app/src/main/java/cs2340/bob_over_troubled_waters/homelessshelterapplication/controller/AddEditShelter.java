@@ -12,6 +12,9 @@ import android.widget.TextView;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 
+/**
+ * controller class for the screen where you can add and edit shelters
+ */
 public class AddEditShelter extends AppCompatActivity {
 
     private Shelter shelter;
@@ -43,7 +46,9 @@ public class AddEditShelter extends AppCompatActivity {
         notesBox = findViewById(R.id.notes_box);
         maxVacanciesBox = findViewById(R.id.max_vacancies_box);
 
-        if (shelter != null) setFields();
+        if (shelter != null) {
+            setFields();
+        }
     }
 
     private void setFields() {
@@ -62,6 +67,10 @@ public class AddEditShelter extends AppCompatActivity {
         maxVacanciesBox.setText(text);
     }
 
+    /**
+     * adds or edits a shelter according to user input info
+     * @param view it was called from
+     */
     public void confirmButtonAction(View view) {
         String name = shelterNameBox.getText().toString();
         String capacity = capacityBox.getText().toString();
@@ -93,6 +102,10 @@ public class AddEditShelter extends AppCompatActivity {
         adder.execute();
     }
 
+    /**
+     * go back a view
+     * @param view current view
+     */
     public void backButtonAction(View view) {
         finish();
     }
@@ -109,9 +122,9 @@ public class AddEditShelter extends AppCompatActivity {
         final String specialNotes;
         final String phoneNumber;
 
-        public ShelterAdder(String name, String capacity, Integer maxVacancies, String restrictions,
-                            Double longitude, Double latitude, String address, String specialNotes,
-                            String phoneNumber) {
+        ShelterAdder(String name, String capacity, Integer maxVacancies, String restrictions,
+                     Double longitude, Double latitude, String address, String specialNotes,
+                     String phoneNumber) {
             this.name = name;
             this.capacity = capacity;
             this.maxVacancies = maxVacancies;
@@ -127,12 +140,12 @@ public class AddEditShelter extends AppCompatActivity {
         public String doInBackground(Void ... params) {
             try {
                 if (shelter == null) {
-                    shelter = Shelter.addShelter(name, capacity, maxVacancies, restrictions, longitude, latitude,
-                            address, specialNotes, phoneNumber);
+                    shelter = Shelter.addShelter(name, capacity, maxVacancies, restrictions,
+                            longitude, latitude, address, specialNotes, phoneNumber);
                     Shelter.setCurrentShelter(shelter);
                 } else {
-                    shelter = Shelter.updateShelter(shelter, name, capacity, maxVacancies, restrictions, longitude,
-                            latitude, address, specialNotes, phoneNumber);
+                    shelter = Shelter.updateShelter(shelter, name, capacity, maxVacancies,
+                            restrictions, longitude, latitude, address, specialNotes, phoneNumber);
                     Shelter.setCurrentShelter(shelter);
                 }
                 return null;
@@ -151,7 +164,6 @@ public class AddEditShelter extends AppCompatActivity {
                 Button confirmButton = findViewById(R.id.confirm_button);
                 confirmButton.setError(errorMessage);
                 shelterNameBox.setError(errorMessage);
-                System.out.println(errorMessage);
             }
         }
     }

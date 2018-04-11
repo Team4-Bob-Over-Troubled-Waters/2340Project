@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.R;
 
+/**
+ * page that is shown when an error occurs
+ */
 public class ErrorPage extends AppCompatActivity {
 
     @Override
@@ -21,6 +24,10 @@ public class ErrorPage extends AppCompatActivity {
         }
     }
 
+    /**
+     * go back to previous view
+     * @param view current view
+     */
     public void backButtonAction(View view) {
         finish();
     }

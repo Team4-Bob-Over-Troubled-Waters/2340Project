@@ -42,14 +42,26 @@ public class Shelter {
 
     private static Shelter currentShelter = null;
 
+    /**
+     * getter for current shelter
+     * @return current shelter
+     */
     public static Shelter getCurrentShelter() {
         return currentShelter;
     }
 
+    /**
+     * setter for current shelter
+     * @param currentShelter new value
+     */
     public static void setCurrentShelter(Shelter currentShelter) {
         Shelter.currentShelter = currentShelter;
     }
 
+    /**
+     * get list of all shelters
+     * @return collection of all shelters
+     */
     public static Collection<Shelter> getShelters() {
         Collection<Shelter> collection = new ArrayList<>();
         for (int i = 0; i < shelters.size(); i++) {
@@ -58,10 +70,20 @@ public class Shelter {
         return collection;
     }
 
+    /**
+     * gets a shelter by id
+     * @param shelterId shelter id
+     * @return shelter with that id
+     */
     public static Shelter getShelter(Integer shelterId) {
         return shelters.get(shelterId);
     }
 
+    /**
+     * gets shelter with a given name
+     * @param name to search for
+     * @return shelter with that name
+     */
     public static Shelter getShelterByName(String name) {
         for (int i = 0; i < shelters.size(); i++) {
             Shelter shelter = shelters.get(i);
@@ -71,12 +93,6 @@ public class Shelter {
         }
         return null;
     }
-
-// --Commented out by Inspection START (3/31/2018 15:35):
-//    public static boolean shelterNameInUse(String name) {
-//        return shelterNames.contains(name);
-//    }
-// --Commented out by Inspection STOP (3/31/2018 15:35)
 
     /**
      * constructs a shelter object from the saved instance in the database
@@ -128,11 +144,21 @@ public class Shelter {
                 maxVacancies = 0;
             }
         }
-        if (restrictions == null) restrictions = "";
-        if (longitude == null) throw new IllegalArgumentException("Longitude is required");
-        if (latitude == null) throw new IllegalArgumentException("Latitude is required");
-        if (address == null || address.isEmpty()) throw new IllegalArgumentException("Address is required");
-        if (specialNotes == null) specialNotes = "";
+        if (restrictions == null) {
+            restrictions = "";
+        }
+        if (longitude == null) {
+            throw new IllegalArgumentException("Longitude is required");
+        }
+        if (latitude == null) {
+            throw new IllegalArgumentException("Latitude is required");
+        }
+        if (address == null || address.isEmpty()) {
+            throw new IllegalArgumentException("Address is required");
+        }
+        if (specialNotes == null) {
+            specialNotes = "";
+        }
         if (phoneNumber == null || phoneNumber.isEmpty()) {
             throw new IllegalArgumentException("Phone number is required");
         }
@@ -142,7 +168,6 @@ public class Shelter {
         shelterNames.add(name);
         this.capacity = capacity;
         this.maxVacancies = maxVacancies;
-        System.out.println("name: " + name + "\nmax vacancies: " + maxVacancies);
         reservations = 0;
         this.restrictions = restrictions;
         this.longitude = longitude;
@@ -159,25 +184,27 @@ public class Shelter {
         DataPoster.post(this);
     }
 
-    public static Shelter addShelter(String name, String capacity, Integer maxVacancies, String restrictions,
-                           Double longitude, Double latitude, String address, String specialNotes,
-                           String phoneNumber) throws IllegalArgumentException {
+    public static Shelter addShelter(String name, String capacity, Integer maxVacancies,
+                                     String restrictions, Double longitude, Double latitude,
+                                     String address, String specialNotes, String phoneNumber)
+            throws IllegalArgumentException {
         if (shelterNames.contains(name)) {
             throw new IllegalArgumentException("Shelter name in use");
         }
         int ID = ShelterLoader.getNextShelterId();
-        return new Shelter(ID, name, capacity, maxVacancies, restrictions, longitude, latitude, address,
-                specialNotes, phoneNumber);
+        return new Shelter(ID, name, capacity, maxVacancies, restrictions, longitude, latitude,
+                address, specialNotes, phoneNumber);
     }
 
-    public static Shelter updateShelter(Shelter shelter, String name, String capacity, Integer maxVacancies,
-                              String restrictions, Double longitude, Double latitude, String address,
-                              String specialNotes, String phoneNumber) throws IllegalArgumentException {
+    public static Shelter updateShelter(Shelter shelter, String name, String capacity,
+                                        Integer maxVacancies, String restrictions, Double longitude,
+                                        Double latitude, String address, String specialNotes,
+                                        String phoneNumber) throws IllegalArgumentException {
         if (!name.equals(shelter.name) && shelterNames.contains(name)) {
             throw new IllegalArgumentException("Shelter name in use");
         }
-        return new Shelter(shelter.ID, name, capacity, maxVacancies, restrictions, longitude, latitude, address,
-                specialNotes, phoneNumber);
+        return new Shelter(shelter.ID, name, capacity, maxVacancies, restrictions, longitude,
+                latitude, address, specialNotes, phoneNumber);
     }
 
     /**

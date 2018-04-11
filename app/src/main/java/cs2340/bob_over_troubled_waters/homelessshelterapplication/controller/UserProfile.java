@@ -46,11 +46,12 @@ public class UserProfile extends AppCompatActivity {
 
         // determine whether to show the approve button
         approveButton = findViewById(R.id.approve_button);
-        if (user instanceof AdminUser) {
+        Class<? extends User> userClass = user.getClass();
+        if (userClass.equals(AdminUser.class)) {
             if (!((AdminUser) user).isApproved()) {
                 approveButton.setVisibility(View.VISIBLE);
             }
-        } else if (user instanceof ShelterEmployee) {
+        } else if (userClass.equals(ShelterEmployee.class)) {
             if (!((ShelterEmployee) user).isApproved()) {
                 approveButton.setVisibility(View.VISIBLE);
             }
@@ -72,10 +73,8 @@ public class UserProfile extends AppCompatActivity {
     public void approveButtonAction(View view) {
         if (user instanceof AdminUser) {
             currentUser.approveAdmin((AdminUser) user);
-            System.out.println(((AdminUser) user).isApproved());
         } else {
             currentUser.approveShelterEmployee((ShelterEmployee) user);
-            System.out.println(((ShelterEmployee) user).isApproved());
         }
         approveButton.setVisibility(View.GONE);
         updateUserInfoView();

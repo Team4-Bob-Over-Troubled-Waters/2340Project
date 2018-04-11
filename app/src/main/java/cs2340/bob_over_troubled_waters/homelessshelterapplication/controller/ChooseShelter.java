@@ -19,6 +19,9 @@ import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.Shelter;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.ShelterEmployee;
 import cs2340.bob_over_troubled_waters.homelessshelterapplication.model.User;
 
+/**
+ * view controller where a new Shelter employee chooses their shelter
+ */
 public class ChooseShelter extends AppCompatActivity {
 
     private Spinner shelterSpinner;
@@ -31,6 +34,10 @@ public class ChooseShelter extends AppCompatActivity {
         new ShelterSpinnerPopulator().execute();
     }
 
+    /**
+     * confirms shelter choice and continues to next view
+     * @param view current view
+     */
     public void continueButtonAction(View view) {
         Shelter selection = (Shelter) shelterSpinner.getSelectedItem();
         Button button = findViewById(R.id.continue_button);
@@ -46,6 +53,10 @@ public class ChooseShelter extends AppCompatActivity {
         }
     }
 
+    /**
+     * logs out current user
+     * @param view current view
+     */
     public void logoutButtonAction(View view) {
         User.logout();
         finish();

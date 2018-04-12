@@ -94,4 +94,19 @@ public class UnitTests {
             assertTrue(false);
         }
     }
+    @Test (timeout = 200)
+    public void testParseGender (){
+        try{
+            String restrictionA = "women";
+            String restrictionB = "no men allowed";
+            String restrictionC = "we take anyone!";
+            String restrictionD = "we can only take men";
+            assertEquals(Gender.parseGender(restrictionA), Gender.FEMALE);
+            assertEquals(Gender.parseGender(restrictionB), Gender.FEMALE);
+            assertEquals(Gender.parseGender(restrictionC), Gender.BOTH);
+            assertEquals(Gender.parseGender(restrictionD), Gender.MALE);
+        } catch (Exception e){
+            assertTrue(false);
+        }
+    }
 }

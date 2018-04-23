@@ -70,7 +70,9 @@ public abstract class User {
      * @return the user name of the user.
      */
     public String getUsersName() {
-        if (name == null || name.isEmpty()) {
+        if (name == null) {
+            return email;
+        } else if (name.isEmpty()) {
             return email;
         } else {
             return name;

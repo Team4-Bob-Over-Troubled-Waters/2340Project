@@ -94,4 +94,36 @@ public class UnitTests {
             assertTrue(false);
         }
     }
+
+    @Test (timeout = 200)
+    public void testGetUsersName() {
+        try {
+            String email = "email@emailCompany.com";
+            String password = "reallyBadPassword";
+
+            User homelessPerson1 = new HomelessPerson(email, password, null);
+            User homelessPerson2 = new HomelessPerson(email, password, "");
+            User homelessPerson3 = new HomelessPerson(email, password, "Donald Trump");
+            assertEquals(email, homelessPerson1.getUsersName());
+            assertEquals(email, homelessPerson2.getUsersName());
+            assertEquals("Donald Trump", homelessPerson3.getUsersName());
+
+            User shelterEmployee1 = new ShelterEmployee(email, password, null);
+            User shelterEmployee2 = new ShelterEmployee(email, password, "");
+            User shelterEmployee3 =
+                    new ShelterEmployee(email, password, "Hannah Montana");
+            assertEquals(email, shelterEmployee1.getUsersName());
+            assertEquals(email, shelterEmployee2.getUsersName());
+            assertEquals("Hannah Montana", shelterEmployee3.getUsersName());
+
+            User adminUser1 = new AdminUser(email, password, null);
+            User adminUser2 = new AdminUser(email, password, "");
+            User adminUser3 = new AdminUser(email, password, "Frank Underwood");
+            assertEquals(email, adminUser1.getUsersName());
+            assertEquals(email, adminUser2.getUsersName());
+            assertEquals("Frank Underwood", adminUser3.getUsersName());
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
 }
